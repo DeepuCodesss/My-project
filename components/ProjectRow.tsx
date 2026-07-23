@@ -17,16 +17,45 @@ export default function ProjectRow({
   const [previewEnabled, setPreviewEnabled] = useState(false);
   const [previewReady, setPreviewReady] = useState(false);
   const [previewFailed, setPreviewFailed] = useState(false);
+  const [videoInView, setVideoInView] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const mediaRef = useRef<HTMLDivElement | null>(null);
   const loadTimerRef = useRef<number | null>(null);
   const reverse = imageOnLeft ? index % 2 === 0 : index % 2 === 1;
 
   useEffect(() => {
+    const media = mediaRef.current;
+    const video = videoRef.current;
+    if (!media || !video || !project.videoUrl) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        const inView = Boolean(entry?.isIntersecting);
+        setVideoInView(inView);
+
+        if (inView) {
+          video.play().catch(() => {
+            // Autoplay can still be blocked in some browsers; muted helps, but we fail gracefully.
+          });
+        } else {
+          video.pause();
+        }
+      },
+      {
+        threshold: 0.45,
+      }
+    );
+
+    observer.observe(media);
+
     return () => {
+      observer.disconnect();
       if (loadTimerRef.current) {
         window.clearTimeout(loadTimerRef.current);
       }
     };
-  }, []);
+  }, [project.videoUrl]);
 
   const canPreview = Boolean(project.allowLivePreview && project.livePreviewUrl);
   const isPhoneMockup = project.mockupVariant === "phone";
@@ -99,7 +128,7 @@ export default function ProjectRow({
         </div>
       </div>
 
-      <div className={`relative ${isPhoneMockup ? "scale-[1.02]" : "scale-[1.015]"}`}>
+      <div ref={mediaRef} className={`relative ${isPhoneMockup ? "scale-[1.02]" : "scale-[1.015]"}`}>
         <div className="absolute -inset-6 rounded-[2.2rem] bg-cyan-300/20 blur-3xl opacity-100" />
         <div
           className={`relative w-full ${
@@ -141,7 +170,23 @@ export default function ProjectRow({
               role={canPreview ? "button" : undefined}
               tabIndex={canPreview ? 0 : -1}
             >
-              {isPhoneMockup ? (
+              {project.videoUrl ? (
+                <>
+                  <video
+                    ref={videoRef}
+                    src={project.videoUrl}
+                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+                      videoInView ? "opacity-100" : "opacity-85"
+                    }`}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-black/15 via-transparent to-black/20" />
+                </>
+              ) : isPhoneMockup ? (
                 <>
                   <div className="absolute inset-x-0 top-0 z-20 mx-auto mt-2 h-1.5 w-28 rounded-full bg-white/25" />
                   <img
