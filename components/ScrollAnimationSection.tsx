@@ -91,14 +91,33 @@ export default function ScrollAnimationSection() {
     const updateComposition = () => {
       const rect = section.getBoundingClientRect();
       const progress = Math.min(1, Math.max(0, (window.innerHeight * 0.72 - rect.top) / (window.innerHeight * 0.9)));
-      section.style.setProperty("--deepos-intro-y", `${Math.round(progress * 42)}px`);
-      section.style.setProperty("--deepos-intro-opacity", `${1 - progress * 0.32}`);
-      section.style.setProperty("--deepos-scale", `${1 + progress * 0.025}`);
+      section.style.setProperty("--deepos-intro-y", `${Math.round(progress * 105)}px`);
+      section.style.setProperty("--deepos-intro-opacity", `${1 - progress * 0.4}`);
+      section.style.setProperty("--deepos-intro-scale", `${1 - progress * 0.04}`);
+      section.style.setProperty("--deepos-intro-blur", `${(progress * 2).toFixed(2)}px`);
+      section.style.setProperty("--deepos-monitor-y", `${Math.round(progress * -48)}px`);
+      section.style.setProperty("--deepos-scale", `${1 + progress * 0.035}`);
+      section.style.setProperty("--deepos-glow", `${0.2 + progress * 0.22}`);
     };
     updateComposition();
     window.addEventListener("scroll", updateComposition, { passive: true });
     window.addEventListener("resize", updateComposition);
     return () => { window.removeEventListener("scroll", updateComposition); window.removeEventListener("resize", updateComposition); };
+  }, []);
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const onPointerMove = (event: PointerEvent) => {
+      const rect = section.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+      section.style.setProperty("--deepos-cursor-x", `${(x * 3).toFixed(2)}px`);
+      section.style.setProperty("--deepos-cursor-y", `${(y * 2).toFixed(2)}px`);
+      section.style.setProperty("--deepos-light-x", `${event.clientX - rect.left}px`);
+      section.style.setProperty("--deepos-light-y", `${event.clientY - rect.top}px`);
+    };
+    section.addEventListener("pointermove", onPointerMove);
+    return () => section.removeEventListener("pointermove", onPointerMove);
   }, []);
   useEffect(() => { const update = () => setTime(new Intl.DateTimeFormat("en-IN", { hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date())); update(); const timer = setInterval(update, 30000); return () => clearInterval(timer); }, []);
   const open = (id: AppId) => { if (id === "trash") return; setWindows(current => current.includes(id) ? current : [...current, id]); setFocused(id); };

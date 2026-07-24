@@ -27,12 +27,20 @@ body {
   box-sizing: border-box;
 }
 
+.site-shell { position: relative; isolation: isolate; }
+.site-shell > *:not(.page-beams) { position: relative; z-index: 3; }
+.site-shell > .page-beams { position: fixed !important; z-index: 2 !important; inset: 0; width: 100%; height: 100vh !important; min-height: 100vh; pointer-events: none; opacity: .78; background: transparent !important; mix-blend-mode: screen; }
+.site-shell > .page-beams > div:not(:last-child) { width: 2px !important; opacity: 1 !important; background: linear-gradient(to top, #60a5fa, #c084fc 46%, transparent) !important; box-shadow: 0 0 7px rgba(96,165,250,.9), 0 0 18px rgba(192,132,252,.65); }
+.site-shell > .page-beams > div:last-child { background: rgba(255,255,255,.08) !important; }
+
 ::selection {
   background: rgba(255, 255, 255, 0.2);
 }
 
 /* DeepOS interactive workspace */
 .deepos-section { position: relative; min-height: 1250px; overflow: hidden; padding: 0 3vw 95px; background: #090707; color: #f6f1eb; isolation: isolate; }
+.deepos-section::before { content: ""; position: absolute; z-index: -1; inset: -15%; pointer-events: none; background: radial-gradient(circle at 28% 35%, rgba(255,255,255,.045) 0 1px, transparent 2px), radial-gradient(circle at 70% 24%, rgba(255,105,95,.04) 0 1px, transparent 2px), radial-gradient(circle at 54% 72%, rgba(255,255,255,.035) 0 1px, transparent 2px), radial-gradient(ellipse at 50% 40%, rgba(128,12,15,.16), transparent 45%); background-size: 190px 170px, 260px 220px, 230px 260px, 100% 100%; animation: deepos-ambient-drift 18s ease-in-out infinite alternate; }
+.deepos-section::after { content: ""; position: absolute; z-index: 1; top: 46%; left: 50%; width: 1px; height: 150px; pointer-events: none; background: linear-gradient(to bottom, transparent, rgba(244,116,108,.34), transparent); box-shadow: 0 0 18px rgba(244,116,108,.22); transform: translateX(-50%); opacity: .42; animation: deepos-bridge 4s ease-in-out infinite; }
 .deepos-ambient { position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at 50% 48%, rgba(121, 10, 12, .48), transparent 47%), radial-gradient(ellipse at 8% 78%, rgba(230, 33, 26, .22), transparent 32%), linear-gradient(145deg, #070303 0%, #1c0505 55%, #080303 100%); }
 .deepos-ambient:before, .deepos-ambient:after { content: ""; position: absolute; border-radius: 50%; filter: blur(1px); opacity: .25; }
 .deepos-ambient:before { width: 70vw; height: 20vw; left: -18vw; bottom: 4%; border: 1px solid #ff514b; transform: rotate(-17deg); box-shadow: 0 0 40px #9c1313; }
@@ -42,7 +50,7 @@ body {
 .deepos-intro h1 { margin: 22px 0 15px; font-size: clamp(52px, 8vw, 112px); line-height: .87; letter-spacing: -.075em; font-weight: 600; }
 .deepos-intro h1 span { color: #9d9a98; }
 .deepos-intro p { color: rgba(246,241,235,.45); font-size: 12px; letter-spacing: .15em; text-transform: uppercase; }
-.monitor-shell { position: relative; z-index: 2; width: min(1380px, 94vw); margin: 0 auto; padding: 30px; border: 4px solid #4b4b4c; border-radius: 42px 42px 30px 30px; background: linear-gradient(145deg, #202122, #111213); box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 80px rgba(173, 16, 20, .2); transform: perspective(1800px) rotateX(1deg) scale(var(--deepos-scale, 1)); transform-origin: center top; will-change: transform; }
+.monitor-shell { position: relative; z-index: 2; width: min(1380px, 94vw); margin: 0 auto; padding: 30px; border: 4px solid #4b4b4c; border-radius: 42px 42px 30px 30px; background: linear-gradient(145deg, #202122, #111213); box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 80px rgba(173, 16, 20, var(--deepos-glow, .2)); transform: translateY(var(--deepos-monitor-y, 0px)) perspective(1800px) rotateX(1deg) scale(var(--deepos-scale, 1)); transform-origin: center top; will-change: transform, box-shadow; transition: box-shadow .25s linear; }
 .monitor-shell:before { content: ""; position: absolute; inset: 0; border-radius: 38px 38px 27px 27px; border: 1px solid rgba(255,255,255,.16); pointer-events: none; }
 .monitor-camera { position: absolute; z-index: 4; top: 12px; left: 50%; width: 5px; height: 5px; border-radius: 50%; background: #050505; box-shadow: 0 0 0 2px #313233; transform: translateX(-50%); }
 .monitor-screen { position: relative; min-height: 790px; overflow: hidden; border-radius: 24px; background: #101114; box-shadow: inset 0 0 0 1px rgba(255,255,255,.07); }
@@ -53,7 +61,8 @@ body {
 .boot-copy p:first-child { color: #e8e3de; }.loading-dots { color: #df3b37; animation: blink 1.1s infinite; }
 .boot-progress { width: 235px; height: 2px; margin-top: 20px; overflow: hidden; background: rgba(255,255,255,.1); }.boot-progress i { display: block; width: 0; height: 100%; background: #e8433e; box-shadow: 0 0 10px #e8433e; animation: boot 1.8s ease-out forwards; }
 .boot-screen small { margin-top: 26px; color: rgba(255,255,255,.22); font: 8px ui-monospace, monospace; letter-spacing: .2em; }
-.desktop { position: absolute; inset: 0; background: radial-gradient(circle at 70% 38%, rgba(128,12,15,.23), transparent 30%), linear-gradient(135deg, #111216, #131013 65%, #1c0809); }
+.desktop { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(circle at 70% 38%, rgba(128,12,15,.23), transparent 30%), linear-gradient(135deg, #111216, #131013 65%, #1c0809); }
+.desktop::before { content: ""; position: absolute; z-index: 1; inset: -20%; pointer-events: none; background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.08) 48%, transparent 58%); transform: translateX(-70%); animation: desktop-reflection 12s ease-in-out infinite; }
 .desktop-waves { position: absolute; inset: 0; z-index: 0; opacity: .52; pointer-events: none; }
 .waves-wallpaper { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; opacity: .62; filter: saturate(.82) contrast(1.05); }
 .waves-svg { position: relative; z-index: 1; display: block; width: 100%; height: 100%; }
@@ -72,22 +81,25 @@ body {
 .desktop-footer { bottom: 22px; }.dock { display: flex; align-items: center; gap: 7px; padding: 7px 9px; border: 1px solid rgba(255,255,255,.12); border-radius: 11px; background: rgba(0,0,0,.25); backdrop-filter: blur(15px); }.dock-logo { display: grid; place-items: center; width: 19px; height: 19px; color: #fff; border: 1px solid #df514c; border-radius: 6px; font-size: 10px; }.dock-divider { width: 1px; height: 18px; margin: 0 2px; background: rgba(255,255,255,.14); }.dock button { display: grid; place-items: center; width: 25px; height: 25px; border: 0; border-radius: 6px; color: rgba(255,255,255,.5); background: transparent; cursor: pointer; }.dock button:hover, .dock button.dock-active { color: #fff; background: rgba(255,255,255,.1); }.desktop-footer-right { display: flex; gap: 18px; align-items: center; }.cursor-hint { display: flex; align-items: center; gap: 5px; color: rgba(255,255,255,.25); }.monitor-neck { position: relative; z-index: -1; width: 150px; height: 75px; margin: -1px auto 0; background: linear-gradient(90deg, #222, #474849, #222); clip-path: polygon(28% 0, 72% 0, 84% 100%, 16% 100%); }.monitor-base { position: relative; z-index: -1; width: min(550px, 52vw); height: 22px; margin: -1px auto 0; border-radius: 0 0 50% 50%; background: linear-gradient(#4c4d4e, #232425); box-shadow: 0 15px 26px rgba(0,0,0,.35); }.deepos-caption { display: flex; justify-content: space-between; width: min(1380px, 94vw); margin: 27px auto 0; color: rgba(255,255,255,.35); font-size: 10px; letter-spacing: .04em; }.deepos-caption span { display: flex; align-items: center; gap: 7px; }.deepos-caption span:first-child { color: #df7771; }
 @keyframes boot { to { width: 100%; } } @keyframes blink { 50% { opacity: .25; } }
 .portfolio-footer { display: flex; justify-content: space-between; align-items: center; padding: 32px 5vw 45px; color: rgba(244,240,232,.38); background: #090707; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }.portfolio-footer a { color: rgba(244,240,232,.7); text-decoration: none; }.portfolio-footer a:hover { color: #fff; }
-.deepos-intro { width: min(900px, 88vw); margin: 0 auto 14px; padding-left: clamp(0px, 5vw, 84px); text-align: left; font-family: 'Satoshi', var(--font-sans), system-ui, sans-serif; font-feature-settings: 'kern', 'liga'; font-optical-sizing: auto; transform: translateY(calc(var(--deepos-intro-y, 0px) - 42px)); opacity: var(--deepos-intro-opacity, 1); transition: transform .18s linear, opacity .18s linear; will-change: transform, opacity; }
+.deepos-intro { position: relative; z-index: 2; width: min(900px, 88vw); margin: 0 auto 14px; padding-left: clamp(0px, 5vw, 84px); text-align: left; font-family: 'Satoshi', var(--font-sans), system-ui, sans-serif; font-feature-settings: 'kern', 'liga'; font-optical-sizing: auto; transform: translate3d(calc(var(--deepos-cursor-x, 0px)), calc(var(--deepos-intro-y, 0px) - 42px + var(--deepos-cursor-y, 0px)), 0) scale(var(--deepos-intro-scale, 1)); opacity: var(--deepos-intro-opacity, 1); filter: blur(var(--deepos-intro-blur, 0px)); transition: transform .18s linear, opacity .18s linear, filter .18s linear; will-change: transform, opacity, filter; }
 .deepos-intro .eyebrow { font-size: 0; color: rgba(246,242,238,.5); font-weight: 550; letter-spacing: .45em; }
 .deepos-intro .eyebrow::after { content: 'CURRENTLY BUILDING'; font-size: 11px; }
 .deepos-intro h1 { max-width: 860px; margin: 30px 0 0; font-family: 'Clash Display', var(--font-sans), system-ui, sans-serif; font-size: 0; line-height: .98; letter-spacing: -.06em; text-wrap: balance; text-shadow: 0 2px 28px rgba(246,242,238,.035); }
 .deepos-intro h1::before, .deepos-intro h1::after { display: block; white-space: nowrap; }
-.deepos-intro h1::before { content: 'Big Ideas.'; color: #f6f2ee; font-size: clamp(56px, 7.6vw, 108px); font-weight: 750; }
-.deepos-intro h1::after { content: 'Real Software.'; margin: 10px 0 0 clamp(34px, 7vw, 112px); color: rgba(246,242,238,.56); font-size: clamp(54px, 7.4vw, 104px); font-weight: 800; letter-spacing: -.07em; }
+.deepos-intro h1::before { content: 'Big Ideas.'; color: #f6f2ee; font-size: clamp(56px, 7.6vw, 108px); font-weight: 750; text-shadow: 0 0 26px rgba(246,242,238,.08); }
+.deepos-intro h1::after { content: 'Real Software.'; margin: 10px 0 0 clamp(34px, 7vw, 112px); color: transparent; background: linear-gradient(105deg, #eee8e2 0%, #a9a19e 45%, #777170 100%); background-clip: text; -webkit-background-clip: text; font-size: clamp(54px, 7.4vw, 104px); font-weight: 800; letter-spacing: -.07em; }
 .deepos-intro h1 span { display: none; }
 .deepos-intro p { max-width: 520px; margin: 18px 0 0 clamp(34px, 7vw, 112px); color: transparent; font-family: 'Satoshi', var(--font-sans), system-ui, sans-serif; font-size: 19px; font-weight: 400; line-height: 1.7; letter-spacing: -.01em; text-transform: none; }
 .deepos-intro p::before { content: 'Exploring operating system development, AI automation, and ambitious products that begin as experiments.'; display: block; color: rgba(255,255,255,.56); font-weight: 400; text-transform: none; }
 .deepos-intro small { display: none; }
 .deepos-intro .eyebrow::after, .deepos-intro h1::before, .deepos-intro h1::after, .deepos-intro p::before { animation: deepos-type-rise .8s cubic-bezier(.22,1,.36,1) both; }
-.deepos-intro h1::before { animation-delay: .12s; }
-.deepos-intro h1::after { animation-delay: .2s; }
-.deepos-intro p::before { animation-delay: .3s; }
+.deepos-intro .eyebrow::after { animation-delay: 0s; }.deepos-intro h1::before { animation-delay: .1s; }.deepos-intro h1::after { animation-delay: .35s; transform-origin: 50% 100%; }.deepos-intro p::before { animation-delay: .65s; }
+.deepos-intro h1::after { animation-name: deepos-second-line; }
+@keyframes deepos-second-line { from { opacity: 0; filter: blur(7px); transform: translateY(22px) scale(.95); } to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); } }
 @keyframes deepos-type-rise { from { opacity: 0; filter: blur(8px); transform: translateY(16px); } to { opacity: 1; filter: blur(0); transform: translateY(0); } }
+@keyframes deepos-ambient-drift { from { transform: translate3d(-1%, -1%, 0) scale(1); } to { transform: translate3d(1%, 1%, 0) scale(1.04); } }
+@keyframes deepos-bridge { 0%, 100% { opacity: .2; transform: translate(-50%, 0) scaleY(.82); } 50% { opacity: .55; transform: translate(-50%, 12px) scaleY(1); } }
+@keyframes desktop-reflection { 0%, 65% { transform: translateX(-70%); opacity: 0; } 75% { opacity: 1; } 90%, 100% { transform: translateX(70%); opacity: 0; } }
 @media (max-width: 800px) { .deepos-section { min-height: 1100px; padding: 42px 12px 70px; }.deepos-intro { width: 92vw; margin-bottom: 14px; padding-left: 8px; }.deepos-intro h1 { margin-top: 32px; }.deepos-intro h1::before { font-size: clamp(48px, 14vw, 76px); }.deepos-intro h1::after { margin: 8px 0 0 16px; font-size: clamp(44px, 13vw, 70px); }.deepos-intro p { margin: 24px 0 0 16px; font-size: 16px; }.monitor-shell { padding: 12px; border-radius: 23px; }.monitor-screen { min-height: 650px; border-radius: 15px; }.desktop-icons { top: 75px; left: 15px; grid-template-columns: repeat(2, 76px); gap: 22px 15px; }.desktop-icon { width: 76px; font-size: 8px; }.icon-tile { width: 46px; height: 46px; }.icon-tile img { width: 35px; height: 35px; }.desktop-top, .desktop-footer { left: 15px; right: 15px; }.desktop-state, .cursor-hint { display: none; }.deep-window { top: 55px; left: 8px; width: calc(100% - 16px); min-height: 500px; transform: none; }.window-content { padding: 19px; }.project-grid, .automation-stage, .architecture, .terminal-view, .resume-view { grid-template-columns: 1fr; }.project-card { min-height: 205px; }.deepos-caption { width: 94vw; font-size: 9px; }.deepos-caption span:last-child { display: none; }.resume-paper { min-height: 280px; }.desktop-footer-right { font-size: 9px; } }
 
 /* ── Current Focus Section ─────────────────────── */
