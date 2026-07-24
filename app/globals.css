@@ -1,3 +1,5 @@
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -27,4 +29,34 @@ body {
 
 ::selection {
   background: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Current Focus Section ─────────────────────── */
+
+.font-clash {
+  font-family: 'Clash Display', var(--font-sans), system-ui, sans-serif;
+}
+
+@keyframes accent-line-pulse {
+  0%, 100% {
+    height: 35%;
+    opacity: 0.35;
+  }
+  50% {
+    height: 55%;
+    opacity: 0.8;
+  }
+}
+
+.focus-accent-line {
+  animation: accent-line-pulse 3.5s ease-in-out infinite;
+}
+
+.focus-card {
+  --card-accent: 255, 255, 255;
+  transition: box-shadow 0.5s ease;
+}
+
+.focus-card:hover {
+  box-shadow: 0 24px 56px -16px rgba(var(--card-accent), 0.12);
 }
