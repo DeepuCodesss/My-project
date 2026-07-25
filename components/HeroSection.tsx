@@ -7,11 +7,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const TOTAL_FRAMES = 146;
-const LEAD_FRAMES = 15;
+const PRELOAD_WORKERS = 6;
 const FRAME_PATH = (index: number) =>
-  index === 146
-    ? `/ezgif-70f7dfecd82b13ba-jpg/ezgif-frame-146.png`
-    : `/ezgif-70f7dfecd82b13ba-jpg/ezgif-frame-${String(index).padStart(3, "0")}.jpg`;
+  `/hero-frames/frame-${String(index).padStart(3, "0")}.webp`;
 
 function fitCover(
   imgW: number,
@@ -64,7 +62,7 @@ export default function HeroSection() {
     if (!ctx) return;
 
     const resizeCanvas = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const { innerWidth, innerHeight } = window;
       canvas.width = Math.floor(innerWidth * dpr);
       canvas.height = Math.floor(innerHeight * dpr);
@@ -75,7 +73,21 @@ export default function HeroSection() {
     };
 
     const drawFrame = (frameIndex: number) => {
-      const img = imagesRef.current[frameIndex];
+      let img = imagesRef.current[frameIndex];
+      if (!img || !img.complete) {
+        for (let offset = 1; offset < TOTAL_FRAMES; offset += 1) {
+          const before = frameIndex - offset;
+          const after = frameIndex + offset;
+          if (before >= 0 && loadedRef.current[before]) {
+            img = imagesRef.current[before];
+            break;
+          }
+          if (after < TOTAL_FRAMES && loadedRef.current[after]) {
+            img = imagesRef.current[after];
+            break;
+          }
+        }
+      }
       const { innerWidth: w, innerHeight: h } = window;
       ctx.clearRect(0, 0, w, h);
       if (!img || !img.complete) {
@@ -105,8 +117,12 @@ export default function HeroSection() {
       }
     };
 
-    const loadFrame = (index: number) =>
-      new Promise<void>((resolve) => {
+    const loading = Array<Promise<void> | null>(TOTAL_FRAMES).fill(null);
+    const loadFrame = (index: number) => {
+      if (loadedRef.current[index]) return Promise.resolve();
+      if (loading[index]) return loading[index];
+
+      loading[index] = new Promise<void>((resolve) => {
         if (loadedRef.current[index]) {
           resolve();
           return;
@@ -114,7 +130,12 @@ export default function HeroSection() {
         const img = new Image();
         img.decoding = "async";
         img.src = FRAME_PATH(index + 1);
-        img.onload = () => {
+        img.onload = async () => {
+          try {
+            await img.decode();
+          } catch {
+            // The browser may already have decoded the image during onload.
+          }
           imagesRef.current[index] = img;
           loadedRef.current[index] = true;
           resolve();
@@ -122,14 +143,26 @@ export default function HeroSection() {
         img.onerror = () => resolve();
       });
 
-    const preloadLead = async () => {
-      await Promise.all(Array.from({ length: LEAD_FRAMES }, (_, i) => loadFrame(i)));
-      currentFrameRef.current = 0;
+      return loading[index];
+    };
+
+    const preloadFrames = async () => {
+      await loadFrame(0);
       setReady(true);
       drawFrame(0);
-      for (let i = LEAD_FRAMES; i < TOTAL_FRAMES; i += 1) {
-        void loadFrame(i);
-      }
+
+      let nextFrame = 1;
+      const worker = async () => {
+        while (nextFrame < TOTAL_FRAMES) {
+          const frame = nextFrame;
+          nextFrame += 1;
+          await loadFrame(frame);
+        }
+      };
+
+      void Promise.all(
+        Array.from({ length: PRELOAD_WORKERS }, () => worker())
+      );
     };
 
     const tl = gsap.timeline({
@@ -174,7 +207,7 @@ export default function HeroSection() {
 
     window.addEventListener("hero:navigate-to-frame", handleHeroFrameNavigation);
 
-    preloadLead();
+    preloadFrames();
     resizeCanvas();
 
     window.addEventListener("resize", resizeCanvas);
