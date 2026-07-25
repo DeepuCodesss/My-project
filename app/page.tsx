@@ -1,20 +1,21 @@
 import HeroSection from "@/components/HeroSection";
 import ProjectsSection from "@/components/ProjectsSection";
+import Navbar from "@/components/Navbar";
 import ScrollAnimationSection from "@/components/ScrollAnimationSection";
 import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
+import { BackgroundLines } from "@/components/ui/background-lines";
+import ContactSection from "@/components/ContactSection";
 
 export default function Page() {
   return (
-    <main className="site-shell">
+    <main id="top" className="site-shell">
+      <Navbar />
+      <BackgroundLines className="page-lines" />
       <BackgroundBeamsWithCollision className="page-beams" />
       <HeroSection />
       <ProjectsSection />
       <ScrollAnimationSection />
-      <footer className="portfolio-footer">
-        <span>DEEPAK KUMAR / 2026</span>
-        <span>Thanks for visiting the workspace.</span>
-        <a href="mailto:hello@deepak.dev">Get in touch ↗</a>
-      </footer>
+      <ContactSection />
     </main>
   );
 }

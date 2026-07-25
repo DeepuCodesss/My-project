@@ -45,6 +45,7 @@ export default function ProjectsSection() {
 
   return (
     <section
+      id="projects"
       ref={sectionRef}
       className="relative overflow-hidden border-t border-white/10 bg-transparent px-6 py-24 sm:px-10 md:px-14 lg:px-20"
     >

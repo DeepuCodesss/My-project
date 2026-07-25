@@ -161,12 +161,26 @@ export default function HeroSection() {
       }
     );
 
+    const handleHeroFrameNavigation = (event: Event) => {
+      const frame = (event as CustomEvent<{ frame?: number }>).detail?.frame;
+      const trigger = tl.scrollTrigger;
+      if (typeof frame !== "number" || !trigger) return;
+      const progress = Math.min(1, Math.max(0, frame / (TOTAL_FRAMES - 1)));
+      window.scrollTo({
+        top: trigger.start + (trigger.end - trigger.start) * progress,
+        behavior: "smooth",
+      });
+    };
+
+    window.addEventListener("hero:navigate-to-frame", handleHeroFrameNavigation);
+
     preloadLead();
     resizeCanvas();
 
     window.addEventListener("resize", resizeCanvas);
     return () => {
       window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("hero:navigate-to-frame", handleHeroFrameNavigation);
       tl.scrollTrigger?.kill();
       tl.kill();
       clearFinalBackdrop();

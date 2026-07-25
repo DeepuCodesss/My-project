@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useInView } from "framer-motion";
 import {
   Bot, BriefcaseBusiness, ChevronRight, CircleUserRound, Code2, Download,
   Folder, Globe2, Mail, Minus, Monitor, MousePointer2, Network,
-  NotebookPen, Power, Search, Server, Settings2, Sparkles, TerminalSquare,
+  NotebookPen, Search, Server, Settings2, Sparkles, TerminalSquare,
   Trash2, X, Zap,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -86,6 +86,19 @@ export default function ScrollAnimationSection() {
   const [time, setTime] = useState("");
   useEffect(() => { if (!inView) setWindows([]); }, [inView]);
   useEffect(() => {
+    const openFromHash = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash === "resume" || hash === "contact") {
+        sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        open(hash as AppId);
+      }
+    };
+
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    return () => window.removeEventListener("hashchange", openFromHash);
+  }, []);
+  useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
     const updateComposition = () => {
@@ -122,5 +135,5 @@ export default function ScrollAnimationSection() {
   useEffect(() => { const update = () => setTime(new Intl.DateTimeFormat("en-IN", { hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date())); update(); const timer = setInterval(update, 30000); return () => clearInterval(timer); }, []);
   const open = (id: AppId) => { if (id === "trash") return; setWindows(current => current.includes(id) ? current : [...current, id]); setFocused(id); };
   const close = (id: AppId) => { setWindows(current => current.filter(item => item !== id)); setFocused(current => current === id ? null : current); };
-  return <section ref={sectionRef} className={`deepos-section ${booted ? "is-booted" : ""}`}><div className="deepos-ambient" /><div className="deepos-intro"><span className="eyebrow">A DIGITAL WORKSPACE / 08</span><h1>Enter<br /><span>DeepOS.</span></h1><p>Scroll into my workspace.</p></div><div className="monitor-shell"><div className="monitor-camera" /><div className="monitor-screen"><AnimatePresence mode="wait">{!booted ? <motion.div key="boot" className="boot-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><div className="deep-logo">D<span>•</span></div><div className="boot-copy"><p>Booting DeepOS<span className="loading-dots">...</span></p><p>Loading workspace</p><p>Preparing development environment</p></div><div className="boot-progress"><i /></div><small>DEEPOS / 0.8.4</small></motion.div> : <motion.div key="desktop" className="desktop" initial={{ opacity: 0 }} animate={{ opacity: 1 }}><Waves className="desktop-waves" strokeColor="#f1d8d4" backgroundColor="transparent" pointerSize={0.25} /><div className="desktop-top"><span><span className="top-led" /> DEEPOS</span><span className="desktop-state">WORKSPACE ACTIVE&nbsp;&nbsp; / &nbsp;&nbsp;{time}</span></div><div className="desktop-icons">{apps.map(({ id, label, icon: Icon, tone }, index) => <motion.button key={id} className={`desktop-icon icon-${tone}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * .045 }} onDoubleClick={() => open(id)} onClick={() => open(id)}><span className="icon-tile"><Icon size={20} strokeWidth={1.5} /></span><span>{label}</span></motion.button>)}</div><AnimatePresence>{windows.map(id => <Window key={id} id={id} title={apps.find(app => app.id === id)?.label ?? id} onClose={() => close(id)} onFocus={() => setFocused(id)} focused={focused === id}><WindowBody id={id} /></Window>)}</AnimatePresence><div className="desktop-footer"><div className="dock"><span className="dock-logo">D</span><span className="dock-divider" />{windows.map(id => { const Icon = apps.find(app => app.id === id)?.icon ?? Folder; return <button key={id} onClick={() => setFocused(id)} className={focused === id ? "dock-active" : ""}><Icon size={15} /></button>; })}</div><div className="desktop-footer-right"><span className="cursor-hint"><MousePointer2 size={12} /> explore freely</span><span>{time}</span></div></div></motion.div>}</AnimatePresence></div><div className="monitor-neck" /><div className="monitor-base" /></div><motion.div className="deepos-caption" initial={{ opacity: 0, y: 10 }} animate={{ opacity: booted ? 1 : 0.35, y: booted ? 0 : 10 }}><span><Power size={13} /> {booted ? "System ready" : "System sleeping"}</span><span>Click an icon to open a window <ChevronRight size={13} /></span></motion.div></section>;
+  return <section id="workspace" ref={sectionRef} className={`deepos-section ${booted ? "is-booted" : ""}`}><div className="deepos-ambient" /><div className="deepos-intro"><span className="eyebrow">A DIGITAL WORKSPACE / 08</span><h1>Enter<br /><span>DeepOS.</span></h1><p>Scroll into my workspace.</p></div><div className="monitor-shell"><div className="monitor-camera" /><div className="monitor-screen"><AnimatePresence mode="wait">{!booted ? <motion.div key="boot" className="boot-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><div className="deep-logo">D<span>•</span></div><div className="boot-copy"><p>Booting DeepOS<span className="loading-dots">...</span></p><p>Loading workspace</p><p>Preparing development environment</p></div><div className="boot-progress"><i /></div><small>DEEPOS / 0.8.4</small></motion.div> : <motion.div key="desktop" className="desktop" initial={{ opacity: 0 }} animate={{ opacity: 1 }}><Waves className="desktop-waves" strokeColor="#f1d8d4" backgroundColor="transparent" pointerSize={0.25} /><div className="desktop-top"><span><span className="top-led" /> DEEPOS</span><span className="desktop-state">WORKSPACE ACTIVE&nbsp;&nbsp; / &nbsp;&nbsp;{time}</span></div><div className="desktop-icons">{apps.map(({ id, label, icon: Icon }, index) => <motion.button key={id} className={`desktop-icon icon-${apps.find(app => app.id === id)?.tone ?? "red"}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * .045 }} onDoubleClick={() => open(id)} onClick={() => open(id)}><span className="icon-tile"><Icon size={20} strokeWidth={1.5} /></span><span>{label}</span></motion.button>)}</div><AnimatePresence>{windows.map(id => <Window key={id} id={id} title={apps.find(app => app.id === id)?.label ?? id} onClose={() => close(id)} onFocus={() => setFocused(id)} focused={focused === id}><WindowBody id={id} /></Window>)}</AnimatePresence><div className="desktop-footer"><div className="dock"><span className="dock-logo">D</span><span className="dock-divider" />{windows.map(id => { const Icon = apps.find(app => app.id === id)?.icon ?? Folder; return <button key={id} onClick={() => setFocused(id)} className={focused === id ? "dock-active" : ""}><Icon size={15} /></button>; })}</div><div className="desktop-footer-right"><span>{time}</span></div></div></motion.div>}</AnimatePresence></div></div></section>;
 }
