@@ -43,7 +43,8 @@ export default function ProjectRow({
         }
       },
       {
-        threshold: 0.45,
+        rootMargin: "220px 0px",
+        threshold: 0.15,
       }
     );
 
@@ -177,14 +178,14 @@ export default function ProjectRow({
                   <video
                     ref={videoRef}
                     src={project.videoUrl}
+                    poster={project.screenshotUrl}
                     className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
                       videoInView ? "opacity-100" : "opacity-85"
                     }`}
-                    autoPlay
                     muted
                     loop
                     playsInline
-                    preload="metadata"
+                    preload="none"
                   />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-black/15 via-transparent to-black/20" />
                 </>

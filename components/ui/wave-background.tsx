@@ -33,6 +33,8 @@ export function Waves({ className = "", strokeColor = "#ffffff", backgroundColor
 
     const noise = createNoise2D();
     const mouse = mouseRef.current;
+    let visible = false;
+    let running = false;
 
     const resize = () => {
       const bounds = container.getBoundingClientRect();
@@ -78,10 +80,15 @@ export function Waves({ className = "", strokeColor = "#ffffff", backgroundColor
         mouse.set = true;
       }
     };
-    const onMouseMove = (event: MouseEvent) => updatePointer(event.clientX, event.clientY);
-    const onTouchMove = (event: TouchEvent) => { const touch = event.touches[0]; if (touch) updatePointer(touch.clientX, touch.clientY); };
+    const onMouseMove = (event: MouseEvent) => { if (visible) updatePointer(event.clientX, event.clientY); };
+    const onTouchMove = (event: TouchEvent) => { if (!visible) return; const touch = event.touches[0]; if (touch) updatePointer(touch.clientX, touch.clientY); };
 
     const tick = (time: number) => {
+      if (!visible) {
+        running = false;
+        rafRef.current = null;
+        return;
+      }
       mouse.sx += (mouse.x - mouse.sx) * 0.1;
       mouse.sy += (mouse.y - mouse.sy) * 0.1;
       const dx = mouse.x - mouse.lx;
@@ -122,13 +129,30 @@ export function Waves({ className = "", strokeColor = "#ffffff", backgroundColor
       rafRef.current = requestAnimationFrame(tick);
     };
 
+    const start = () => {
+      if (!visible || running) return;
+      running = true;
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    const stop = () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+      running = false;
+    };
+
     resize();
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", onMouseMove);
     container.addEventListener("touchmove", onTouchMove, { passive: true });
-    rafRef.current = requestAnimationFrame(tick);
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      visible = Boolean(entry?.isIntersecting);
+      if (visible) start(); else stop();
+    }, { threshold: 0.01 });
+    visibilityObserver.observe(container);
     return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      stop();
+      visibilityObserver.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
       container.removeEventListener("touchmove", onTouchMove);

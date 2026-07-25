@@ -19,19 +19,22 @@ export default function SpecularButton({ children = "Get Started", onClick, clas
   useEffect(() => {
     const button = buttonRef.current; const effect = effectRef.current;
     if (!button || !effect) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     const renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true, dpr });
     const gl = renderer.gl; gl.clearColor(0, 0, 0, 0); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
     const program = new Program(gl, { vertex, fragment, uniforms: { center: { value: [0, 0] }, halfSize: { value: [1, 1] }, radius: { value: 18 }, angle: { value: 2.4 }, lineColor: { value: [1, 1, 1] }, baseColor: { value: [.35, .35, .35] }, intensity: { value: 0 } } });
     const mesh = new Mesh(gl, { geometry: new Triangle(gl), program }); effect.appendChild(gl.canvas);
     const resize = () => { const box = button.getBoundingClientRect(); renderer.setSize(box.width + 40, box.height + 40); program.uniforms.center.value = [(20 + box.width / 2) * dpr, (20 + box.height / 2) * dpr]; program.uniforms.halfSize.value = [box.width / 2 * dpr, box.height / 2 * dpr]; };
-    const observer = new ResizeObserver(resize); observer.observe(button); resize();
-    let pointerAngle = 2.4; let brightness = 0; let frame = 0; let last = performance.now();
-    const move = (event: PointerEvent) => { const box = button.getBoundingClientRect(); const dx = event.clientX - (box.left + box.width / 2); const dy = event.clientY - (box.top + box.height / 2); pointerAngle = Math.atan2(-dy, dx); const distance = Math.hypot(Math.max(Math.abs(dx) - box.width / 2, 0), Math.max(Math.abs(dy) - box.height / 2, 0)); brightness = Math.max(0, 1 - distance / 250); };
+    const resizeObserver = new ResizeObserver(resize); resizeObserver.observe(button); resize();
+    let pointerAngle = 2.4; let brightness = 0; let frame = 0; let last = performance.now(); let visible = false;
+    const move = (event: PointerEvent) => { if (!visible) return; const box = button.getBoundingClientRect(); const dx = event.clientX - (box.left + box.width / 2); const dy = event.clientY - (box.top + box.height / 2); pointerAngle = Math.atan2(-dy, dx); const distance = Math.hypot(Math.max(Math.abs(dx) - box.width / 2, 0), Math.max(Math.abs(dy) - box.height / 2, 0)); brightness = Math.max(0, 1 - distance / 250); };
     window.addEventListener("pointermove", move);
-    const render = (now: number) => { const dt = Math.min((now - last) / 1000, .05); last = now; program.uniforms.angle.value = pointerAngle; program.uniforms.intensity.value += (brightness - program.uniforms.intensity.value) * (1 - Math.exp(-dt * 8)); renderer.render({ scene: mesh }); frame = requestAnimationFrame(render); };
-    frame = requestAnimationFrame(render);
-    return () => { cancelAnimationFrame(frame); observer.disconnect(); window.removeEventListener("pointermove", move); if (gl.canvas.parentNode === effect) effect.removeChild(gl.canvas); gl.getExtension("WEBGL_lose_context")?.loseContext(); };
+    const render = (now: number) => { if (!visible) { frame = 0; return; } const dt = Math.min((now - last) / 1000, .05); last = now; program.uniforms.angle.value = pointerAngle; program.uniforms.intensity.value += (brightness - program.uniforms.intensity.value) * (1 - Math.exp(-dt * 8)); renderer.render({ scene: mesh }); frame = requestAnimationFrame(render); };
+    const start = () => { if (visible && !frame) { last = performance.now(); frame = requestAnimationFrame(render); } };
+    const stop = () => { if (frame) { cancelAnimationFrame(frame); frame = 0; } };
+    const visibilityObserver = new IntersectionObserver(([entry]) => { visible = Boolean(entry?.isIntersecting); if (visible) start(); else stop(); }, { threshold: 0.01 });
+    visibilityObserver.observe(button);
+    return () => { stop(); resizeObserver.disconnect(); visibilityObserver.disconnect(); window.removeEventListener("pointermove", move); if (gl.canvas.parentNode === effect) effect.removeChild(gl.canvas); gl.getExtension("WEBGL_lose_context")?.loseContext(); };
   }, []);
   return <button ref={buttonRef} type={type} onClick={onClick} className={`specular-button${className ? ` ${className}` : ""}`}><span ref={effectRef} className="specular-button__fx" aria-hidden="true" /><span className="specular-button__label">{children}</span></button>;
 }
