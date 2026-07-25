@@ -12,7 +12,7 @@ export type Project = {
   livePreviewUrl?: string;
   allowLivePreview?: boolean;
   mockupVariant?: "browser" | "phone";
-  repoUrl: string;
+  repoUrl?: string;
   mockDomain: string;
 };
 
@@ -64,7 +64,7 @@ export const projects: Project[] = [
     liveUrl: "https://legitclub.xyz",
     allowLivePreview: false,
     mockupVariant: "phone",
-    repoUrl: "https://legitclub.xyz",
+    repoUrl: undefined,
     mockDomain: "legitclub.xyz",
   },
 ];

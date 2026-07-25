@@ -117,14 +117,16 @@ export default function ProjectRow({
           >
             Visit Site
           </a>
-          <a
-            href={project.repoUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-full border border-white/12 bg-white/5 px-5 py-3 text-sm font-medium text-white/85 transition-colors hover:bg-white/10"
-          >
-            View Repository
-          </a>
+          {project.repoUrl && (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full border border-white/12 bg-white/5 px-5 py-3 text-sm font-medium text-white/85 transition-colors hover:bg-white/10"
+            >
+              View Repository
+            </a>
+          )}
         </div>
       </div>
 

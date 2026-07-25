@@ -136,5 +136,5 @@ export function Waves({ className = "", strokeColor = "#ffffff", backgroundColor
     };
   }, [strokeColor]);
 
-  return <div ref={containerRef} className={`waves-component ${className}`} style={{ backgroundColor }} aria-hidden="true"><video className="waves-wallpaper" src="/wallpaper%20for%20deepos/liveblue.mp4" autoPlay loop muted playsInline /><svg ref={svgRef} className="waves-svg" xmlns="http://www.w3.org/2000/svg" /><div className="pointer-dot" style={{ width: `${pointerSize}rem`, height: `${pointerSize}rem`, background: strokeColor }} /></div>;
+  return <div ref={containerRef} className={`waves-component ${className}`} style={{ backgroundColor }} aria-hidden="true"><img className="waves-wallpaper" src="/wallpaper%20for%20deepos/wallpaper.jpeg" alt="" decoding="async" /><svg ref={svgRef} className="waves-svg" xmlns="http://www.w3.org/2000/svg" /><div className="pointer-dot" style={{ width: `${pointerSize}rem`, height: `${pointerSize}rem`, background: strokeColor }} /></div>;
 }
