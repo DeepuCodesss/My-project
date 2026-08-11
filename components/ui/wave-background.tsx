@@ -44,8 +44,10 @@ export function Waves({ className = "", strokeColor = "#ffffff", backgroundColor
       pathsRef.current.forEach((path) => path.remove());
       pathsRef.current = [];
 
-      const xGap = bounds.width < 600 ? 14 : 10;
-      const yGap = bounds.width < 600 ? 14 : 10;
+      // Keep the effect visible without rebuilding thousands of SVG points on
+      // every paint. The dense grid was a major source of scroll jank.
+      const xGap = bounds.width < 600 ? 32 : 30;
+      const yGap = bounds.width < 600 ? 32 : 28;
       const columns = Math.ceil((bounds.width + 180) / xGap);
       const rows = Math.ceil((bounds.height + 30) / yGap);
       const xStart = (bounds.width - xGap * columns) / 2;
@@ -83,12 +85,18 @@ export function Waves({ className = "", strokeColor = "#ffffff", backgroundColor
     const onMouseMove = (event: MouseEvent) => { if (visible) updatePointer(event.clientX, event.clientY); };
     const onTouchMove = (event: TouchEvent) => { if (!visible) return; const touch = event.touches[0]; if (touch) updatePointer(touch.clientX, touch.clientY); };
 
+    let lastPaint = 0;
     const tick = (time: number) => {
       if (!visible) {
         running = false;
         rafRef.current = null;
         return;
       }
+      if (time - lastPaint < 50) {
+        rafRef.current = requestAnimationFrame(tick);
+        return;
+      }
+      lastPaint = time;
       mouse.sx += (mouse.x - mouse.sx) * 0.1;
       mouse.sy += (mouse.y - mouse.sy) * 0.1;
       const dx = mouse.x - mouse.lx;
@@ -160,5 +168,5 @@ export function Waves({ className = "", strokeColor = "#ffffff", backgroundColor
     };
   }, [strokeColor]);
 
-  return <div ref={containerRef} className={`waves-component ${className}`} style={{ backgroundColor }} aria-hidden="true"><img className="waves-wallpaper" src="/wallpaper%20for%20deepos/wallpaper.jpeg" alt="" decoding="async" /><svg ref={svgRef} className="waves-svg" xmlns="http://www.w3.org/2000/svg" /><div className="pointer-dot" style={{ width: `${pointerSize}rem`, height: `${pointerSize}rem`, background: strokeColor }} /></div>;
+  return <div ref={containerRef} className={`waves-component ${className}`} style={{ backgroundColor }} aria-hidden="true"><img className="waves-wallpaper" src="/wallpaper%20for%20deepos/wallpaper.jpeg" alt="" loading="lazy" decoding="async" /><svg ref={svgRef} className="waves-svg" xmlns="http://www.w3.org/2000/svg" /><div className="pointer-dot" style={{ width: `${pointerSize}rem`, height: `${pointerSize}rem`, background: strokeColor }} /></div>;
 }

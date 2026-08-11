@@ -12,7 +12,7 @@ import { Waves } from "@/components/ui/wave-background";
 
 type AppId = "projects" | "automation" | "os" | "github" | "resume" | "contact" | "experiments" | "trash";
 
-const LocalLogo = ({ file }: { file: string }) => <img src={`/logo for deepos/${file}`} alt="" />;
+const LocalLogo = ({ file }: { file: string }) => <img src={`/logo for deepos/${file}`} alt="" loading="lazy" decoding="async" />;
 const ProjectsLogo = () => <LocalLogo file="project logo.png" />;
 const ClaudeLogo = () => <LocalLogo file="claude logo .png" />;
 const LinuxLogo = () => <LocalLogo file="Linux_logo.jpg" />;

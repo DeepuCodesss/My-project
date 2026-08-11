@@ -34,11 +34,7 @@ export default function ProjectRow({
         const inView = Boolean(entry?.isIntersecting);
         setVideoInView(inView);
 
-        if (inView) {
-          video.play().catch(() => {
-            // Autoplay can still be blocked in some browsers; muted helps, but we fail gracefully.
-          });
-        } else {
+        if (!inView) {
           video.pause();
         }
       },
@@ -58,9 +54,15 @@ export default function ProjectRow({
     };
   }, [project.videoUrl]);
 
+  useEffect(() => {
+    if (!videoInView || !videoRef.current) return;
+    videoRef.current.play().catch(() => {
+      // Autoplay can still be blocked in some browsers; muted helps, but we fail gracefully.
+    });
+  }, [videoInView]);
+
   const canPreview = Boolean(project.allowLivePreview && project.livePreviewUrl);
   const isPhoneMockup = project.mockupVariant === "phone";
-  const mediaAspect = `${project.width} / ${project.height}`;
 
   const startPreview = () => {
     if (!canPreview || previewEnabled || previewFailed) return;
@@ -74,11 +76,6 @@ export default function ProjectRow({
       setPreviewEnabled(false);
       setPreviewReady(false);
     }, 5000);
-  };
-
-  const stopPreview = () => {
-    if (!canPreview) return;
-    setPreviewEnabled(false);
   };
 
   return (
@@ -166,8 +163,6 @@ export default function ProjectRow({
               className={`relative min-h-0 flex-1 overflow-hidden bg-[#0d1016] ${
                 isPhoneMockup ? "aspect-[528/907]" : "aspect-[21/10]"
               }`}
-              onMouseEnter={startPreview}
-              onMouseLeave={stopPreview}
               onTouchStart={startPreview}
               onClick={startPreview}
               role={canPreview ? "button" : undefined}
@@ -177,8 +172,8 @@ export default function ProjectRow({
                 <>
                   <video
                     ref={videoRef}
-                    src={project.videoUrl}
-                    poster={project.screenshotUrl}
+                    src={videoInView ? project.videoUrl : undefined}
+                    poster={videoInView ? project.screenshotUrl : undefined}
                     className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
                       videoInView ? "opacity-100" : "opacity-85"
                     }`}
@@ -195,6 +190,8 @@ export default function ProjectRow({
                   <img
                     src={project.screenshotUrl}
                     alt={`${project.title} screenshot`}
+                    loading="lazy"
+                    decoding="async"
                     className={`absolute inset-0 h-full w-full object-cover object-top transition-all duration-300 ${
                       previewEnabled && previewReady && !previewFailed
                         ? "opacity-0"
@@ -233,6 +230,8 @@ export default function ProjectRow({
                   <img
                     src={project.screenshotUrl}
                     alt={`${project.title} screenshot`}
+                    loading="lazy"
+                    decoding="async"
                     className={`absolute inset-0 h-full w-full object-cover object-left-top scale-[1.08] brightness-110 transition-all duration-300 ${
                       previewEnabled && previewReady && !previewFailed ? "opacity-0" : "opacity-100"
                     }`}

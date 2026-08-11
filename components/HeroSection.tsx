@@ -7,7 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const TOTAL_FRAMES = 146;
-const PRELOAD_WORKERS = 6;
+const PRELOAD_WORKERS = 2;
+const INITIAL_FRAME_COUNT = 6;
 const FRAME_PATH = (index: number) =>
   `/hero-frames/frame-${String(index).padStart(3, "0")}.webp`;
 
@@ -37,29 +38,13 @@ export default function HeroSection() {
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    const finalFrameUrl = FRAME_PATH(TOTAL_FRAMES);
-    const applyFinalBackdrop = () => {
-      document.body.style.backgroundImage = `url("${finalFrameUrl}")`;
-      document.body.style.backgroundRepeat = "no-repeat";
-      document.body.style.backgroundPosition = "center center";
-      document.body.style.backgroundSize = "cover";
-      document.body.style.backgroundAttachment = "fixed";
-      document.body.style.backgroundColor = "#050505";
-    };
-
-    const clearFinalBackdrop = () => {
-      document.body.style.backgroundImage = "";
-      document.body.style.backgroundRepeat = "";
-      document.body.style.backgroundPosition = "";
-      document.body.style.backgroundSize = "";
-      document.body.style.backgroundAttachment = "";
-    };
-
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    let requestFrameLoad: (index: number) => void = () => undefined;
 
     const resizeCanvas = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -115,6 +100,7 @@ export default function HeroSection() {
         currentFrameRef.current = next;
         scheduleDraw();
       }
+      requestFrameLoad(next);
     };
 
     const loading = Array<Promise<void> | null>(TOTAL_FRAMES).fill(null);
@@ -146,23 +132,33 @@ export default function HeroSection() {
       return loading[index];
     };
 
+    requestFrameLoad = (index) => {
+      void loadFrame(index);
+      // Keep a small buffer around the current scroll position without
+      // decoding the entire image sequence during first paint.
+      for (let offset = 1; offset <= 3; offset += 1) {
+        if (index - offset >= 0) void loadFrame(index - offset);
+        if (index + offset < TOTAL_FRAMES) void loadFrame(index + offset);
+      }
+    };
+
     const preloadFrames = async () => {
       await loadFrame(0);
       setReady(true);
       drawFrame(0);
 
       let nextFrame = 1;
-      const worker = async () => {
-        while (nextFrame < TOTAL_FRAMES) {
+      const worker = async (end: number) => {
+        while (nextFrame < end) {
           const frame = nextFrame;
           nextFrame += 1;
           await loadFrame(frame);
         }
       };
 
-      void Promise.all(
-        Array.from({ length: PRELOAD_WORKERS }, () => worker())
-      );
+      await Promise.all(Array.from({ length: PRELOAD_WORKERS }, () => worker(INITIAL_FRAME_COUNT)));
+
+      // Remaining frames are loaded on demand by setFrameFromProgress.
     };
 
     const tl = gsap.timeline({
@@ -177,11 +173,6 @@ export default function HeroSection() {
         onUpdate: (self) => {
           setStarted(self.progress > 0.01);
           setFrameFromProgress(self.progress);
-          if (self.progress >= 0.999) {
-            applyFinalBackdrop();
-          } else {
-            clearFinalBackdrop();
-          }
         },
       },
     });
@@ -216,7 +207,6 @@ export default function HeroSection() {
       window.removeEventListener("hero:navigate-to-frame", handleHeroFrameNavigation);
       tl.scrollTrigger?.kill();
       tl.kill();
-      clearFinalBackdrop();
     };
   }, []);
 
