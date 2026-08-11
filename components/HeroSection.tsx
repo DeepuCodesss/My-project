@@ -19,11 +19,15 @@ export default function HeroSection() {
 
     if (!prefersReducedMotion) {
       const ctx = gsap.context(() => {
-        gsap.fromTo(
-          hero,
-          { opacity: 0, scale: 0.98 },
-          { opacity: 1, scale: 1, duration: 0.9, ease: "power2.out" }
-        );
+        // Only animate the text content — never scale the character or background
+        const contentStack = hero.querySelector(".hero-content-stack");
+        if (contentStack) {
+          gsap.fromTo(
+            contentStack,
+            { opacity: 0, y: 18 },
+            { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }
+          );
+        }
       }, heroRef);
 
       return () => ctx.revert();
@@ -78,10 +82,10 @@ export default function HeroSection() {
     <section
       id="hero"
       ref={heroRef}
-      className="relative min-h-[100svh] w-full overflow-hidden bg-[#040203] text-[#f4f0e8] select-none flex flex-col justify-between"
+      className="relative w-full bg-[#040203] text-[#f4f0e8] select-none flex flex-col justify-between min-h-[100svh] lg:min-h-[max(100svh,820px)]"
       aria-label="Hero section"
     >
-      {/* ── Background Red Textured Texture & Lighting ───── */}
+      {/* ── Background Decorative Layer System (Overflow Clipped) ──── */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Red textured background image asset */}
         <img
@@ -101,9 +105,9 @@ export default function HeroSection() {
       {/* ── Background Giant Display Typography: DEEPUCODES ── */}
       <div
         aria-hidden="true"
-        className="absolute top-[18%] left-1/2 -translate-x-1/2 z-[1] pointer-events-none select-none w-full text-center"
+        className="absolute top-[16%] sm:top-[18%] left-1/2 -translate-x-1/2 z-[1] pointer-events-none select-none w-full text-center overflow-hidden"
       >
-        <span className="font-bebas text-[clamp(4.5rem,18.5vw,22rem)] leading-none text-[#e61924]/[0.16] tracking-wider uppercase block drop-shadow-[0_0_60px_rgba(230,25,36,0.2)]">
+        <span className="font-bebas text-[clamp(4rem,18vw,22rem)] leading-none text-[#e61924]/[0.16] tracking-wider uppercase block drop-shadow-[0_0_60px_rgba(230,25,36,0.2)]">
           DEEPUCODES
         </span>
       </div>
@@ -115,7 +119,7 @@ export default function HeroSection() {
           transform: `translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
           transition: "transform 0.15s ease-out",
         }}
-        className="absolute inset-0 z-[2] flex items-end justify-center pointer-events-none"
+        className="absolute inset-0 z-[2] flex items-end justify-center pointer-events-none overflow-hidden"
       >
         {/* Soft radial glow behind character cutout */}
         <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[450px] h-[450px] rounded-full bg-[#e61924]/25 blur-[90px] pointer-events-none" />
@@ -125,12 +129,12 @@ export default function HeroSection() {
           alt="Deepak Kumar - Full Stack Developer"
           fetchPriority="high"
           decoding="async"
-          className="h-[75vh] max-h-[780px] sm:h-[82vh] w-auto object-contain object-bottom filter drop-shadow-[0_10px_40px_rgba(0,0,0,0.9)]"
+          className="w-[clamp(280px,36vw,440px)] lg:w-[clamp(390px,43vw,710px)] lg:translate-x-[2.5vw] h-auto object-contain object-bottom filter drop-shadow-[0_10px_40px_rgba(0,0,0,0.9)]"
         />
       </div>
 
       {/* Foreground gradient bottom fade */}
-      <div className="absolute inset-x-0 bottom-0 h-40 z-[3] pointer-events-none bg-gradient-to-t from-[#040203] via-[#040203]/70 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-32 sm:h-40 z-[3] pointer-events-none bg-gradient-to-t from-[#040203] via-[#040203]/70 to-transparent" />
 
       {/* ── Vertical Micro Details (Desktop Sidebar Accent) ─ */}
       <div className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-20 pointer-events-none flex-col items-center gap-6 text-[10px] font-space tracking-[0.35em] text-white/40 uppercase rotate-180 [writing-mode:vertical-lr]">
@@ -187,86 +191,86 @@ export default function HeroSection() {
         <span className="h-10 w-px bg-red-900/40 mt-1" />
       </div>
 
-      {/* ── Main Hero Content Stack ─────────────────────── */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 md:px-14 lg:px-16 pt-28 sm:pt-32 md:pt-36 pb-8 flex-1 flex flex-col justify-between pointer-events-none">
+      {/* ── Main Hero Content Stack (Width-Driven Only) ── */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 md:px-14 lg:px-16 pt-28 sm:pt-32 md:pt-36 pb-6 flex-1 flex flex-col justify-between pointer-events-none hero-content-stack">
         
         {/* Top Info & Stacked Heading */}
         <div className="max-w-2xl pointer-events-auto">
           {/* Label / Sub-header */}
-          <div className="inline-flex items-center gap-2.5 mb-3 px-3 py-1 rounded-full bg-black/50 border border-red-900/40 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2.5 mb-2 sm:mb-3 px-3 py-1 rounded-full bg-black/50 border border-red-900/40 backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-[#e61924] shadow-[0_0_8px_#e61924] animate-pulse" />
             <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.3em] text-[#e61924]">
               FULL STACK DEVELOPER
             </span>
           </div>
 
-          {/* Stacked Giant Brutal Headline */}
-          <h1 className="font-bebas text-[clamp(4.2rem,11.5vw,10.5rem)] leading-[0.85] tracking-wide text-white uppercase drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)]">
+          {/* Stacked Giant Brutal Headline (Width-Driven Only) */}
+          <h1 className="font-bebas text-[clamp(3.8rem,10.5vw,10rem)] leading-[0.85] tracking-wide text-white uppercase drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)]">
             BUILDING <br />
             <span className="text-white">REAL</span> <br />
             <span className="text-[#e61924] drop-shadow-[0_0_35px_rgba(230,25,36,0.6)]">SOFTWARE</span>
           </h1>
 
           {/* One-Line Intro */}
-          <p className="mt-5 text-base sm:text-lg text-white/80 font-space font-normal max-w-md leading-relaxed">
+          <p className="mt-3 sm:mt-5 text-sm sm:text-base md:text-lg text-white/80 font-space font-normal max-w-md leading-relaxed hero-intro">
             I build the things you imagine.
           </p>
 
           {/* CTA Action Buttons & Mobile Social Icons Row */}
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-5 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-4 hero-cta">
             <a
               href="#projects"
               onClick={handleExploreClick}
-              className="inline-flex items-center gap-2 bg-[#e61924] hover:bg-[#ff2430] text-white px-7 py-3.5 rounded-lg font-space font-semibold text-sm tracking-wider uppercase shadow-[0_0_30px_rgba(230,25,36,0.5)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.98]"
+              className="inline-flex items-center gap-2 bg-[#e61924] hover:bg-[#ff2430] text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-lg font-space font-semibold text-xs sm:text-sm tracking-wider uppercase shadow-[0_0_30px_rgba(230,25,36,0.5)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.98]"
             >
               View Work <span aria-hidden="true">↗</span>
             </a>
             <a
               href="#contact"
               onClick={handleContactClick}
-              className="inline-flex items-center gap-2 border border-red-900/50 hover:border-red-500/80 bg-red-950/20 hover:bg-red-900/30 text-white/90 hover:text-white px-7 py-3.5 rounded-lg font-space font-medium text-sm tracking-wider uppercase backdrop-blur-sm transition-all duration-300"
+              className="inline-flex items-center gap-2 border border-red-900/50 hover:border-red-500/80 bg-red-950/20 hover:bg-red-900/30 text-white/90 hover:text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-lg font-space font-medium text-xs sm:text-sm tracking-wider uppercase backdrop-blur-sm transition-all duration-300"
             >
               Contact Me
             </a>
 
             {/* Mobile Horizontal Social Bar */}
-            <div className="flex lg:hidden items-center gap-3 ml-2">
+            <div className="flex lg:hidden items-center gap-2.5 ml-1">
               <a
                 href={SITE_PROFILE.linkedinUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="flex h-11 w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
+                className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
                 aria-label="Open Deepak Kumar on LinkedIn"
               >
-                <img src="/assets/icons/social/linkedin.svg" alt="" className="h-5 w-5 filter invert" />
+                <img src="/assets/icons/social/linkedin.svg" alt="" className="h-4 w-4 sm:h-5 sm:w-5 filter invert" />
               </a>
               <a
                 href={SITE_PROFILE.githubUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="flex h-11 w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
+                className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
                 aria-label="Open Deepak Kumar on GitHub"
               >
-                <img src="/assets/icons/social/github.svg" alt="" className="h-5 w-5 filter invert" />
+                <img src="/assets/icons/social/github.svg" alt="" className="h-4 w-4 sm:h-5 sm:w-5 filter invert" />
               </a>
               <a
                 href={`mailto:${SITE_PROFILE.email}`}
-                className="flex h-11 w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
+                className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
                 aria-label="Send Email to Deepak Kumar"
               >
-                <img src="/assets/icons/social/gmail.svg" alt="" className="h-5 w-5" />
+                <img src="/assets/icons/social/gmail.svg" alt="" className="h-4 w-4 sm:h-5 sm:w-5" />
               </a>
             </div>
           </div>
         </div>
 
         {/* Bottom Area: Status Card & Scroll Cue */}
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 pointer-events-auto">
+        <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 pointer-events-auto hero-bottom">
           {/* Availability Status Badge */}
-          <div className="inline-flex items-center gap-3 bg-[#0c0507]/90 border border-red-900/40 backdrop-blur-md px-4 py-2 rounded-xl text-xs text-white/70 font-space shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
-            <span className="relative flex h-2.5 w-2.5">
+          <div className="inline-flex items-center gap-2.5 sm:gap-3 bg-[#0c0507]/90 border border-red-900/40 backdrop-blur-md px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[11px] sm:text-xs text-white/70 font-space shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
+            <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+              <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-emerald-500" />
             </span>
             <span className="uppercase tracking-wider font-medium text-white/90">
               AVAILABLE FOR FREELANCE
@@ -288,9 +292,12 @@ export default function HeroSection() {
           </a>
         </div>
       </div>
+
+
     </section>
   );
 }
+
 
 
 

@@ -52,23 +52,44 @@ export default function ProjectsSection() {
     <section
       id="projects"
       ref={sectionRef}
-      className="relative overflow-hidden border-t border-red-950/40 bg-[#040203] px-6 py-24 sm:px-10 md:px-14 lg:px-20"
+      className="relative isolate border-t border-red-950/40 bg-[#040203] px-6 py-24 sm:px-10 md:px-14 lg:px-20 text-[#f4f0e8]"
       aria-label="Selected Projects"
     >
-      {/* ── Reusable Atmosphere Texture Background ──────────── */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-10">
+      {/* ── Layer 1: Reusable Section Texture Overlay (Visually Noticeable Opacity) ───── */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20 mix-blend-screen">
         <img
           src="/assets/atmosphere/section-texture.png"
           alt=""
           role="presentation"
           decoding="async"
-          className="h-full w-full object-cover object-center filter contrast-125 brightness-75"
+          className="h-full w-full object-cover object-center filter contrast-125 brightness-110"
         />
       </div>
 
-      {/* Background ambient red lighting */}
-      <div className="absolute top-1/3 left-0 w-96 h-96 rounded-full bg-[#e61924]/10 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-0 w-96 h-96 rounded-full bg-[#e61924]/10 blur-[120px] pointer-events-none" />
+      {/* ── Layer 2: Reusable Glow Overlay Atmosphere ────────────────── */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-[0.22] mix-blend-screen">
+        <img
+          src="/assets/atmosphere/glow-overlay.png"
+          alt=""
+          role="presentation"
+          decoding="async"
+          className="h-full w-full object-cover object-center filter contrast-125 brightness-110"
+        />
+      </div>
+
+      {/* ── Layer 3: Shifting Per-Project Radial Crimson Lighting Gradients ── */}
+      {/* Nexorithm Ambient Lighting (Top-Left) */}
+      <div className="absolute top-[12%] left-[-5%] w-[650px] h-[650px] rounded-full bg-[radial-gradient(circle,rgba(230,25,36,0.22)_0%,transparent_70%)] blur-[100px] pointer-events-none z-0" />
+      {/* AURIX Ambient Lighting (Center-Right) */}
+      <div className="absolute top-[48%] right-[-5%] w-[700px] h-[700px] rounded-full bg-[radial-gradient(circle,rgba(230,25,36,0.20)_0%,transparent_70%)] blur-[110px] pointer-events-none z-0" />
+      {/* Legit Club Ambient Lighting (Bottom-Left) */}
+      <div className="absolute bottom-[10%] left-[5%] w-[650px] h-[650px] rounded-full bg-[radial-gradient(circle,rgba(230,25,36,0.22)_0%,transparent_70%)] blur-[100px] pointer-events-none z-0" />
+
+      {/* Top Section Fade (Blends Hero into Selected Work) */}
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#040203] to-transparent pointer-events-none z-0" />
+
+      {/* Bottom Section Fade (Blends Selected Work into Current Focus) */}
+      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#040203] to-transparent pointer-events-none z-0" />
 
       <div className="relative mx-auto max-w-7xl z-10">
         {/* Section Header */}
@@ -82,7 +103,7 @@ export default function ProjectsSection() {
             </span>
           </div>
           <h2 className="font-bebas text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-normal uppercase tracking-wide text-white leading-none">
-            SELECTED <span className="text-[#e61924]">WORK</span>
+            SELECTED <span className="text-[#e61924] drop-shadow-[0_0_35px_rgba(230,25,36,0.5)]">WORK</span>
           </h2>
           <div className="mt-4 h-1 w-24 bg-[#e61924]" />
         </div>
@@ -91,16 +112,17 @@ export default function ProjectsSection() {
         <div className="space-y-28 md:space-y-40">
           {projects.map((project, index) => (
             <div key={project.id} className="relative" data-project-row>
-              {/* Giant low-opacity background number watermark */}
+              {/* Layer 4: Giant low-opacity background number watermark */}
               <div
                 aria-hidden="true"
-                className="hidden sm:block absolute -top-12 -left-6 lg:-left-12 pointer-events-none select-none z-0"
+                className="hidden sm:block absolute -top-14 -left-6 lg:-left-14 pointer-events-none select-none z-0"
               >
-                <span className="font-bebas text-[clamp(8rem,22vw,28rem)] leading-none text-[#e61924]/[0.035] tracking-tight block">
+                <span className="font-bebas text-[clamp(9rem,24vw,30rem)] leading-none text-[#e61924]/[0.045] tracking-tight block">
                   {projectNumbers[index] || `0${index + 1}`}
                 </span>
               </div>
 
+              {/* Layer 5: Project Content */}
               <div className="relative z-10">
                 <ProjectRow project={project} index={index} imageOnLeft />
               </div>
@@ -111,6 +133,7 @@ export default function ProjectsSection() {
     </section>
   );
 }
+
 
 
 
