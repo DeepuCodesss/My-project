@@ -1,11 +1,23 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { Bebas_Neue, Space_Grotesk } from "next/font/google";
 import { SITE_PROFILE } from "@/lib/projects.config";
 import { WebVitalsMonitor } from "@/lib/web-vitals";
 import "./globals.css";
 
+const bebasNeue = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-bebas",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space",
+});
+
 export const viewport: Viewport = {
-  themeColor: "#050505",
+  themeColor: "#040203",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -14,13 +26,13 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_PROFILE.canonicalUrl),
   title: {
-    default: `${SITE_PROFILE.name} — ${SITE_PROFILE.role}`,
+    default: `${SITE_PROFILE.name} — Full Stack Developer`,
     template: `%s | ${SITE_PROFILE.name}`,
   },
   description: SITE_PROFILE.headline,
   keywords: [
     "Deepak Kumar",
-    "Product Engineer",
+    "DEEPUCODES",
     "Full-Stack Developer",
     "AI Systems Builder",
     "Software Engineer",
@@ -39,13 +51,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: SITE_PROFILE.canonicalUrl,
-    title: `${SITE_PROFILE.name} — ${SITE_PROFILE.role}`,
+    title: `${SITE_PROFILE.name} — Full Stack Developer`,
     description: SITE_PROFILE.headline,
     siteName: `${SITE_PROFILE.name} Portfolio`,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_PROFILE.name} — ${SITE_PROFILE.role}`,
+    title: `${SITE_PROFILE.name} — Full Stack Developer`,
     description: SITE_PROFILE.headline,
   },
   robots: {
@@ -74,10 +86,9 @@ const jsonLd = {
   url: SITE_PROFILE.canonicalUrl,
   sameAs: [SITE_PROFILE.githubUrl, SITE_PROFILE.linkedinUrl],
   knowsAbout: [
-    "Product Engineering",
     "Full Stack Web Development",
     "Artificial Intelligence Automation",
-    "Operating System Architecture",
+    "Systems Architecture",
   ],
 };
 
@@ -87,17 +98,17 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`scroll-smooth ${bebasNeue.variable} ${spaceGrotesk.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="bg-[#050505] text-[#f4f0e8] antialiased selection:bg-white/20">
+      <body className="bg-[#040203] text-[#f4f0e8] font-space antialiased selection:bg-[#e61924]/30 selection:text-white">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2.5 focus:bg-white focus:text-black focus:rounded-lg focus:font-semibold focus:shadow-2xl focus:outline-none"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2.5 focus:bg-[#e61924] focus:text-white focus:rounded-lg focus:font-semibold focus:shadow-2xl focus:outline-none"
         >
           Skip to main content
         </a>
@@ -107,5 +118,6 @@ export default function RootLayout({
     </html>
   );
 }
+
 
 

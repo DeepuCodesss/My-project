@@ -1,221 +1,129 @@
 "use client";
 
-import { useRef, useCallback, type ReactNode } from "react";
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import { Briefcase, Cpu, Bot } from "lucide-react";
-
-/* ── Data ───────────────────────────────────────── */
+import { motion } from "framer-motion";
+import { Code2, Box, Cpu, Sparkles } from "lucide-react";
 
 interface FocusItem {
-  icon: ReactNode;
+  number: string;
+  icon: React.ReactNode;
   title: string;
-  description: ReactNode;
-  accentRgb: string;          // "r,g,b"
+  subtitle: string;
+  description: string;
 }
 
 const focusItems: FocusItem[] = [
   {
-    icon: <Briefcase className="h-5 w-5" strokeWidth={1.5} />,
-    title: "Finding Opportunities",
-    accentRgb: "99,130,255",
-    description: (
-      <>
-        I&apos;m actively looking for{" "}
-        <span className="text-white/70 font-medium">freelance</span> projects,
-        collaborations, internships, and opportunities to solve real-world
-        problems through software.
-      </>
-    ),
+    number: "01",
+    icon: <Code2 className="h-6 w-6 text-[#e61924]" />,
+    title: "SYSTEM DESIGN",
+    subtitle: "SCALABLE ARCHITECTURE",
+    description:
+      "Designing scalable backend systems, robust APIs, and high-concurrency database models that handle real-world load seamlessly.",
   },
   {
-    icon: <Cpu className="h-5 w-5" strokeWidth={1.5} />,
-    title: "Building My Own Operating System",
-    accentRgb: "52,211,153",
-    description: (
-      <>
-        Currently exploring low-level systems programming and building my own
-        hobby{" "}
-        <span className="text-white/70 font-medium">operating system</span> to
-        deepen my understanding of kernels, memory management, bootloaders, and
-        computer architecture.
-      </>
-    ),
+    number: "02",
+    icon: <Box className="h-6 w-6 text-[#e61924]" />,
+    title: "PRODUCT BUILDING",
+    subtitle: "END-TO-END SHIPPER",
+    description:
+      "Transforming complex ideas into working, full-stack products with crisp user experience, performance engineering, and clean code.",
   },
   {
-    icon: <Bot className="h-5 w-5" strokeWidth={1.5} />,
-    title: "Building a Large-Scale AI Automation Platform",
-    accentRgb: "168,85,247",
-    description: (
-      <>
-        Developing an{" "}
-        <span className="text-white/70 font-medium">AI-powered automation</span>{" "}
-        system that discovers viral content, intelligently generates clips, and
-        automates publishing across thousands of social media accounts while
-        orchestrating the entire workflow from content discovery to distribution.
-      </>
-    ),
+    number: "03",
+    icon: <Cpu className="h-6 w-6 text-[#e61924]" />,
+    title: "AI INTEGRATIONS",
+    subtitle: "INTELLIGENT SYSTEMS",
+    description:
+      "Leveraging modern LLM APIs, autonomous agents, and intelligent workflow automation to build smarter user experiences.",
+  },
+  {
+    number: "04",
+    icon: <Sparkles className="h-6 w-6 text-[#e61924]" />,
+    title: "OPEN SOURCE",
+    subtitle: "DEVELOPER ECOSYSTEM",
+    description:
+      "Exploring low-level systems, kernel development, open-source libraries, and sharing technical insights with the developer community.",
   },
 ];
 
-/* ── Card ───────────────────────────────────────── */
-
-function FocusCard({ item, index }: { item: FocusItem; index: number }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  /* mouse-follow spotlight values */
-  const mouseX = useMotionValue(-400);
-  const mouseY = useMotionValue(-400);
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent) => {
-      const rect = cardRef.current?.getBoundingClientRect();
-      if (rect) {
-        mouseX.set(e.clientX - rect.left);
-        mouseY.set(e.clientY - rect.top);
-      }
-    },
-    [mouseX, mouseY]
-  );
-
-  const handleMouseLeave = useCallback(() => {
-    mouseX.set(-400);
-    mouseY.set(-400);
-  }, [mouseX, mouseY]);
-
-  /* reactive gradient templates */
-  const borderGlow = useMotionTemplate`radial-gradient(
-    280px circle at ${mouseX}px ${mouseY}px,
-    rgba(${item.accentRgb}, 0.25),
-    transparent 60%
-  )`;
-
-  const innerSpotlight = useMotionTemplate`radial-gradient(
-    380px circle at ${mouseX}px ${mouseY}px,
-    rgba(${item.accentRgb}, 0.055),
-    transparent 80%
-  )`;
-
-  return (
-    <motion.div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      initial={{ opacity: 0, y: 48 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{
-        duration: 0.85,
-        delay: index * 0.15,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      whileHover={{
-        y: -8,
-        transition: { duration: 0.35, ease: "easeOut" },
-      }}
-      className="focus-card group relative rounded-[20px] p-px"
-      style={
-        { "--card-accent": item.accentRgb } as React.CSSProperties
-      }
-    >
-      {/* ── Default subtle gradient border ──────── */}
-      <div className="absolute inset-0 rounded-[20px] bg-gradient-to-b from-white/[0.08] to-white/[0.03] transition-opacity duration-500 group-hover:opacity-50" />
-
-      {/* ── Accent border glow (mouse-follow) ──── */}
-      <motion.div
-        className="absolute inset-0 rounded-[20px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{ background: borderGlow }}
-      />
-
-      {/* ── Card inner ─────────────────────────── */}
-      <div className="relative overflow-hidden rounded-[19px] bg-[#0a0a0a]">
-        {/* Inner spotlight overlay */}
-        <motion.div
-          className="pointer-events-none absolute inset-0 rounded-[19px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-          style={{ background: innerSpotlight }}
-        />
-
-        {/* Top-edge highlight */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
-
-        {/* Animated accent line (left edge) */}
-        <div
-          className="absolute left-0 top-1/2 w-[2px] -translate-y-1/2 rounded-full focus-accent-line"
-          style={{
-            background: `linear-gradient(to bottom, transparent, rgba(${item.accentRgb}, 0.7), transparent)`,
-          }}
-        />
-
-        {/* ── Content ──────────────────────────── */}
-        <div className="relative z-10 p-10 pl-11">
-          {/* Icon container */}
-          <div
-            className="mb-7 flex h-12 w-12 items-center justify-center rounded-xl border border-white/[0.08] backdrop-blur-sm transition-colors duration-300 group-hover:border-white/[0.12]"
-            style={{ background: `rgba(${item.accentRgb}, 0.07)` }}
-          >
-            <div style={{ color: `rgb(${item.accentRgb})` }}>
-              {item.icon}
-            </div>
-          </div>
-
-          {/* Title */}
-          <h3 className="mb-4 text-[20px] font-semibold leading-snug tracking-[-0.02em] text-white">
-            {item.title}
-          </h3>
-
-          {/* Description */}
-          <p className="max-w-[300px] text-[15px] leading-[1.8] text-white/35">
-            {item.description}
-          </p>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-/* ── Section ────────────────────────────────────── */
-
 export default function CurrentFocusSection() {
   return (
-    <section className="relative overflow-hidden border-t border-white/[0.06] bg-transparent px-6 py-32 sm:px-10 md:px-14 lg:px-20">
+    <section className="relative overflow-hidden border-t border-red-950/40 bg-[#040203] px-6 py-28 sm:px-10 md:px-14 lg:px-20">
+      {/* Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[#e61924]/10 blur-[140px] pointer-events-none" />
+
       <div className="relative mx-auto max-w-7xl">
-        {/* ── Header ───────────────────────────── */}
-        <motion.div
-          className="mb-24 text-center"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.9,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        >
-          {/* "Currently" pill */}
-          <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-            </span>
-            <span className="text-[11px] font-medium uppercase tracking-[0.35em] text-white/50">
-              Currently
-            </span>
+        {/* ── Section Header ───────────────────────────────────────── */}
+        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <span className="text-xs font-mono font-bold uppercase tracking-[0.3em] text-[#e61924]">
+                03 /
+              </span>
+              <span className="text-xs font-mono uppercase tracking-[0.3em] text-white/50">
+                ACTIVE PURSUITS
+              </span>
+            </div>
+            <h2 className="font-bebas text-6xl sm:text-7xl md:text-8xl font-normal uppercase tracking-wide text-white leading-none">
+              CURRENT <span className="text-[#e61924]">FOCUS</span>
+            </h2>
+            <div className="mt-4 h-1 w-24 bg-[#e61924]" />
           </div>
 
-          <p className="text-[11px] font-medium uppercase tracking-[0.5em] text-white/40">
-            What I&apos;m Working On
-          </p>
+          <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-[0.25em] text-white/60 bg-black/60 px-4 py-2 rounded-xl border border-red-900/30">
+            <span className="h-2 w-2 rounded-full bg-[#e61924] shadow-[0_0_8px_#e61924] animate-pulse" />
+            <span>EXPLORING. BUILDING. SHARING.</span>
+          </div>
+        </div>
 
-          <h2 className="font-clash mt-6 text-6xl font-semibold tracking-[-0.04em] text-white sm:text-7xl md:text-8xl lg:text-[104px]">
-            Current Focus
-          </h2>
-        </motion.div>
-
-        {/* ── Cards grid ───────────────────────── */}
-        <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+        {/* ── Grid of Brutal Focus Cards ────────────────────────────── */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {focusItems.map((item, index) => (
-            <FocusCard key={item.title} item={item} index={index} />
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.1,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              whileHover={{ y: -6 }}
+              className="group relative flex flex-col justify-between rounded-2xl border border-red-900/30 bg-[#0c0507]/90 p-7 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-300 hover:border-red-600/60 hover:shadow-[0_0_35px_rgba(230,25,36,0.2)]"
+            >
+              <div>
+                {/* Header row with icon & number */}
+                <div className="flex items-center justify-between mb-8">
+                  <div className="grid h-12 w-12 place-items-center rounded-xl border border-red-900/40 bg-red-950/20 group-hover:border-[#e61924] transition-colors">
+                    {item.icon}
+                  </div>
+                  <span className="font-mono text-sm font-bold text-[#e61924]/60 group-hover:text-[#e61924] transition-colors">
+                    {item.number}
+                  </span>
+                </div>
+
+                {/* Title & Subtitle */}
+                <span className="block font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-[#e61924] mb-1">
+                  {item.subtitle}
+                </span>
+                <h3 className="font-bebas text-3xl font-normal tracking-wide text-white uppercase group-hover:text-[#e61924] transition-colors">
+                  {item.title}
+                </h3>
+
+                {/* Description */}
+                <p className="mt-3 text-xs sm:text-sm leading-relaxed text-white/60 font-space font-normal">
+                  {item.description}
+                </p>
+              </div>
+
+              {/* Bottom accent line */}
+              <div className="mt-6 h-0.5 w-full bg-red-950/50 group-hover:bg-[#e61924] transition-colors duration-300" />
+            </motion.div>
           ))}
         </div>
       </div>
     </section>
   );
 }
+

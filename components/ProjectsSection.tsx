@@ -50,20 +50,32 @@ export default function ProjectsSection() {
     <section
       id="projects"
       ref={sectionRef}
-      className="relative overflow-hidden border-t border-white/10 bg-transparent px-6 py-20 sm:px-10 md:px-14 lg:px-20"
+      className="relative overflow-hidden border-t border-red-950/40 bg-[#040203] px-6 py-24 sm:px-10 md:px-14 lg:px-20"
       aria-label="Selected Projects"
     >
+      {/* Background ambient red glow */}
+      <div className="absolute top-1/3 left-0 w-96 h-96 rounded-full bg-[#e61924]/10 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-0 w-96 h-96 rounded-full bg-[#e61924]/10 blur-[120px] pointer-events-none" />
+
       <div className="relative mx-auto max-w-7xl">
-        <div className="mb-16 text-center">
-          <p className="text-[11px] font-medium uppercase tracking-[0.5em] text-white/45">
-            Projects
-          </p>
-          <h2 className="mt-5 text-5xl font-light tracking-[-0.06em] text-white sm:text-6xl md:text-7xl">
-            Selected Work
+        {/* Section Header */}
+        <div className="mb-20">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-xs font-mono font-bold uppercase tracking-[0.3em] text-[#e61924]">
+              02 /
+            </span>
+            <span className="text-xs font-mono uppercase tracking-[0.3em] text-white/50">
+              FEATURED SHOWCASE
+            </span>
+          </div>
+          <h2 className="font-bebas text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-normal uppercase tracking-wide text-white leading-none">
+            SELECTED <span className="text-[#e61924]">WORK</span>
           </h2>
+          <div className="mt-4 h-1 w-24 bg-[#e61924]" />
         </div>
 
-        <div className="space-y-20 md:space-y-28">
+        {/* Project Cards Stack */}
+        <div className="space-y-24 md:space-y-36">
           {projects.map((project, index) => (
             <div key={project.id} data-project-row>
               <ProjectRow project={project} index={index} imageOnLeft />
@@ -74,4 +86,5 @@ export default function ProjectsSection() {
     </section>
   );
 }
+
 

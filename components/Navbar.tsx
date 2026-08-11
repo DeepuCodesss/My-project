@@ -4,32 +4,24 @@ import { useEffect, useRef, useState } from "react";
 import { SITE_PROFILE } from "@/lib/projects.config";
 import "./Navbar.css";
 
-type NavTarget = "about" | "projects" | "resume" | "contact";
+type NavTarget = "about" | "projects" | "contact";
 
-const links: Array<{ label: string; target: NavTarget }> = [
-  { label: "About", target: "about" },
-  { label: "Projects", target: "projects" },
-];
-
-const actions: Array<{ label: string; target: NavTarget }> = [
-  { label: "Resume", target: "resume" },
-  { label: "Contact me", target: "contact" },
+const links: Array<{ label: string; target: NavTarget; number: string }> = [
+  { label: "About", target: "about", number: "01" },
+  { label: "Projects", target: "projects", number: "02" },
+  { label: "Contact", target: "contact", number: "03" },
 ];
 
 function navigateTo(target: NavTarget) {
   if (target === "about") {
-    window.dispatchEvent(
-      new CustomEvent("hero:navigate-to-frame", { detail: { frame: 69 } })
-    );
+    document.getElementById("main-content")?.scrollIntoView({ behavior: "smooth", block: "start" });
     if (window.location.hash !== "#about") {
       window.history.replaceState(null, "", "#about");
     }
     return;
   }
-  const sectionId =
-    target === "resume" || target === "contact" ? "workspace" : target;
   document
-    .getElementById(sectionId)
+    .getElementById(target)
     ?.scrollIntoView({ behavior: "smooth", block: "start" });
   if (window.location.hash !== `#${target}`) {
     window.history.replaceState(null, "", `#${target}`);
@@ -59,22 +51,17 @@ export default function Navbar() {
   }, [menuOpen]);
 
   const handleAction = (target: NavTarget) => {
-    if (target === "contact") {
-      window.open(SITE_PROFILE.whatsappUrl, "_blank", "noopener,noreferrer");
-      setMenuOpen(false);
-      return;
-    }
-    if (target === "resume") {
-      const download = document.createElement("a");
-      download.href = SITE_PROFILE.resumeUrl;
-      download.download = SITE_PROFILE.resumeDownloadName;
-      document.body.appendChild(download);
-      download.click();
-      download.remove();
-      setMenuOpen(false);
-      return;
-    }
     navigateTo(target);
+    setMenuOpen(false);
+  };
+
+  const handleResumeClick = () => {
+    const download = document.createElement("a");
+    download.href = SITE_PROFILE.resumeUrl;
+    download.download = SITE_PROFILE.resumeDownloadName;
+    document.body.appendChild(download);
+    download.click();
+    download.remove();
     setMenuOpen(false);
   };
 
@@ -82,7 +69,7 @@ export default function Navbar() {
     <div className="portfolio-nav-shell">
       <header className="portfolio-nav" role="banner">
         <a
-          className="portfolio-brand"
+          className="portfolio-brand group"
           href="#top"
           aria-label="Deepak Kumar - Go to top of page"
           onClick={(e) => {
@@ -92,14 +79,12 @@ export default function Navbar() {
           }}
         >
           <span className="brand-mark" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-            <i />
+            <span className="brand-dot" />
           </span>
           <span className="brand-copy">
-            <strong>DEEPAK KUMAR</strong>
-            <small>PRODUCT / SYSTEMS</small>
+            <strong className="font-bebas text-lg tracking-wider text-white group-hover:text-[#e61924] transition-colors">
+              {SITE_PROFILE.name}
+            </strong>
           </span>
         </a>
 
@@ -108,49 +93,40 @@ export default function Navbar() {
             <a
               key={link.target}
               href={`#${link.target}`}
+              className="nav-link-item"
               onClick={(event) => {
                 event.preventDefault();
                 handleAction(link.target);
               }}
             >
-              {link.label}
+              <span className="nav-link-num">{link.number}</span>
+              <span className="nav-link-text">{link.label}</span>
             </a>
           ))}
         </nav>
 
-        <nav className="nav-actions" aria-label="Primary actions">
-          {actions.map((action, index) => (
-            <a
-              key={action.target}
-              className={`nav-action ${
-                index === actions.length - 1 ? "nav-action-primary" : ""
-              }`}
-              href={`#${action.target}`}
-              onClick={(event) => {
-                event.preventDefault();
-                handleAction(action.target);
-              }}
-            >
-              {action.label}
-              {index === actions.length - 1 && (
-                <span aria-hidden="true">↗</span>
-              )}
-            </a>
-          ))}
-        </nav>
+        <div className="nav-actions">
+          <button
+            type="button"
+            onClick={handleResumeClick}
+            className="nav-action-resume"
+          >
+            Resume <span aria-hidden="true">↗</span>
+          </button>
 
-        <button
-          ref={toggleBtnRef}
-          className={`nav-menu-toggle ${menuOpen ? "is-open" : ""}`}
-          type="button"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-nav-panel"
-        >
-          <span />
-          <span />
-        </button>
+          <button
+            ref={toggleBtnRef}
+            className={`nav-menu-toggle ${menuOpen ? "is-open" : ""}`}
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav-panel"
+          >
+            <span />
+            <span />
+          </button>
+        </div>
       </header>
 
       <div
@@ -162,25 +138,36 @@ export default function Navbar() {
         aria-label="Mobile Navigation"
       >
         <div className="nav-mobile-intro">
-          <span>01 / NAVIGATION</span>
-          <span>DEEPOS</span>
+          <span>NAVIGATION</span>
+          <span className="text-[#e61924]">DEEPUCODES</span>
         </div>
-        {[...links, ...actions].map((action, index) => (
+        {links.map((link) => (
           <a
-            key={action.target}
-            href={`#${action.target}`}
+            key={link.target}
+            href={`#${link.target}`}
             tabIndex={menuOpen ? 0 : -1}
             onClick={(event) => {
               event.preventDefault();
-              handleAction(action.target);
+              handleAction(link.target);
             }}
           >
-            <span>0{index + 1}</span>
-            {action.label}
+            <span>{link.number}</span>
+            {link.label}
             <b aria-hidden="true">↗</b>
           </a>
         ))}
+        <button
+          type="button"
+          tabIndex={menuOpen ? 0 : -1}
+          onClick={handleResumeClick}
+          className="mobile-resume-btn"
+        >
+          <span>04</span>
+          Resume PDF
+          <b aria-hidden="true">↗</b>
+        </button>
       </div>
     </div>
   );
 }
+
