@@ -15,26 +15,35 @@
 .nav-links a:hover { color: #fff; }
 .nav-status span { display: inline-block; width: 6px; height: 6px; margin-right: 8px; border-radius: 50%; background: #79d895; box-shadow: 0 0 12px #79d895; animation: nav-pulse 2s ease-in-out infinite; }
 .nav-actions { display: flex; align-items: center; gap: 7px; }
+.nav-status span { display: inline-block; width: 6px; height: 6px; margin-right: 8px; border-radius: 50%; background: #79d895; box-shadow: 0 0 12px #79d895; animation: nav-pulse 2s ease-in-out infinite; }
+.nav-actions { display: flex; align-items: center; gap: 7px; }
 .nav-action { display: inline-flex; align-items: center; gap: 9px; padding: 11px 15px; border: 1px solid rgba(255,255,255,.1); border-radius: 13px; color: rgba(244,240,232,.72); background: rgba(255,255,255,.045); font-size: 12px; text-decoration: none; transition: color .25s ease, border-color .25s ease, background .25s ease, transform .25s ease; }
 .nav-action:hover { border-color: rgba(255,255,255,.25); color: #fff; background: rgba(255,255,255,.1); transform: translateY(-2px); }
 .nav-action-primary { border-color: rgba(238,224,209,.7); color: #171617; background: #eee7de; font-weight: 600; }
 .nav-action-primary:hover { border-color: #fff; color: #111; background: #fff; }
 .nav-action-primary span { font-size: 15px; line-height: 0; }
 .nav-menu-toggle, .nav-mobile-panel { display: none; }
+.portfolio-brand:focus-visible, .nav-links a:focus-visible, .nav-action:focus-visible, .nav-menu-toggle:focus-visible, .nav-mobile-panel > a:focus-visible {
+  outline: 2px solid rgba(224, 91, 84, 0.8);
+  outline-offset: 2px;
+}
+body.nav-menu-open {
+  overflow: hidden !important;
+}
 @keyframes nav-pulse { 50% { opacity: .45; box-shadow: 0 0 4px #79d895; } }
 @media (max-width: 720px) {
   .portfolio-nav-shell { top: 14px; width: calc(100% - 28px); }
   .portfolio-nav { min-height: 58px; padding: 8px 9px 8px 13px; border-radius: 18px; }
   .brand-copy small, .nav-status, .nav-links, .nav-actions { display: none; }
   .brand-copy strong { font-size: 10px; }
-  .nav-menu-toggle { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,.12); border-radius: 12px; background: rgba(255,255,255,.06); cursor: pointer; }
-  .nav-menu-toggle span { display: block; width: 16px; height: 1px; margin: 0 auto; background: #f3eee7; transition: transform .25s ease; }
-  .nav-menu-toggle.is-open span:first-child { transform: translateY(3px) rotate(45deg); }
-  .nav-menu-toggle.is-open span:last-child { transform: translateY(-3px) rotate(-45deg); }
+  .nav-menu-toggle { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.12); border-radius: 12px; background: rgba(255,255,255,.06); cursor: pointer; }
+  .nav-menu-toggle span { display: block; width: 18px; height: 1.5px; margin: 0 auto; background: #f3eee7; transition: transform .25s ease; }
+  .nav-menu-toggle.is-open span:first-child { transform: translateY(3.5px) rotate(45deg); }
+  .nav-menu-toggle.is-open span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
   .nav-mobile-panel { display: block; position: absolute; top: 68px; left: 0; right: 0; padding: 18px 15px 15px; border: 1px solid rgba(255,255,255,.12); border-radius: 18px; background: rgba(13,13,14,.95); box-shadow: 0 25px 60px rgba(0,0,0,.45); opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity .25s ease, transform .25s ease; backdrop-filter: blur(20px); }
   .nav-mobile-panel.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
   .nav-mobile-intro { display: flex; justify-content: space-between; margin-bottom: 12px; color: rgba(244,240,232,.3); font: 8px ui-monospace, monospace; letter-spacing: .16em; }
-  .nav-mobile-panel > a { display: flex; align-items: center; gap: 14px; padding: 15px 4px; border-top: 1px solid rgba(255,255,255,.09); color: #f4f0e8; font-size: 18px; text-decoration: none; }
+  .nav-mobile-panel > a { display: flex; align-items: center; gap: 14px; min-height: 48px; padding: 15px 4px; border-top: 1px solid rgba(255,255,255,.09); color: #f4f0e8; font-size: 18px; text-decoration: none; }
   .nav-mobile-panel > a span { color: rgba(244,240,232,.3); font: 9px ui-monospace, monospace; }
   .nav-mobile-panel > a b { margin-left: auto; color: #df7771; font-weight: 400; }
 }

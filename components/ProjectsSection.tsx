@@ -16,38 +16,42 @@ export default function ProjectsSection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const rows = section.querySelectorAll("[data-project-row]");
-    const animations = Array.from(rows).map((row) =>
-      gsap.fromTo(
-        row,
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: row,
-            start: "top 80%",
-            end: "top 55%",
-            scrub: true,
-          },
-        }
-      )
-    );
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
 
-    return () => {
-      animations.forEach((animation) => {
-        animation.scrollTrigger?.kill();
-        animation.kill();
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      const rows = section.querySelectorAll("[data-project-row]");
+      rows.forEach((row) => {
+        gsap.fromTo(
+          row,
+          { y: 35, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: row,
+              start: "top 85%",
+              end: "top 60%",
+              scrub: 0.3,
+            },
+          }
+        );
       });
-    };
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
     <section
       id="projects"
       ref={sectionRef}
-      className="relative overflow-hidden border-t border-white/10 bg-transparent px-6 py-24 sm:px-10 md:px-14 lg:px-20"
+      className="relative overflow-hidden border-t border-white/10 bg-transparent px-6 py-20 sm:px-10 md:px-14 lg:px-20"
+      aria-label="Selected Projects"
     >
       <div className="relative mx-auto max-w-7xl">
         <div className="mb-16 text-center">
@@ -59,7 +63,7 @@ export default function ProjectsSection() {
           </h2>
         </div>
 
-        <div className="space-y-24 md:space-y-28">
+        <div className="space-y-20 md:space-y-28">
           {projects.map((project, index) => (
             <div key={project.id} data-project-row>
               <ProjectRow project={project} index={index} imageOnLeft />
@@ -70,3 +74,4 @@ export default function ProjectsSection() {
     </section>
   );
 }
+

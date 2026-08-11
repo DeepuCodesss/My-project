@@ -17,7 +17,8 @@
     "ogl": "^1.0.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "simplex-noise": "^4.0.3"
+    "simplex-noise": "^4.0.3",
+    "web-vitals": "^6.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",

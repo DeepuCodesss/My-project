@@ -191,7 +191,30 @@ body {
 @keyframes deepos-ambient-drift { from { transform: translate3d(-1%, -1%, 0) scale(1); } to { transform: translate3d(1%, 1%, 0) scale(1.04); } }
 @keyframes deepos-bridge { 0%, 100% { opacity: .2; transform: translate(-50%, 0) scaleY(.82); } 50% { opacity: .55; transform: translate(-50%, 12px) scaleY(1); } }
 @keyframes desktop-reflection { 0%, 65% { transform: translateX(-70%); opacity: 0; } 75% { opacity: 1; } 90%, 100% { transform: translateX(70%); opacity: 0; } }
-@media (max-width: 800px) { .deepos-section { min-height: 1100px; padding: 42px 12px 70px; }.deepos-intro { width: 92vw; margin-bottom: 14px; padding-left: 8px; }.deepos-intro h1 { margin-top: 32px; }.deepos-intro h1::before { font-size: clamp(48px, 14vw, 76px); }.deepos-intro h1::after { margin: 8px 0 0 16px; font-size: clamp(44px, 13vw, 70px); }.deepos-intro p { margin: 24px 0 0 16px; font-size: 16px; }.monitor-shell { padding: 12px; border-radius: 23px; }.monitor-screen { min-height: 650px; border-radius: 15px; }.desktop-icons { top: 75px; left: 15px; grid-template-columns: repeat(2, 76px); gap: 22px 15px; }.desktop-icon { width: 76px; font-size: 8px; }.icon-tile { width: 46px; height: 46px; }.icon-tile img { width: 35px; height: 35px; }.desktop-top, .desktop-footer { left: 15px; right: 15px; }.desktop-state, .cursor-hint { display: none; }.deep-window { top: 55px; left: 8px; width: calc(100% - 16px); min-height: 500px; transform: none; }.window-content { padding: 19px; }.project-grid, .automation-stage, .architecture, .terminal-view, .resume-view { grid-template-columns: 1fr; }.project-card { min-height: 205px; }.deepos-caption { width: 94vw; font-size: 9px; }.deepos-caption span:last-child { display: none; }.resume-paper { min-height: 280px; }.desktop-footer-right { font-size: 9px; } }
+@media (max-width: 800px) {
+  .deepos-section { min-height: 1000px; padding: 32px 8px 60px; }
+  .deepos-intro { width: 94vw; margin-bottom: 14px; padding-left: 4px; }
+  .deepos-intro h1 { margin-top: 24px; }
+  .deepos-intro h1::before { font-size: clamp(40px, 12vw, 68px); }
+  .deepos-intro h1::after { margin: 6px 0 0 12px; font-size: clamp(38px, 11vw, 62px); }
+  .deepos-intro p { margin: 18px 0 0 12px; font-size: 15px; }
+  .monitor-shell { padding: 8px; border-radius: 20px; }
+  .monitor-screen { min-height: 580px; border-radius: 14px; }
+  .desktop-icons { top: 60px; left: 12px; grid-template-columns: repeat(2, 72px); gap: 18px 12px; }
+  .desktop-icon { width: 72px; font-size: 8px; }
+  .icon-tile { width: 44px; height: 44px; }
+  .icon-tile img { width: 32px; height: 32px; }
+  .desktop-top, .desktop-footer { left: 12px; right: 12px; }
+  .desktop-state, .cursor-hint { display: none; }
+  .deep-window { top: 40px; bottom: 44px; left: 4px; right: 4px; width: auto; min-height: 0; transform: none !important; border-radius: 14px; }
+  .window-content { max-height: calc(100% - 45px); padding: 14px; }
+  .project-grid, .automation-stage, .architecture, .terminal-view, .resume-view { grid-template-columns: 1fr; }
+  .project-card { min-height: 180px; }
+  .deepos-caption { width: 94vw; font-size: 9px; }
+  .deepos-caption span:last-child { display: none; }
+  .resume-paper { min-height: 250px; padding: 16px; }
+  .desktop-footer-right { font-size: 9px; }
+}
 
 /* ── Current Focus Section ─────────────────────── */
 

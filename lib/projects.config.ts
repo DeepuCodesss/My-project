@@ -16,6 +16,20 @@ export type Project = {
   mockDomain: string;
 };
 
+export const SITE_PROFILE = {
+  name: "Deepak Kumar",
+  role: "Product Engineer",
+  subtitles: ["Full-Stack Developer", "AI Systems Builder", "Systems Thinker"],
+  headline: "Product Engineer building full-stack products, AI systems, and thoughtful digital experiences.",
+  email: "deepakmangal94164@gmail.com",
+  whatsappUrl: "https://wa.me/919350432714?text=Hi%20Deepak%2C%0A%0AI%20found%20your%20portfolio%20and%20I%27m%20interested%20in%20discussing%20a%20project%20with%20you.",
+  githubUrl: "https://github.com/DeepuCodesss/",
+  linkedinUrl: "https://www.linkedin.com/in/deeepucodes/",
+  resumeUrl: "/resume.pdf",
+  resumeDownloadName: "Deepak-Kumar-Resume.pdf",
+  canonicalUrl: "https://deepak-kumar.dev",
+};
+
 export const projects: Project[] = [
   {
     id: "nexorithm",
@@ -25,7 +39,7 @@ export const projects: Project[] = [
       "Nexorithm is India's first skill-reward coding platform, designed to make practice feel motivating. The platform rewards users for solving even very easy questions, helping them build consistency, climb rankings, and keep coming back to solve more.",
     tags: ["React", "Next.js", "Tailwind"],
     screenshotUrl: "/projects/NEXORITHM.png",
-    videoUrl: "/Video/nexorithm.mp4",
+    videoUrl: "/video/nexorithm.mp4",
     width: 1920,
     height: 869,
     liveUrl: "https://nexorithm.dev",
@@ -42,7 +56,7 @@ export const projects: Project[] = [
       "Live Attack Detection Dashboard & Neural Cyber Defense. AURIX focuses on real-time threat visibility, intelligent detection, and a clean dashboard experience for monitoring active security signals.",
     tags: ["Next.js", "AI", "Cybersecurity"],
     screenshotUrl: "/projects/AURIX.png",
-    videoUrl: "/Video/aurix.mp4",
+    videoUrl: "/video/aurix.mp4",
     width: 1920,
     height: 920,
     liveUrl: "https://aurix-sepia.vercel.app/",
@@ -58,7 +72,7 @@ export const projects: Project[] = [
       "A pure-skills gambling experience designed for mobile-first play. Legit Club is a special project focused on a fast, direct interface and a phone-native presentation.",
     tags: ["Mobile", "UI", "Gaming"],
     screenshotUrl: "/projects/legitclub.png",
-    videoUrl: "/Video/legitclub.mp4",
+    videoUrl: "/video/legitclub.mp4",
     width: 1080,
     height: 2400,
     liveUrl: "https://legitclub.xyz",
@@ -68,3 +82,4 @@ export const projects: Project[] = [
     mockDomain: "legitclub.xyz",
   },
 ];
+

@@ -17,12 +17,13 @@ export default function ProjectRow({
   const [previewEnabled, setPreviewEnabled] = useState(false);
   const [previewReady, setPreviewReady] = useState(false);
   const [previewFailed, setPreviewFailed] = useState(false);
-  const [videoInView, setVideoInView] = useState(false);
+
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const mediaRef = useRef<HTMLDivElement | null>(null);
   const loadTimerRef = useRef<number | null>(null);
   const reverse = imageOnLeft ? index % 2 === 0 : index % 2 === 1;
 
+  // Video IntersectionObserver: control playback without resetting src
   useEffect(() => {
     const media = mediaRef.current;
     const video = videoRef.current;
@@ -32,15 +33,18 @@ export default function ProjectRow({
       (entries) => {
         const [entry] = entries;
         const inView = Boolean(entry?.isIntersecting);
-        setVideoInView(inView);
 
-        if (!inView) {
+        if (inView) {
+          video.play().catch(() => {
+            // Muted video playback fallback
+          });
+        } else {
           video.pause();
         }
       },
       {
-        rootMargin: "220px 0px",
-        threshold: 0.15,
+        rootMargin: "150px 0px",
+        threshold: 0.1,
       }
     );
 
@@ -53,13 +57,6 @@ export default function ProjectRow({
       }
     };
   }, [project.videoUrl]);
-
-  useEffect(() => {
-    if (!videoInView || !videoRef.current) return;
-    videoRef.current.play().catch(() => {
-      // Autoplay can still be blocked in some browsers; muted helps, but we fail gracefully.
-    });
-  }, [videoInView]);
 
   const canPreview = Boolean(project.allowLivePreview && project.livePreviewUrl);
   const isPhoneMockup = project.mockupVariant === "phone";
@@ -75,12 +72,12 @@ export default function ProjectRow({
       setPreviewFailed(true);
       setPreviewEnabled(false);
       setPreviewReady(false);
-    }, 5000);
+    }, 6000);
   };
 
   return (
     <article
-      className={`group grid items-center gap-8 md:gap-12 lg:grid-cols-2 -translate-y-3 ${
+      className={`group grid items-center gap-8 md:gap-12 lg:grid-cols-2 ${
         reverse ? "lg:[&>*:first-child]:order-2 lg:[&>*:last-child]:order-1" : ""
       }`}
     >
@@ -91,36 +88,36 @@ export default function ProjectRow({
         <h3 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">
           {project.title}
         </h3>
-        <p className="mt-5 text-base leading-8 text-white/68 sm:text-lg">
+        <p className="mt-5 text-base leading-8 text-white/70 sm:text-lg">
           {project.description}
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap gap-2.5" aria-label="Technologies used">
           {project.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-cyan-300/15 bg-white/5 px-4 py-2 text-sm text-cyan-100/90"
+              className="rounded-full border border-cyan-300/15 bg-white/5 px-4 py-1.5 text-xs font-medium text-cyan-100/90"
             >
               {tag}
             </span>
           ))}
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap items-center gap-3">
           <a
             href={project.liveUrl}
             target="_blank"
             rel="noreferrer"
-            className="rounded-full bg-white px-5 py-3 text-sm font-medium text-[#0a0a0f] transition-transform duration-200 hover:-translate-y-0.5"
+            className="inline-flex min-h-[44px] items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-[#0a0a0f] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(255,255,255,0.3)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
           >
-            Visit Site
+            Visit Site <span className="ml-1.5" aria-hidden="true">↗</span>
           </a>
           {project.repoUrl && (
             <a
               href={project.repoUrl}
               target="_blank"
               rel="noreferrer"
-              className="rounded-full border border-white/12 bg-white/5 px-5 py-3 text-sm font-medium text-white/85 transition-colors hover:bg-white/10"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white/85 transition-all duration-200 hover:bg-white/10 hover:border-white/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
             >
               View Repository
             </a>
@@ -128,16 +125,21 @@ export default function ProjectRow({
         </div>
       </div>
 
-      <div ref={mediaRef} className={`relative ${isPhoneMockup ? "scale-[1.02]" : "scale-[1.015]"}`}>
-        <div className="absolute -inset-6 rounded-[2.2rem] bg-cyan-300/20 blur-3xl opacity-100" />
+      <div
+        ref={mediaRef}
+        className={`relative ${
+          isPhoneMockup ? "mx-auto w-full max-w-[340px] sm:max-w-[360px]" : "w-full max-w-[860px]"
+        }`}
+      >
+        <div className="absolute -inset-4 rounded-[2.2rem] bg-cyan-300/15 blur-3xl opacity-75 pointer-events-none" />
         <div
-          className={`relative w-full ${
-            isPhoneMockup ? "max-w-[360px]" : "max-w-[860px]"
-          } rounded-[2rem] border border-cyan-200/40 bg-[linear-gradient(180deg,rgba(18,18,24,0.96),rgba(10,10,15,0.98))] p-4 shadow-[0_34px_130px_rgba(0,0,0,0.85)] -translate-y-2 rotate-[-1.2deg]`}
+          className={`relative w-full rounded-[2rem] border border-cyan-200/30 bg-[linear-gradient(180deg,rgba(18,18,24,0.96),rgba(10,10,15,0.98))] p-3.5 sm:p-4 shadow-[0_34px_120px_rgba(0,0,0,0.85)] ${
+            isPhoneMockup ? "" : "rotate-[-0.8deg]"
+          }`}
         >
           <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0b0b10]">
             {isPhoneMockup ? (
-              <div className="flex h-14 flex-none items-center justify-center border-b border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] px-4">
+              <div className="flex h-12 flex-none items-center justify-center border-b border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] px-4">
                 <div className="relative flex w-full items-center justify-center">
                   <div className="absolute left-0 h-2.5 w-2.5 rounded-full bg-white/70" />
                   <div className="rounded-full border border-white/10 bg-black/50 px-4 py-1 text-[10px] text-white/55">
@@ -147,13 +149,13 @@ export default function ProjectRow({
                 </div>
               </div>
             ) : (
-              <div className="flex h-12 flex-none items-center gap-3 border-b border-white/10 px-4">
+              <div className="flex h-11 flex-none items-center gap-3 border-b border-white/10 px-4">
                 <div className="flex items-center gap-2">
                   <span className="h-3 w-3 rounded-full bg-red-400/80" />
                   <span className="h-3 w-3 rounded-full bg-amber-300/80" />
                   <span className="h-3 w-3 rounded-full bg-emerald-300/80" />
                 </div>
-                <div className="flex-1 rounded-full border border-white/10 bg-black/40 px-4 py-2 text-xs text-white/45">
+                <div className="flex-1 rounded-full border border-white/10 bg-black/40 px-4 py-1.5 text-xs text-white/45">
                   {project.mockDomain}
                 </div>
               </div>
@@ -163,20 +165,18 @@ export default function ProjectRow({
               className={`relative min-h-0 flex-1 overflow-hidden bg-[#0d1016] ${
                 isPhoneMockup ? "aspect-[528/907]" : "aspect-[21/10]"
               }`}
-              onTouchStart={startPreview}
-              onClick={startPreview}
+              onClick={canPreview ? startPreview : undefined}
               role={canPreview ? "button" : undefined}
               tabIndex={canPreview ? 0 : -1}
+              aria-label={canPreview ? `Click to launch interactive preview of ${project.title}` : undefined}
             >
               {project.videoUrl ? (
                 <>
                   <video
                     ref={videoRef}
-                    src={videoInView ? project.videoUrl : undefined}
-                    poster={videoInView ? project.screenshotUrl : undefined}
-                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
-                      videoInView ? "opacity-100" : "opacity-85"
-                    }`}
+                    src={project.videoUrl}
+                    poster={project.screenshotUrl}
+                    className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
                     muted
                     loop
                     playsInline
@@ -192,6 +192,8 @@ export default function ProjectRow({
                     alt={`${project.title} screenshot`}
                     loading="lazy"
                     decoding="async"
+                    width={project.width}
+                    height={project.height}
                     className={`absolute inset-0 h-full w-full object-cover object-top transition-all duration-300 ${
                       previewEnabled && previewReady && !previewFailed
                         ? "opacity-0"
@@ -206,6 +208,7 @@ export default function ProjectRow({
                         previewReady ? "opacity-100" : "opacity-0"
                       }`}
                       loading="lazy"
+                      sandbox="allow-scripts allow-same-origin"
                       onLoad={() => {
                         if (loadTimerRef.current) {
                           window.clearTimeout(loadTimerRef.current);
@@ -223,7 +226,6 @@ export default function ProjectRow({
                     />
                   ) : null}
                   <div className="pointer-events-none absolute inset-0 rounded-[2rem] border border-cyan-200/20 bg-[radial-gradient(circle_at_50%_15%,rgba(0,255,255,0.08),transparent_28%)]" />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 </>
               ) : (
                 <>
@@ -232,7 +234,9 @@ export default function ProjectRow({
                     alt={`${project.title} screenshot`}
                     loading="lazy"
                     decoding="async"
-                    className={`absolute inset-0 h-full w-full object-cover object-left-top scale-[1.08] brightness-110 transition-all duration-300 ${
+                    width={project.width}
+                    height={project.height}
+                    className={`absolute inset-0 h-full w-full object-cover object-left-top scale-[1.04] brightness-105 transition-all duration-300 ${
                       previewEnabled && previewReady && !previewFailed ? "opacity-0" : "opacity-100"
                     }`}
                   />
@@ -245,6 +249,7 @@ export default function ProjectRow({
                         previewReady ? "opacity-100" : "opacity-0"
                       }`}
                       loading="lazy"
+                      sandbox="allow-scripts allow-same-origin"
                       onLoad={() => {
                         if (loadTimerRef.current) {
                           window.clearTimeout(loadTimerRef.current);
@@ -261,7 +266,6 @@ export default function ProjectRow({
                       }}
                     />
                   ) : null}
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 </>
               )}
             </div>
