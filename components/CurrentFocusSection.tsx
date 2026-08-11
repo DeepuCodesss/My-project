@@ -13,7 +13,7 @@ interface FocusItem {
 const focusItems: FocusItem[] = [
   {
     number: "01",
-    iconSrc: "/assets/icons/focus/system-design.png",
+    iconSrc: "/assets/icons/focus/system-design.webp",
     title: "SYSTEM DESIGN",
     subtitle: "SCALABLE ARCHITECTURE",
     description:
@@ -21,7 +21,7 @@ const focusItems: FocusItem[] = [
   },
   {
     number: "02",
-    iconSrc: "/assets/icons/focus/product-building.png",
+    iconSrc: "/assets/icons/focus/product-building.webp",
     title: "PRODUCT BUILDING",
     subtitle: "END-TO-END SHIPPER",
     description:
@@ -29,7 +29,7 @@ const focusItems: FocusItem[] = [
   },
   {
     number: "03",
-    iconSrc: "/assets/icons/focus/ai-integrations.png",
+    iconSrc: "/assets/icons/focus/ai-integrations.webp",
     title: "AI INTEGRATIONS",
     subtitle: "INTELLIGENT SYSTEMS",
     description:
@@ -37,7 +37,7 @@ const focusItems: FocusItem[] = [
   },
   {
     number: "04",
-    iconSrc: "/assets/icons/focus/open-source.png",
+    iconSrc: "/assets/icons/focus/open-source.webp",
     title: "OPEN SOURCE",
     subtitle: "DEVELOPER ECOSYSTEM",
     description:

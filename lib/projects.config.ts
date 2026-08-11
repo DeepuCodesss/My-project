@@ -38,7 +38,7 @@ export const projects: Project[] = [
     description:
       "Nexorithm is India's first skill-reward coding platform, designed to make practice feel motivating. The platform rewards users for solving even very easy questions, helping them build consistency, climb rankings, and keep coming back to solve more.",
     tags: ["React", "Next.js", "Tailwind"],
-    screenshotUrl: "/projects/NEXORITHM.png",
+    screenshotUrl: "/projects/NEXORITHM.webp",
     videoUrl: "/video/nexorithm.mp4",
     width: 1920,
     height: 869,
@@ -55,7 +55,7 @@ export const projects: Project[] = [
     description:
       "Live Attack Detection Dashboard & Neural Cyber Defense. AURIX focuses on real-time threat visibility, intelligent detection, and a clean dashboard experience for monitoring active security signals.",
     tags: ["Next.js", "AI", "Cybersecurity"],
-    screenshotUrl: "/projects/AURIX.png",
+    screenshotUrl: "/projects/AURIX.webp",
     videoUrl: "/video/aurix.mp4",
     width: 1920,
     height: 920,
@@ -71,7 +71,7 @@ export const projects: Project[] = [
     description:
       "A pure-skills gambling experience designed for mobile-first play. Legit Club is a special project focused on a fast, direct interface and a phone-native presentation.",
     tags: ["Mobile", "UI", "Gaming"],
-    screenshotUrl: "/projects/legitclub.png",
+    screenshotUrl: "/projects/legitclub.webp",
     videoUrl: "/video/legitclub.mp4",
     width: 1080,
     height: 2400,

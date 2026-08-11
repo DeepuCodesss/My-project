@@ -43,10 +43,10 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="relative overflow-hidden border-t border-red-950/40 bg-[#040203] px-6 py-28 sm:px-10 md:px-14 lg:px-20 text-[#f4f0e8]" aria-label="Contact section">
-      {/* ── Reusable Atmosphere Texture Background ──────────── */}
+      {/* ── Reusable Atmosphere Texture Background (Optimized WebP) ──────────── */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-10">
         <img
-          src="/assets/atmosphere/section-texture.png"
+          src="/assets/atmosphere/section-texture.webp"
           alt=""
           role="presentation"
           decoding="async"

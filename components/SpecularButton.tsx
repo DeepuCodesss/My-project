@@ -70,9 +70,17 @@ export default function SpecularButton({
     const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
     effect.appendChild(gl.canvas);
 
+    let boxCenter = { x: 0, y: 0, w: 0, h: 0 };
+
     const resize = () => {
       if (!button || !renderer) return;
       const box = button.getBoundingClientRect();
+      boxCenter = {
+        x: box.left + box.width / 2,
+        y: box.top + box.height / 2,
+        w: box.width,
+        h: box.height,
+      };
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       renderer.setSize(box.width + 40, box.height + 40);
       program.uniforms.center.value = [
@@ -97,20 +105,19 @@ export default function SpecularButton({
 
     const move = (event: PointerEvent) => {
       if (!visible || !button) return;
-      const box = button.getBoundingClientRect();
-      const dx = event.clientX - (box.left + box.width / 2);
-      const dy = event.clientY - (box.top + box.height / 2);
+      const dx = event.clientX - boxCenter.x;
+      const dy = event.clientY - boxCenter.y;
       pointerAngle = Math.atan2(-dy, dx);
       const distance = Math.hypot(
-        Math.max(Math.abs(dx) - box.width / 2, 0),
-        Math.max(Math.abs(dy) - box.height / 2, 0)
+        Math.max(Math.abs(dx) - boxCenter.w / 2, 0),
+        Math.max(Math.abs(dy) - boxCenter.h / 2, 0)
       );
       brightness = Math.max(0, 1 - distance / 250);
     };
 
     const hasHover = window.matchMedia("(hover: hover)").matches;
     if (hasHover) {
-      window.addEventListener("pointermove", move);
+      button.addEventListener("pointermove", move, { passive: true });
     }
 
     const render = (now: number) => {
@@ -157,7 +164,7 @@ export default function SpecularButton({
       stop();
       resizeObserver.disconnect();
       visibilityObserver.disconnect();
-      if (hasHover) window.removeEventListener("pointermove", move);
+      if (hasHover) button.removeEventListener("pointermove", move);
       if (gl && gl.canvas && gl.canvas.parentNode === effect) {
         effect.removeChild(gl.canvas);
       }

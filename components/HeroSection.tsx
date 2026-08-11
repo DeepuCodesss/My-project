@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { SITE_PROFILE } from "@/lib/projects.config";
 
 export default function HeroSection() {
   const heroRef = useRef<HTMLElement | null>(null);
   const characterRef = useRef<HTMLDivElement | null>(null);
-  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -34,8 +33,11 @@ export default function HeroSection() {
     }
   }, []);
 
-  // Subtle mouse parallax effect on desktop fine pointer devices
+  // High-performance direct DOM transform mouse parallax — 0 React state re-renders
   useEffect(() => {
+    const character = characterRef.current;
+    if (!character) return;
+
     const hasFinePointer = window.matchMedia(
       "(hover: hover) and (pointer: fine)"
     ).matches;
@@ -45,22 +47,26 @@ export default function HeroSection() {
 
     if (!hasFinePointer || prefersReducedMotion) return;
 
-    let rafId: number;
+    let rafId: number = 0;
+    let targetX = 0;
+    let targetY = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const { innerWidth, innerHeight } = window;
-      const x = (e.clientX / innerWidth - 0.5) * 12;
-      const y = (e.clientY / innerHeight - 0.5) * 12;
+      targetX = (e.clientX / window.innerWidth - 0.5) * 12;
+      targetY = (e.clientY / window.innerHeight - 0.5) * 12;
 
-      rafId = requestAnimationFrame(() => {
-        setMouseOffset({ x, y });
-      });
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          character.style.transform = `translate3d(${targetX.toFixed(2)}px, ${targetY.toFixed(2)}px, 0)`;
+          rafId = 0;
+        });
+      }
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      cancelAnimationFrame(rafId);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -87,9 +93,9 @@ export default function HeroSection() {
     >
       {/* ── Background Decorative Layer System (Overflow Clipped) ──── */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* Red textured background image asset */}
+        {/* Red textured background image asset (Optimized WebP) */}
         <img
-          src="/assets/hero/background.png"
+          src="/assets/hero/background.webp"
           alt=""
           role="presentation"
           fetchPriority="high"
@@ -112,20 +118,17 @@ export default function HeroSection() {
         </span>
       </div>
 
-      {/* ── Center Character Cutout Asset ───────────────── */}
+      {/* ── Center Character Cutout Asset (Optimized WebP) ───────────────── */}
       <div
         ref={characterRef}
-        style={{
-          transform: `translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
-          transition: "transform 0.15s ease-out",
-        }}
+        style={{ transition: "transform 0.15s ease-out" }}
         className="absolute inset-0 z-[2] flex items-end justify-center pointer-events-none overflow-hidden"
       >
         {/* Soft radial glow behind character cutout */}
         <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[450px] h-[450px] rounded-full bg-[#e61924]/25 blur-[90px] pointer-events-none" />
 
         <img
-          src="/assets/hero/character.png"
+          src="/assets/hero/character.webp"
           alt="Deepak Kumar - Full Stack Developer"
           fetchPriority="high"
           decoding="async"

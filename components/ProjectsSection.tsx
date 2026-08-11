@@ -55,10 +55,10 @@ export default function ProjectsSection() {
       className="relative isolate border-t border-red-950/40 bg-[#040203] px-6 py-24 sm:px-10 md:px-14 lg:px-20 text-[#f4f0e8]"
       aria-label="Selected Projects"
     >
-      {/* ── Layer 1: Reusable Section Texture Overlay (Visually Noticeable Opacity) ───── */}
+      {/* ── Layer 1: Reusable Section Texture Overlay (Optimized WebP) ───── */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20 mix-blend-screen">
         <img
-          src="/assets/atmosphere/section-texture.png"
+          src="/assets/atmosphere/section-texture.webp"
           alt=""
           role="presentation"
           decoding="async"
@@ -66,10 +66,10 @@ export default function ProjectsSection() {
         />
       </div>
 
-      {/* ── Layer 2: Reusable Glow Overlay Atmosphere ────────────────── */}
+      {/* ── Layer 2: Reusable Glow Overlay Atmosphere (Optimized WebP) ────────────────── */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-[0.22] mix-blend-screen">
         <img
-          src="/assets/atmosphere/glow-overlay.png"
+          src="/assets/atmosphere/glow-overlay.webp"
           alt=""
           role="presentation"
           decoding="async"
