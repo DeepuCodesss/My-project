@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code2, Box, Cpu, Sparkles } from "lucide-react";
 
 interface FocusItem {
   number: string;
-  icon: React.ReactNode;
+  iconSrc: string;
   title: string;
   subtitle: string;
   description: string;
@@ -14,7 +13,7 @@ interface FocusItem {
 const focusItems: FocusItem[] = [
   {
     number: "01",
-    icon: <Code2 className="h-6 w-6 text-[#e61924]" />,
+    iconSrc: "/assets/icons/focus/system-design.png",
     title: "SYSTEM DESIGN",
     subtitle: "SCALABLE ARCHITECTURE",
     description:
@@ -22,7 +21,7 @@ const focusItems: FocusItem[] = [
   },
   {
     number: "02",
-    icon: <Box className="h-6 w-6 text-[#e61924]" />,
+    iconSrc: "/assets/icons/focus/product-building.png",
     title: "PRODUCT BUILDING",
     subtitle: "END-TO-END SHIPPER",
     description:
@@ -30,7 +29,7 @@ const focusItems: FocusItem[] = [
   },
   {
     number: "03",
-    icon: <Cpu className="h-6 w-6 text-[#e61924]" />,
+    iconSrc: "/assets/icons/focus/ai-integrations.png",
     title: "AI INTEGRATIONS",
     subtitle: "INTELLIGENT SYSTEMS",
     description:
@@ -38,7 +37,7 @@ const focusItems: FocusItem[] = [
   },
   {
     number: "04",
-    icon: <Sparkles className="h-6 w-6 text-[#e61924]" />,
+    iconSrc: "/assets/icons/focus/open-source.png",
     title: "OPEN SOURCE",
     subtitle: "DEVELOPER ECOSYSTEM",
     description:
@@ -49,10 +48,20 @@ const focusItems: FocusItem[] = [
 export default function CurrentFocusSection() {
   return (
     <section className="relative overflow-hidden border-t border-red-950/40 bg-[#040203] px-6 py-28 sm:px-10 md:px-14 lg:px-20">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[#e61924]/10 blur-[140px] pointer-events-none" />
+      {/* ── Reusable Atmosphere Texture & Glow Overlays ───── */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-12">
+        <img
+          src="/assets/atmosphere/section-texture.png"
+          alt=""
+          role="presentation"
+          decoding="async"
+          className="h-full w-full object-cover object-center filter contrast-125 brightness-75"
+        />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] rounded-full bg-[#e61924]/12 blur-[150px] pointer-events-none z-0" />
+
+      <div className="relative mx-auto max-w-7xl z-10">
         {/* ── Section Header ───────────────────────────────────────── */}
         <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
@@ -76,7 +85,7 @@ export default function CurrentFocusSection() {
           </div>
         </div>
 
-        {/* ── Grid of Brutal Focus Cards ────────────────────────────── */}
+        {/* ── Grid of Brutal Focus Cards with Custom PNG Icons ─────── */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {focusItems.map((item, index) => (
             <motion.div
@@ -93,10 +102,15 @@ export default function CurrentFocusSection() {
               className="group relative flex flex-col justify-between rounded-2xl border border-red-900/30 bg-[#0c0507]/90 p-7 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-300 hover:border-red-600/60 hover:shadow-[0_0_35px_rgba(230,25,36,0.2)]"
             >
               <div>
-                {/* Header row with icon & number */}
+                {/* Header row with custom PNG icon well & number */}
                 <div className="flex items-center justify-between mb-8">
-                  <div className="grid h-12 w-12 place-items-center rounded-xl border border-red-900/40 bg-red-950/20 group-hover:border-[#e61924] transition-colors">
-                    {item.icon}
+                  <div className="grid h-14 w-14 place-items-center rounded-xl border border-red-900/40 bg-black/60 p-2.5 group-hover:border-[#e61924] transition-colors shadow-inner">
+                    <img
+                      src={item.iconSrc}
+                      alt=""
+                      aria-hidden="true"
+                      className="h-full w-full object-contain filter drop-shadow-[0_0_8px_rgba(230,25,36,0.5)]"
+                    />
                   </div>
                   <span className="font-mono text-sm font-bold text-[#e61924]/60 group-hover:text-[#e61924] transition-colors">
                     {item.number}
@@ -126,4 +140,5 @@ export default function CurrentFocusSection() {
     </section>
   );
 }
+
 

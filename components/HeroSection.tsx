@@ -139,33 +139,52 @@ export default function HeroSection() {
         <span>BASED IN INDIA</span>
       </div>
 
-      <div className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-20 pointer-events-auto flex-col items-center gap-5 text-xs text-white/50">
+      {/* ── Vertical Social Rail (Desktop Only) ──────────────── */}
+      <div className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-20 pointer-events-auto flex-col items-center gap-4 text-white/60">
         <a
           href={SITE_PROFILE.linkedinUrl}
           target="_blank"
           rel="noreferrer"
-          className="hover:text-[#e61924] transition-colors"
-          aria-label="LinkedIn"
+          className="group flex h-10 w-10 items-center justify-center rounded-xl bg-black/60 border border-red-900/30 backdrop-blur-md transition-all duration-200 hover:border-[#e61924] hover:bg-red-950/40 hover:-translate-x-0.5 hover:shadow-[0_0_15px_rgba(230,25,36,0.4)]"
+          aria-label="Open Deepak Kumar on LinkedIn"
+          title="LinkedIn Profile"
         >
-          in
+          <img
+            src="/assets/icons/social/linkedin.svg"
+            alt=""
+            aria-hidden="true"
+            className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity filter invert"
+          />
         </a>
         <a
           href={SITE_PROFILE.githubUrl}
           target="_blank"
           rel="noreferrer"
-          className="hover:text-[#e61924] transition-colors"
-          aria-label="GitHub"
+          className="group flex h-10 w-10 items-center justify-center rounded-xl bg-black/60 border border-red-900/30 backdrop-blur-md transition-all duration-200 hover:border-[#e61924] hover:bg-red-950/40 hover:-translate-x-0.5 hover:shadow-[0_0_15px_rgba(230,25,36,0.4)]"
+          aria-label="Open Deepak Kumar on GitHub"
+          title="GitHub Profile"
         >
-          gh
+          <img
+            src="/assets/icons/social/github.svg"
+            alt=""
+            aria-hidden="true"
+            className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity filter invert"
+          />
         </a>
         <a
           href={`mailto:${SITE_PROFILE.email}`}
-          className="hover:text-[#e61924] transition-colors"
-          aria-label="Email"
+          className="group flex h-10 w-10 items-center justify-center rounded-xl bg-black/60 border border-red-900/30 backdrop-blur-md transition-all duration-200 hover:border-[#e61924] hover:bg-red-950/40 hover:-translate-x-0.5 hover:shadow-[0_0_15px_rgba(230,25,36,0.4)]"
+          aria-label="Send Email to Deepak Kumar"
+          title="Email Deepak Kumar"
         >
-          mail
+          <img
+            src="/assets/icons/social/gmail.svg"
+            alt=""
+            aria-hidden="true"
+            className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity"
+          />
         </a>
-        <span className="h-10 w-px bg-white/20 mt-1" />
+        <span className="h-10 w-px bg-red-900/40 mt-1" />
       </div>
 
       {/* ── Main Hero Content Stack ─────────────────────── */}
@@ -193,7 +212,7 @@ export default function HeroSection() {
             I build the things you imagine.
           </p>
 
-          {/* CTA Action Buttons */}
+          {/* CTA Action Buttons & Mobile Social Icons Row */}
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <a
               href="#projects"
@@ -209,6 +228,35 @@ export default function HeroSection() {
             >
               Contact Me
             </a>
+
+            {/* Mobile Horizontal Social Bar */}
+            <div className="flex lg:hidden items-center gap-3 ml-2">
+              <a
+                href={SITE_PROFILE.linkedinUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="flex h-11 w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
+                aria-label="Open Deepak Kumar on LinkedIn"
+              >
+                <img src="/assets/icons/social/linkedin.svg" alt="" className="h-5 w-5 filter invert" />
+              </a>
+              <a
+                href={SITE_PROFILE.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="flex h-11 w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
+                aria-label="Open Deepak Kumar on GitHub"
+              >
+                <img src="/assets/icons/social/github.svg" alt="" className="h-5 w-5 filter invert" />
+              </a>
+              <a
+                href={`mailto:${SITE_PROFILE.email}`}
+                className="flex h-11 w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
+                aria-label="Send Email to Deepak Kumar"
+              >
+                <img src="/assets/icons/social/gmail.svg" alt="" className="h-5 w-5" />
+              </a>
+            </div>
           </div>
         </div>
 

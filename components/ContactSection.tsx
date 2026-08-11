@@ -1,15 +1,39 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, CircleUserRound, Code2, Download, Mail, Heart, Music } from "lucide-react";
+import { ArrowUpRight, Download, Heart, Music } from "lucide-react";
 import { useState } from "react";
 import { SITE_PROFILE } from "@/lib/projects.config";
 
 const contacts = [
-  { label: "Email", value: SITE_PROFILE.email, href: `mailto:${SITE_PROFILE.email}`, icon: Mail },
-  { label: "LinkedIn", value: "linkedin.com/in/deeepucodes", href: SITE_PROFILE.linkedinUrl, icon: CircleUserRound, external: true },
-  { label: "GitHub", value: "github.com/DeepuCodesss", href: SITE_PROFILE.githubUrl, icon: Code2, external: true },
-  { label: "Resume", value: "Download PDF", href: SITE_PROFILE.resumeUrl, icon: Download, download: SITE_PROFILE.resumeDownloadName },
+  {
+    label: "Email",
+    value: SITE_PROFILE.email,
+    href: `mailto:${SITE_PROFILE.email}`,
+    iconSrc: "/assets/icons/social/gmail.svg",
+    external: false,
+  },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/deeepucodes",
+    href: SITE_PROFILE.linkedinUrl,
+    iconSrc: "/assets/icons/social/linkedin.svg",
+    external: true,
+  },
+  {
+    label: "GitHub",
+    value: "github.com/DeepuCodesss",
+    href: SITE_PROFILE.githubUrl,
+    iconSrc: "/assets/icons/social/github.svg",
+    external: true,
+  },
+  {
+    label: "Resume",
+    value: "Download PDF",
+    href: SITE_PROFILE.resumeUrl,
+    download: SITE_PROFILE.resumeDownloadName,
+    isDownload: true,
+  },
 ];
 
 const tech = ["Next.js", "React", "TypeScript", "Node.js", "AI Automations", "TailwindCSS", "Framer Motion", "GSAP"];
@@ -19,10 +43,21 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="relative overflow-hidden border-t border-red-950/40 bg-[#040203] px-6 py-28 sm:px-10 md:px-14 lg:px-20 text-[#f4f0e8]" aria-label="Contact section">
-      {/* Background ambient red lighting */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-[#e61924]/15 blur-[160px] pointer-events-none" />
+      {/* ── Reusable Atmosphere Texture Background ──────────── */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-10">
+        <img
+          src="/assets/atmosphere/section-texture.png"
+          alt=""
+          role="presentation"
+          decoding="async"
+          className="h-full w-full object-cover object-center filter contrast-125 brightness-75"
+        />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl">
+      {/* Background ambient red lighting */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-[#e61924]/15 blur-[160px] pointer-events-none z-0" />
+
+      <div className="relative mx-auto max-w-7xl z-10">
         {/* Section Header & Kicker */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2.5 mb-4 px-4 py-1.5 rounded-full bg-black/60 border border-red-900/40 backdrop-blur-md">
@@ -53,9 +88,9 @@ export default function ContactSection() {
           </div>
         </div>
 
-        {/* Contact Action Cards */}
+        {/* Contact Action Cards with Custom SVG Icons */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-24">
-          {contacts.map(({ label, value, href, icon: Icon, external, download }, index) => (
+          {contacts.map(({ label, value, href, iconSrc, external, download, isDownload }, index) => (
             <motion.a
               key={label}
               href={href}
@@ -69,10 +104,19 @@ export default function ContactSection() {
               className="group relative flex flex-col justify-between rounded-xl border border-red-900/30 bg-[#0c0507]/90 p-6 backdrop-blur-xl transition-all duration-300 hover:border-[#e61924] hover:shadow-[0_0_30px_rgba(230,25,36,0.25)] hover:-translate-y-1"
             >
               <div className="flex items-center justify-between mb-6">
-                <div className="grid h-10 w-10 place-items-center rounded-lg border border-red-900/40 bg-red-950/20 text-[#e61924] group-hover:border-[#e61924] transition-colors">
-                  <Icon size={18} />
+                <div className="grid h-10 w-10 place-items-center rounded-lg border border-red-900/40 bg-red-950/20 group-hover:border-[#e61924] transition-colors p-2">
+                  {isDownload ? (
+                    <Download size={18} className="text-[#e61924]" />
+                  ) : (
+                    <img
+                      src={iconSrc}
+                      alt=""
+                      aria-hidden="true"
+                      className={`h-4 w-4 ${iconSrc?.includes("gmail") ? "" : "filter invert opacity-80 group-hover:opacity-100"}`}
+                    />
+                  )}
                 </div>
-                <ArrowUpRight size={16} className="text-white/40 group-hover:text-[#e61924] transition-colors" />
+                <ArrowUpRight size={16} className="text-white/40 group-hover:text-[#e61924] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200" />
               </div>
 
               <div>
@@ -131,3 +175,4 @@ export default function ContactSection() {
     </section>
   );
 }
+
