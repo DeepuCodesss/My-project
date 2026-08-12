@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { SITE_PROFILE } from "@/lib/projects.config";
+import BrandLogo from "@/components/BrandLogo";
 import "./Navbar.css";
 
 type NavTarget = "about" | "projects" | "contact";
@@ -78,9 +79,7 @@ export default function Navbar() {
             window.history.replaceState(null, "", "#top");
           }}
         >
-          <span className="brand-mark" aria-hidden="true">
-            <span className="brand-dot" />
-          </span>
+          <BrandLogo size={30} className="brand-logo-img" />
           <span className="brand-copy">
             <strong className="font-bebas text-lg tracking-wider text-white group-hover:text-[#e61924] transition-colors">
               {SITE_PROFILE.name}

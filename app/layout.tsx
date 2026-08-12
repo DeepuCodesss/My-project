@@ -72,8 +72,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/pill-logo.svg",
-    apple: "/pill-logo.svg",
+    icon: "/assets/brand/logo.svg",
+    shortcut: "/assets/brand/logo.svg",
+    apple: "/assets/brand/logo.svg",
   },
 };
 

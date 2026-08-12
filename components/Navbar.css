@@ -2,10 +2,9 @@
 .portfolio-nav { position: relative; display: flex; align-items: center; justify-content: space-between; min-height: 58px; padding: 8px 14px 8px 18px; overflow: hidden; border: 1px solid rgba(230, 25, 36, 0.25); border-radius: 16px; background: rgba(12, 5, 7, 0.85); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(230, 25, 36, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
 .portfolio-nav::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(100deg, rgba(230, 25, 36, 0.06), transparent 35%, transparent 70%, rgba(230, 25, 36, 0.08)); }
 .portfolio-brand, .nav-links, .nav-actions, .nav-menu-toggle { position: relative; z-index: 1; }
-.portfolio-brand { display: flex; align-items: center; gap: 10px; color: #f4f0e8; text-decoration: none; }
-.brand-mark { position: relative; display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: 1px solid rgba(230, 25, 36, 0.5); border-radius: 6px; background: rgba(230, 25, 36, 0.12); }
-.brand-dot { display: block; width: 6px; height: 6px; border-radius: 50%; background: #e61924; box-shadow: 0 0 10px #e61924; }
-.portfolio-brand:hover .brand-mark { border-color: #e61924; background: rgba(230, 25, 36, 0.25); }
+.portfolio-brand { display: flex; align-items: center; gap: 11px; color: #f4f0e8; text-decoration: none; }
+.brand-logo-img { display: block; width: 30px; height: 30px; border-radius: 6px; object-fit: contain; transition: transform 0.2s ease, filter 0.2s ease; }
+.portfolio-brand:hover .brand-logo-img { transform: scale(1.04); filter: drop-shadow(0 0 8px rgba(230, 25, 36, 0.45)); }
 
 .nav-links { display: flex; align-items: center; justify-content: center; gap: 32px; }
 .nav-link-item { display: flex; align-items: center; gap: 6px; color: rgba(244, 240, 232, 0.65); font-size: 13px; text-decoration: none; font-weight: 500; transition: color 0.25s ease; }
@@ -30,6 +29,7 @@ body.nav-menu-open {
 @media (max-width: 768px) {
   .portfolio-nav-shell { top: 12px; width: calc(100% - 24px); }
   .portfolio-nav { min-height: 52px; padding: 6px 10px 6px 14px; border-radius: 14px; }
+  .brand-logo-img { width: 28px; height: 28px; }
   .nav-links { display: none; }
   .nav-menu-toggle { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 40px; height: 40px; border: 1px solid rgba(230, 25, 36, 0.3); border-radius: 10px; background: rgba(230, 25, 36, 0.1); cursor: pointer; }
   .nav-menu-toggle span { display: block; width: 16px; height: 1.5px; margin: 0 auto; background: #f4f0e8; transition: transform 0.25s ease; }

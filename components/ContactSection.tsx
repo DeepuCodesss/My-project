@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Download, Heart, Music } from "lucide-react";
 import { useState } from "react";
 import { SITE_PROFILE } from "@/lib/projects.config";
+import BrandLogo from "@/components/BrandLogo";
 
 const contacts = [
   {
@@ -134,9 +135,12 @@ export default function ContactSection() {
         {/* Footer Bar */}
         <footer className="pt-8 border-t border-red-950/60 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-white/50 font-space">
           <div>
-            <strong className="font-bebas text-xl text-white tracking-wider block">
-              DEEPAK KUMAR
-            </strong>
+            <div className="flex items-center gap-2.5 mb-1">
+              <BrandLogo size={26} />
+              <strong className="font-bebas text-xl text-white tracking-wider">
+                DEEPAK KUMAR
+              </strong>
+            </div>
             <span className="text-white/50 text-[11px]">
               Full Stack Developer • AI Systems • Portfolio
             </span>
