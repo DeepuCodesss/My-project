@@ -28,13 +28,22 @@ export default function ProjectRow({
     const video = videoRef.current;
     if (!media || !video || !project.videoUrl) return;
 
+    // Ensure DOM element is explicitly muted before playback attempt
+    video.muted = true;
+
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
         const inView = Boolean(entry?.isIntersecting);
 
         if (inView) {
-          video.play().catch(() => {});
+          video.muted = true;
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // Playback prevented or interrupted; poster fallback remains visible
+            });
+          }
         } else {
           video.pause();
         }
@@ -188,14 +197,18 @@ export default function ProjectRow({
                   <>
                     <video
                       ref={videoRef}
-                      src={project.videoUrl}
                       poster={project.screenshotUrl}
                       className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
                       muted
                       loop
                       playsInline
-                      preload="none"
-                    />
+                      preload="metadata"
+                      onError={(e) => {
+                        console.error(`Failed to load video: ${project.videoUrl}`, e);
+                      }}
+                    >
+                      <source src={project.videoUrl} type="video/mp4" />
+                    </video>
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/40" />
                   </>
                 ) : isPhoneMockup ? (
