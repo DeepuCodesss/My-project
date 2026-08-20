@@ -72,6 +72,7 @@ export const projects: Project[] = [
       "A pure-skills gambling experience designed for mobile-first play. Legit Club is a special project focused on a fast, direct interface and a phone-native presentation.",
     tags: ["Mobile", "UI", "Gaming"],
     screenshotUrl: "/projects/legitclub.webp",
+    //hey
     videoUrl: "/video/legitclub.mp4",
     width: 1080,
     height: 2400,
