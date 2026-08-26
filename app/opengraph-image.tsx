@@ -55,7 +55,7 @@ export default async function Image() {
               textTransform: "uppercase",
             }}
           >
-            DEEPAK KUMAR / PORTFOLIO
+            {SITE_PROFILE.brandName.toUpperCase()} / {SITE_PROFILE.name.toUpperCase()}
           </span>
         </div>
 

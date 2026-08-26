@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowUpRight, Download, Heart, Music } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { SITE_PROFILE } from "@/lib/projects.config";
 import BrandLogo from "@/components/BrandLogo";
@@ -43,13 +44,15 @@ export default function ContactSection() {
   const [eggOpen, setEggOpen] = useState(false);
 
   return (
-    <section id="contact" className="relative overflow-hidden border-t border-red-950/40 bg-[#040203] px-6 py-28 sm:px-10 md:px-14 lg:px-20 text-[#f4f0e8]" aria-label="Contact section">
+    <section id="contact" className="relative overflow-hidden border-t border-red-950/40 bg-[#040203] px-6 py-28 sm:px-10 md:px-14 lg:px-20 text-[#f4f0e8]" aria-labelledby="contact-title">
       {/* ── Reusable Atmosphere Texture Background (Optimized WebP) ──────────── */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-10">
-        <img
+        <Image
           src="/assets/atmosphere/section-texture.webp"
           alt=""
           role="presentation"
+          fill
+          sizes="100vw"
           decoding="async"
           className="h-full w-full object-cover object-center filter contrast-125 brightness-75"
         />
@@ -68,7 +71,7 @@ export default function ContactSection() {
             </span>
           </div>
 
-          <h2 className="font-bebas text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-normal uppercase tracking-wide text-white leading-none">
+          <h2 id="contact-title" className="font-bebas text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-normal uppercase tracking-wide text-white leading-none">
             LET&apos;S BUILD <br />
             <span className="text-[#e61924] drop-shadow-[0_0_35px_rgba(230,25,36,0.5)]">SOMETHING</span> EXCEPTIONAL
           </h2>
@@ -109,12 +112,16 @@ export default function ContactSection() {
                   {isDownload ? (
                     <Download size={18} className="text-[#e61924]" />
                   ) : (
-                    <img
-                      src={iconSrc}
-                      alt=""
-                      aria-hidden="true"
-                      className={`h-4 w-4 ${iconSrc?.includes("gmail") ? "" : "filter invert opacity-80 group-hover:opacity-100"}`}
-                    />
+                    iconSrc ? (
+                      <Image
+                        src={iconSrc}
+                        alt=""
+                        aria-hidden="true"
+                        width={20}
+                        height={20}
+                        className={`h-4 w-4 ${iconSrc.includes("gmail") ? "" : "filter invert opacity-80 group-hover:opacity-100"}`}
+                      />
+                    ) : null
                   )}
                 </div>
                 <ArrowUpRight size={16} className="text-white/40 group-hover:text-[#e61924] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200" />
@@ -138,7 +145,7 @@ export default function ContactSection() {
             <div className="flex items-center gap-2.5 mb-1">
               <BrandLogo size={26} />
               <strong className="font-bebas text-xl text-white tracking-wider">
-                DEEPAK KUMAR
+                {SITE_PROFILE.brandName.toUpperCase()}
               </strong>
             </div>
             <span className="text-white/50 text-[11px]">
@@ -179,4 +186,3 @@ export default function ContactSection() {
     </section>
   );
 }
-

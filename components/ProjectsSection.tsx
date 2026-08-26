@@ -3,8 +3,10 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
+import Link from "next/link";
 
-import { projects } from "@/lib/projects.config";
+import { projects, SITE_PROFILE } from "@/lib/projects.config";
 import ProjectRow from "@/components/ProjectRow";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -53,14 +55,16 @@ export default function ProjectsSection() {
       id="projects"
       ref={sectionRef}
       className="relative isolate border-t border-red-950/40 bg-[#040203] px-6 py-24 sm:px-10 md:px-14 lg:px-20 text-[#f4f0e8]"
-      aria-label="Selected Projects"
+      aria-labelledby="projects-title"
     >
       {/* ── Layer 1: Reusable Section Texture Overlay (Optimized WebP) ───── */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20 mix-blend-screen">
-        <img
+        <Image
           src="/assets/atmosphere/section-texture.webp"
           alt=""
           role="presentation"
+          fill
+          sizes="100vw"
           decoding="async"
           className="h-full w-full object-cover object-center filter contrast-125 brightness-110"
         />
@@ -68,10 +72,12 @@ export default function ProjectsSection() {
 
       {/* ── Layer 2: Reusable Glow Overlay Atmosphere (Optimized WebP) ────────────────── */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-[0.22] mix-blend-screen">
-        <img
+        <Image
           src="/assets/atmosphere/glow-overlay.webp"
           alt=""
           role="presentation"
+          fill
+          sizes="100vw"
           decoding="async"
           className="h-full w-full object-cover object-center filter contrast-125 brightness-110"
         />
@@ -102,10 +108,20 @@ export default function ProjectsSection() {
               FEATURED SHOWCASE
             </span>
           </div>
-          <h2 className="font-bebas text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-normal uppercase tracking-wide text-white leading-none">
+          <h2 id="projects-title" className="font-bebas text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-normal uppercase tracking-wide text-white leading-none">
             SELECTED <span className="text-[#e61924] drop-shadow-[0_0_35px_rgba(230,25,36,0.5)]">WORK</span>
           </h2>
           <div className="mt-4 h-1 w-24 bg-[#e61924]" />
+          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-white/60 sm:text-base">
+            A selection of products and experiments built by {" "}
+            {SITE_PROFILE.brandName} creator {SITE_PROFILE.name}.
+          </p>
+          <Link
+            href="/projects"
+            className="mt-5 inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-red-900/40 bg-black/30 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white/80 transition-colors hover:border-[#e61924] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e61924]"
+          >
+            Explore project details <span aria-hidden="true">-&gt;</span>
+          </Link>
         </div>
 
         {/* Project Cards Stack with Editorial Background Numbers */}
@@ -133,7 +149,3 @@ export default function ProjectsSection() {
     </section>
   );
 }
-
-
-
-

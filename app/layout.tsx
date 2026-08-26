@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Bebas_Neue, Space_Grotesk } from "next/font/google";
 import { SITE_PROFILE } from "@/lib/projects.config";
+import { siteJsonLd } from "@/lib/seo";
 import { WebVitalsMonitor } from "@/lib/web-vitals";
 import "./globals.css";
 
@@ -26,24 +27,14 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_PROFILE.canonicalUrl),
   title: {
-    default: `${SITE_PROFILE.name} — Full Stack Developer`,
-    template: `%s | ${SITE_PROFILE.name}`,
+    default: `${SITE_PROFILE.brandName} - ${SITE_PROFILE.name} | Product Engineer`,
+    template: `%s | ${SITE_PROFILE.brandName}`,
   },
   description: SITE_PROFILE.headline,
-  keywords: [
-    "Deepak Kumar",
-    "DEEPUCODES",
-    "Full-Stack Developer",
-    "AI Systems Builder",
-    "Software Engineer",
-    "Next.js",
-    "React",
-    "TypeScript",
-    "India Developer",
-    "Portfolio",
-  ],
   authors: [{ name: SITE_PROFILE.name, url: SITE_PROFILE.canonicalUrl }],
+  applicationName: SITE_PROFILE.brandName,
   creator: SITE_PROFILE.name,
+  category: "technology",
   alternates: {
     canonical: SITE_PROFILE.canonicalUrl,
   },
@@ -51,14 +42,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: SITE_PROFILE.canonicalUrl,
-    title: `${SITE_PROFILE.name} — Full Stack Developer`,
+    title: `${SITE_PROFILE.brandName} - ${SITE_PROFILE.name}`,
     description: SITE_PROFILE.headline,
-    siteName: `${SITE_PROFILE.name} Portfolio`,
+    siteName: SITE_PROFILE.brandName,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: `${SITE_PROFILE.brandName} - ${SITE_PROFILE.name}`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_PROFILE.name} — Full Stack Developer`,
+    title: `${SITE_PROFILE.brandName} - ${SITE_PROFILE.name}`,
     description: SITE_PROFILE.headline,
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -78,32 +78,21 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: SITE_PROFILE.name,
-  jobTitle: SITE_PROFILE.role,
-  description: SITE_PROFILE.headline,
-  url: SITE_PROFILE.canonicalUrl,
-  sameAs: [SITE_PROFILE.githubUrl, SITE_PROFILE.linkedinUrl],
-  knowsAbout: [
-    "Full Stack Web Development",
-    "Artificial Intelligence Automation",
-    "Systems Architecture",
-  ],
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth ${bebasNeue.variable} ${spaceGrotesk.variable}`}>
+    <html
+      lang="en"
+      className={`scroll-smooth ${bebasNeue.variable} ${spaceGrotesk.variable}`}
+    >
       <head>
         <script
+          id="site-structured-data"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
         />
       </head>
       <body className="bg-[#040203] text-[#f4f0e8] font-space antialiased selection:bg-[#e61924]/30 selection:text-white">
@@ -119,6 +108,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-
-

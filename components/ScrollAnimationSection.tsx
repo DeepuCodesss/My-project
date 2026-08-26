@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useInView } from "framer-motion";
+import Image from "next/image";
 import {
   ChevronRight, CircleUserRound, Code2, Download,
   Folder, Globe2, Mail, Minus, Network,
@@ -14,7 +15,7 @@ import { SITE_PROFILE } from "@/lib/projects.config";
 type AppId = "projects" | "automation" | "os" | "github" | "resume" | "contact" | "experiments" | "trash";
 
 const LocalLogo = ({ file }: { file: string }) => (
-  <img src={`/logo-for-deepos/${file}`} alt="" loading="lazy" decoding="async" />
+  <Image src={`/logo-for-deepos/${file}`} alt="" width={64} height={64} sizes="64px" loading="lazy" decoding="async" />
 );
 
 const ProjectsLogo = () => <LocalLogo file="project-logo.png" />;
@@ -424,11 +425,11 @@ export default function ScrollAnimationSection() {
   };
 
   return (
-    <section id="workspace" ref={sectionRef} className={`deepos-section ${booted ? "is-booted" : ""}`}>
+    <section id="workspace" ref={sectionRef} className={`deepos-section ${booted ? "is-booted" : ""}`} aria-labelledby="workspace-title">
       <div className="deepos-ambient" />
       <div className="deepos-intro">
         <span className="eyebrow">A DIGITAL WORKSPACE / 08</span>
-        <h1>Enter<br /><span>DeepOS.</span></h1>
+        <h2 id="workspace-title">Enter<br /><span>DeepOS.</span></h2>
         <p>Scroll into my workspace.</p>
       </div>
       <div className="monitor-shell">

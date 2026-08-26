@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./OptionWheel.css";
 
 type Props = {
@@ -22,13 +22,13 @@ export default function OptionWheel({
   const accumulatedDelta = useRef(0);
   const root = useRef<HTMLDivElement>(null);
 
-  const select = (index: number) => {
+  const select = useCallback((index: number) => {
     const next = Math.max(0, Math.min(items.length - 1, index));
     if (next !== selected) {
       setSelected(next);
       onChange?.(next, items[next]);
     }
-  };
+  }, [items, onChange, selected]);
 
   useEffect(() => {
     const element = root.current;
@@ -51,7 +51,7 @@ export default function OptionWheel({
 
     element.addEventListener("wheel", wheel, { passive: false });
     return () => element.removeEventListener("wheel", wheel);
-  }, [selected, items.length]);
+  }, [items.length, select, selected]);
 
   return (
     <div
@@ -121,4 +121,3 @@ export default function OptionWheel({
     </div>
   );
 }
-

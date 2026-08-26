@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 type BrandLogoProps = {
   size?: number;
@@ -12,7 +13,7 @@ export default function BrandLogo({
   alt = "",
 }: BrandLogoProps) {
   return (
-    <img
+    <Image
       src="/assets/brand/logo.svg"
       alt={alt}
       width={size}

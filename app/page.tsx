@@ -5,6 +5,7 @@ import CurrentFocusSection from "@/components/CurrentFocusSection";
 import Navbar from "@/components/Navbar";
 import DeferredDecorations from "@/components/DeferredDecorations";
 import ContactSection from "@/components/ContactSection";
+import { homepageJsonLd } from "@/lib/seo";
 
 const ScrollAnimationSection = dynamic(
   () => import("@/components/ScrollAnimationSection"),
@@ -20,15 +21,21 @@ const ScrollAnimationSection = dynamic(
 
 export default function Page() {
   return (
-    <main id="main-content" className="site-shell">
-      <Navbar />
-      <DeferredDecorations />
-      <HeroSection />
-      <ProjectsSection />
-      <CurrentFocusSection />
-      <ScrollAnimationSection />
-      <ContactSection />
-    </main>
+    <>
+      <script
+        id="homepage-structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageJsonLd) }}
+      />
+      <main id="main-content" className="site-shell">
+        <Navbar />
+        <DeferredDecorations />
+        <HeroSection />
+        <ProjectsSection />
+        <CurrentFocusSection />
+        <ScrollAnimationSection />
+        <ContactSection />
+      </main>
+    </>
   );
 }
-

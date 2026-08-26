@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import Image from "next/image";
 import { SITE_PROFILE } from "@/lib/projects.config";
 
 export default function HeroSection() {
@@ -89,16 +90,18 @@ export default function HeroSection() {
       id="hero"
       ref={heroRef}
       className="relative w-full bg-[#040203] text-[#f4f0e8] select-none flex flex-col justify-between min-h-[100svh] lg:min-h-[max(100svh,820px)]"
-      aria-label="Hero section"
+      aria-labelledby="hero-title"
     >
       {/* ── Background Decorative Layer System (Overflow Clipped) ──── */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Red textured background image asset (Optimized WebP) */}
-        <img
+        <Image
           src="/assets/hero/background.webp"
           alt=""
           role="presentation"
-          fetchPriority="high"
+          fill
+          priority
+          sizes="100vw"
           decoding="async"
           className="h-full w-full object-cover object-center opacity-85 filter contrast-125 brightness-90"
         />
@@ -127,10 +130,13 @@ export default function HeroSection() {
         {/* Soft radial glow behind character cutout */}
         <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[450px] h-[450px] rounded-full bg-[#e61924]/25 blur-[90px] pointer-events-none" />
 
-        <img
+        <Image
           src="/assets/hero/character.webp"
-          alt="Deepak Kumar - Full Stack Developer"
-          fetchPriority="high"
+          alt="Portrait illustration of Deepak Kumar, the developer behind Deepu Codes"
+          width={1254}
+          height={1254}
+          priority
+          sizes="(max-width: 1024px) 70vw, 710px"
           decoding="async"
           className="w-[clamp(280px,36vw,440px)] lg:w-[clamp(390px,43vw,710px)] lg:translate-x-[2.5vw] h-auto object-contain object-bottom filter drop-shadow-[0_10px_40px_rgba(0,0,0,0.9)]"
         />
@@ -156,10 +162,12 @@ export default function HeroSection() {
           aria-label="Open Deepak Kumar on LinkedIn"
           title="LinkedIn Profile"
         >
-          <img
+          <Image
             src="/assets/icons/social/linkedin.svg"
             alt=""
             aria-hidden="true"
+            width={20}
+            height={20}
             className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity filter invert"
           />
         </a>
@@ -171,10 +179,12 @@ export default function HeroSection() {
           aria-label="Open Deepak Kumar on GitHub"
           title="GitHub Profile"
         >
-          <img
+          <Image
             src="/assets/icons/social/github.svg"
             alt=""
             aria-hidden="true"
+            width={20}
+            height={20}
             className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity filter invert"
           />
         </a>
@@ -184,10 +194,12 @@ export default function HeroSection() {
           aria-label="Send Email to Deepak Kumar"
           title="Email Deepak Kumar"
         >
-          <img
+          <Image
             src="/assets/icons/social/gmail.svg"
             alt=""
             aria-hidden="true"
+            width={20}
+            height={20}
             className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity"
           />
         </a>
@@ -203,12 +215,12 @@ export default function HeroSection() {
           <div className="inline-flex items-center gap-2.5 mb-2 sm:mb-3 px-3 py-1 rounded-full bg-black/50 border border-red-900/40 backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-[#e61924] shadow-[0_0_8px_#e61924] animate-pulse" />
             <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.3em] text-[#e61924]">
-              FULL STACK DEVELOPER
+              {SITE_PROFILE.brandName} / {SITE_PROFILE.name}
             </span>
           </div>
 
           {/* Stacked Giant Brutal Headline (Width-Driven Only) */}
-          <h1 className="font-bebas text-[clamp(3.8rem,10.5vw,10rem)] leading-[0.85] tracking-wide text-white uppercase drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)]">
+          <h1 id="hero-title" className="font-bebas text-[clamp(3.8rem,10.5vw,10rem)] leading-[0.85] tracking-wide text-white uppercase drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)]">
             BUILDING <br />
             <span className="text-white">REAL</span> <br />
             <span className="text-[#e61924] drop-shadow-[0_0_35px_rgba(230,25,36,0.6)]">SOFTWARE</span>
@@ -216,7 +228,7 @@ export default function HeroSection() {
 
           {/* One-Line Intro */}
           <p className="mt-3 sm:mt-5 text-sm sm:text-base md:text-lg text-white/80 font-space font-normal max-w-md leading-relaxed hero-intro">
-            I build the things you imagine.
+            I&apos;m Deepak Kumar, also known as Deepu. I build full-stack products, AI systems, and thoughtful digital experiences.
           </p>
 
           {/* CTA Action Buttons & Mobile Social Icons Row */}
@@ -245,7 +257,7 @@ export default function HeroSection() {
                 className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
                 aria-label="Open Deepak Kumar on LinkedIn"
               >
-                <img src="/assets/icons/social/linkedin.svg" alt="" className="h-4 w-4 sm:h-5 sm:w-5 filter invert" />
+                <Image src="/assets/icons/social/linkedin.svg" alt="" aria-hidden="true" width={20} height={20} className="h-4 w-4 sm:h-5 sm:w-5 filter invert" />
               </a>
               <a
                 href={SITE_PROFILE.githubUrl}
@@ -254,14 +266,14 @@ export default function HeroSection() {
                 className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
                 aria-label="Open Deepak Kumar on GitHub"
               >
-                <img src="/assets/icons/social/github.svg" alt="" className="h-4 w-4 sm:h-5 sm:w-5 filter invert" />
+                <Image src="/assets/icons/social/github.svg" alt="" aria-hidden="true" width={20} height={20} className="h-4 w-4 sm:h-5 sm:w-5 filter invert" />
               </a>
               <a
                 href={`mailto:${SITE_PROFILE.email}`}
                 className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-black/60 border border-red-900/40 backdrop-blur-md text-white/70 active:scale-95"
                 aria-label="Send Email to Deepak Kumar"
               >
-                <img src="/assets/icons/social/gmail.svg" alt="" className="h-4 w-4 sm:h-5 sm:w-5" />
+                <Image src="/assets/icons/social/gmail.svg" alt="" aria-hidden="true" width={20} height={20} className="h-4 w-4 sm:h-5 sm:w-5" />
               </a>
             </div>
           </div>
@@ -300,8 +312,6 @@ export default function HeroSection() {
     </section>
   );
 }
-
-
 
 
 

@@ -7,20 +7,13 @@ import "./Navbar.css";
 
 type NavTarget = "about" | "projects" | "contact";
 
-const links: Array<{ label: string; target: NavTarget; number: string }> = [
-  { label: "About", target: "about", number: "01" },
-  { label: "Projects", target: "projects", number: "02" },
-  { label: "Contact", target: "contact", number: "03" },
+const links: Array<{ label: string; target: NavTarget; href: string; number: string }> = [
+  { label: "About", target: "about", href: "/about", number: "01" },
+  { label: "Projects", target: "projects", href: "/#projects", number: "02" },
+  { label: "Contact", target: "contact", href: "/#contact", number: "03" },
 ];
 
 function navigateTo(target: NavTarget) {
-  if (target === "about") {
-    document.getElementById("main-content")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    if (window.location.hash !== "#about") {
-      window.history.replaceState(null, "", "#about");
-    }
-    return;
-  }
   document
     .getElementById(target)
     ?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -71,18 +64,20 @@ export default function Navbar() {
       <header className="portfolio-nav" role="banner">
         <a
           className="portfolio-brand group"
-          href="#top"
-          aria-label="Deepak Kumar - Go to top of page"
+          href="/"
+          aria-label="Deepu Codes - Deepak Kumar - Go to top of page"
           onClick={(e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            window.history.replaceState(null, "", "#top");
+            if (window.location.pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              window.history.replaceState(null, "", "/");
+            }
           }}
         >
           <BrandLogo size={30} className="brand-logo-img" />
           <span className="brand-copy">
             <strong className="font-bebas text-lg tracking-wider text-white group-hover:text-[#e61924] transition-colors">
-              {SITE_PROFILE.name}
+              {SITE_PROFILE.brandName}
             </strong>
           </span>
         </a>
@@ -91,9 +86,13 @@ export default function Navbar() {
           {links.map((link) => (
             <a
               key={link.target}
-              href={`#${link.target}`}
+              href={link.href}
               className="nav-link-item"
               onClick={(event) => {
+                if (link.target === "about" || window.location.pathname !== "/") {
+                  setMenuOpen(false);
+                  return;
+                }
                 event.preventDefault();
                 handleAction(link.target);
               }}
@@ -138,14 +137,18 @@ export default function Navbar() {
       >
         <div className="nav-mobile-intro">
           <span>NAVIGATION</span>
-          <span className="text-[#e61924]">DEEPUCODES</span>
+          <span className="text-[#e61924]">{SITE_PROFILE.brandName.toUpperCase()}</span>
         </div>
         {links.map((link) => (
           <a
             key={link.target}
-            href={`#${link.target}`}
+            href={link.href}
             tabIndex={menuOpen ? 0 : -1}
             onClick={(event) => {
+              if (link.target === "about" || window.location.pathname !== "/") {
+                setMenuOpen(false);
+                return;
+              }
               event.preventDefault();
               handleAction(link.target);
             }}
@@ -169,4 +172,3 @@ export default function Navbar() {
     </div>
   );
 }
-

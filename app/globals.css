@@ -62,8 +62,8 @@ body {
 .deepos-ambient:after { width: 65vw; height: 22vw; right: -25vw; top: 14%; border: 1px solid #f8d1cc; transform: rotate(-28deg); }
 .deepos-intro { position: relative; z-index: 1; max-width: 900px; margin: 0 auto 48px; text-align: center; }
 .eyebrow { color: rgba(246,241,235,.45); font-size: 10px; letter-spacing: .32em; text-transform: uppercase; }
-.deepos-intro h1 { margin: 22px 0 15px; font-size: clamp(52px, 8vw, 112px); line-height: .87; letter-spacing: -.075em; font-weight: 600; }
-.deepos-intro h1 span { color: #9d9a98; }
+.deepos-intro h2 { margin: 22px 0 15px; font-size: clamp(52px, 8vw, 112px); line-height: .87; letter-spacing: -.075em; font-weight: 600; }
+.deepos-intro h2 span { color: #9d9a98; }
 .deepos-intro p { color: rgba(246,241,235,.45); font-size: 12px; letter-spacing: .15em; text-transform: uppercase; }
 .monitor-shell { position: relative; z-index: 2; width: min(1380px, 94vw); margin: 0 auto; padding: 30px; border: 4px solid #4b4b4c; border-radius: 42px 42px 30px 30px; background: linear-gradient(145deg, #202122, #111213); box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 80px rgba(173, 16, 20, var(--deepos-glow, .2)); transform: translateY(var(--deepos-monitor-y, 0px)) perspective(1800px) rotateX(1deg) scale(var(--deepos-scale, 1)); transform-origin: center top; will-change: transform, box-shadow; transition: box-shadow .25s linear; }
 .monitor-shell:before { content: ""; position: absolute; inset: 0; border-radius: 38px 38px 27px 27px; border: 1px solid rgba(255,255,255,.16); pointer-events: none; }
@@ -175,17 +175,17 @@ body {
 .deepos-intro { position: relative; z-index: 2; width: min(900px, 88vw); margin: 0 auto 14px; padding-left: clamp(0px, 5vw, 84px); text-align: left; font-family: 'Satoshi', var(--font-sans), system-ui, sans-serif; font-feature-settings: 'kern', 'liga'; font-optical-sizing: auto; transform: translate3d(calc(var(--deepos-cursor-x, 0px)), calc(var(--deepos-intro-y, 0px) - 42px + var(--deepos-cursor-y, 0px)), 0) scale(var(--deepos-intro-scale, 1)); opacity: var(--deepos-intro-opacity, 1); filter: blur(var(--deepos-intro-blur, 0px)); transition: transform .18s linear, opacity .18s linear, filter .18s linear; will-change: transform, opacity, filter; }
 .deepos-intro .eyebrow { font-size: 0; color: rgba(246,242,238,.5); font-weight: 550; letter-spacing: .45em; }
 .deepos-intro .eyebrow::after { content: 'CURRENTLY BUILDING'; font-size: 11px; }
-.deepos-intro h1 { max-width: 860px; margin: 30px 0 0; font-family: 'Clash Display', var(--font-sans), system-ui, sans-serif; font-size: 0; line-height: .98; letter-spacing: -.06em; text-wrap: balance; text-shadow: 0 2px 28px rgba(246,242,238,.035); }
-.deepos-intro h1::before, .deepos-intro h1::after { display: block; white-space: nowrap; }
-.deepos-intro h1::before { content: 'Big Ideas.'; color: #f6f2ee; font-size: clamp(56px, 7.6vw, 108px); font-weight: 750; text-shadow: 0 0 26px rgba(246,242,238,.08); }
-.deepos-intro h1::after { content: 'Real Software.'; margin: 10px 0 0 clamp(34px, 7vw, 112px); color: transparent; background: linear-gradient(105deg, #eee8e2 0%, #a9a19e 45%, #777170 100%); background-clip: text; -webkit-background-clip: text; font-size: clamp(54px, 7.4vw, 104px); font-weight: 800; letter-spacing: -.07em; }
-.deepos-intro h1 span { display: none; }
+.deepos-intro h2 { max-width: 860px; margin: 30px 0 0; font-family: 'Clash Display', var(--font-sans), system-ui, sans-serif; font-size: 0; line-height: .98; letter-spacing: -.06em; text-wrap: balance; text-shadow: 0 2px 28px rgba(246,242,238,.035); }
+.deepos-intro h2::before, .deepos-intro h2::after { display: block; white-space: nowrap; }
+.deepos-intro h2::before { content: 'Big Ideas.'; color: #f6f2ee; font-size: clamp(56px, 7.6vw, 108px); font-weight: 750; text-shadow: 0 0 26px rgba(246,242,238,.08); }
+.deepos-intro h2::after { content: 'Real Software.'; margin: 10px 0 0 clamp(34px, 7vw, 112px); color: transparent; background: linear-gradient(105deg, #eee8e2 0%, #a9a19e 45%, #777170 100%); background-clip: text; -webkit-background-clip: text; font-size: clamp(54px, 7.4vw, 104px); font-weight: 800; letter-spacing: -.07em; }
+.deepos-intro h2 span { display: none; }
 .deepos-intro p { max-width: 520px; margin: 18px 0 0 clamp(34px, 7vw, 112px); color: transparent; font-family: 'Satoshi', var(--font-sans), system-ui, sans-serif; font-size: 19px; font-weight: 400; line-height: 1.7; letter-spacing: -.01em; text-transform: none; }
 .deepos-intro p::before { content: 'Exploring operating system development, AI automation, and ambitious products that begin as experiments.'; display: block; color: rgba(255,255,255,.56); font-weight: 400; text-transform: none; }
 .deepos-intro small { display: none; }
-.deepos-intro .eyebrow::after, .deepos-intro h1::before, .deepos-intro h1::after, .deepos-intro p::before { animation: deepos-type-rise .8s cubic-bezier(.22,1,.36,1) both; }
-.deepos-intro .eyebrow::after { animation-delay: 0s; }.deepos-intro h1::before { animation-delay: .1s; }.deepos-intro h1::after { animation-delay: .35s; transform-origin: 50% 100%; }.deepos-intro p::before { animation-delay: .65s; }
-.deepos-intro h1::after { animation-name: deepos-second-line; }
+.deepos-intro .eyebrow::after, .deepos-intro h2::before, .deepos-intro h2::after, .deepos-intro p::before { animation: deepos-type-rise .8s cubic-bezier(.22,1,.36,1) both; }
+.deepos-intro .eyebrow::after { animation-delay: 0s; }.deepos-intro h2::before { animation-delay: .1s; }.deepos-intro h2::after { animation-delay: .35s; transform-origin: 50% 100%; }.deepos-intro p::before { animation-delay: .65s; }
+.deepos-intro h2::after { animation-name: deepos-second-line; }
 @keyframes deepos-second-line { from { opacity: 0; filter: blur(7px); transform: translateY(22px) scale(.95); } to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); } }
 @keyframes deepos-type-rise { from { opacity: 0; filter: blur(8px); transform: translateY(16px); } to { opacity: 1; filter: blur(0); transform: translateY(0); } }
 @keyframes deepos-ambient-drift { from { transform: translate3d(-1%, -1%, 0) scale(1); } to { transform: translate3d(1%, 1%, 0) scale(1.04); } }
@@ -194,9 +194,9 @@ body {
 @media (max-width: 800px) {
   .deepos-section { min-height: 1000px; padding: 32px 8px 60px; }
   .deepos-intro { width: 94vw; margin-bottom: 14px; padding-left: 4px; }
-  .deepos-intro h1 { margin-top: 24px; }
-  .deepos-intro h1::before { font-size: clamp(40px, 12vw, 68px); }
-  .deepos-intro h1::after { margin: 6px 0 0 12px; font-size: clamp(38px, 11vw, 62px); }
+  .deepos-intro h2 { margin-top: 24px; }
+  .deepos-intro h2::before { font-size: clamp(40px, 12vw, 68px); }
+  .deepos-intro h2::after { margin: 6px 0 0 12px; font-size: clamp(38px, 11vw, 62px); }
   .deepos-intro p { margin: 18px 0 0 12px; font-size: 15px; }
   .monitor-shell { padding: 8px; border-radius: 20px; }
   .monitor-screen { min-height: 580px; border-radius: 14px; }

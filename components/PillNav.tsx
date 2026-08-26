@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import Image from "next/image";
 import "./PillNav.css";
 
 export type PillNavItem = { label: string; href: string; ariaLabel?: string };
@@ -106,7 +107,7 @@ export default function PillNav({
     <div className="pill-nav-container">
       <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
         <a ref={logoRef} className="pill-logo" href="#top" aria-label="Home" onMouseEnter={() => logoImgRef.current && gsap.to(logoImgRef.current, { rotate: 360, duration: 0.3, ease })}>
-          <img ref={logoImgRef} src={logo} alt={logoAlt} />
+          <Image ref={logoImgRef} src={logo} alt={logoAlt} width={32} height={32} sizes="32px" unoptimized />
         </a>
         <div className="pill-nav-items desktop-only" ref={navItemsRef}>
           <ul className="pill-list" role="menubar">

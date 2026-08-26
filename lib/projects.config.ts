@@ -18,16 +18,18 @@ export type Project = {
 
 export const SITE_PROFILE = {
   name: "Deepak Kumar",
+  brandName: "Deepu Codes",
+  alternateName: "Deepu",
   role: "Product Engineer",
   subtitles: ["Full-Stack Developer", "AI Systems Builder", "Systems Thinker"],
-  headline: "Product Engineer building full-stack products, AI systems, and thoughtful digital experiences.",
+  headline: "Deepak Kumar, also known as Deepu, builds full-stack products, AI systems, and thoughtful digital experiences under the name Deepu Codes.",
   email: "deepakmangal94164@gmail.com",
   whatsappUrl: "https://wa.me/919350432714?text=Hi%20Deepak%2C%0A%0AI%20found%20your%20portfolio%20and%20I%27m%20interested%20in%20discussing%20a%20project%20with%20you.",
   githubUrl: "https://github.com/DeepuCodesss/",
   linkedinUrl: "https://www.linkedin.com/in/deeepucodes/",
   resumeUrl: "/resume.pdf",
   resumeDownloadName: "Deepak-Kumar-Resume.pdf",
-  canonicalUrl: "https://deepak-kumar.dev",
+  canonicalUrl: "https://deepucodes.me/",
 };
 
 export const projects: Project[] = [
@@ -41,7 +43,7 @@ export const projects: Project[] = [
     screenshotUrl: "/projects/nexorithm.webp",
     videoUrl: "/video/nexorithm.mp4",
     width: 1920,
-    height: 869,
+    height: 915,
     liveUrl: "https://nexorithm.dev",
     livePreviewUrl: "https://nexorithm.dev",
     allowLivePreview: true,
@@ -58,7 +60,7 @@ export const projects: Project[] = [
     screenshotUrl: "/projects/aurix.webp",
     videoUrl: "/video/aurix.mp4",
     width: 1920,
-    height: 920,
+    height: 915,
     liveUrl: "https://aurix-sepia.vercel.app/",
     allowLivePreview: false,
     repoUrl: "https://github.com/DeepuCodesss/AURIX",
@@ -74,8 +76,8 @@ export const projects: Project[] = [
     screenshotUrl: "/projects/legitclub.webp",
     //hey
     videoUrl: "/video/legitclub.mp4",
-    width: 1080,
-    height: 2400,
+    width: 528,
+    height: 907,
     liveUrl: "https://legitclub.xyz",
     allowLivePreview: false,
     mockupVariant: "phone",
@@ -83,4 +85,3 @@ export const projects: Project[] = [
     mockDomain: "legitclub.xyz",
   },
 ];
-

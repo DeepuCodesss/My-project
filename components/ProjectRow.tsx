@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import type { Project } from "@/lib/projects.config";
 
 type ProjectRowProps = {
@@ -81,8 +83,17 @@ export default function ProjectRow({
     }, 6000);
   };
 
+  const handlePreviewKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if ((event.key === "Enter" || event.key === " ") && canPreview) {
+      event.preventDefault();
+      startPreview();
+    }
+  };
+
   return (
     <article
+      id={`project-${project.id}`}
+      aria-labelledby={`project-title-${project.id}`}
       className={`group grid items-center gap-10 lg:gap-14 lg:grid-cols-12 ${
         reverse ? "lg:[&>*:first-child]:order-2 lg:[&>*:last-child]:order-1" : ""
       }`}
@@ -101,7 +112,7 @@ export default function ProjectRow({
           </div>
 
           {/* Project Title */}
-          <h3 className="font-bebas text-4xl sm:text-5xl md:text-6xl font-normal uppercase tracking-wide text-white leading-none group-hover:text-[#e61924] transition-colors">
+          <h3 id={`project-title-${project.id}`} className="font-bebas text-4xl sm:text-5xl md:text-6xl font-normal uppercase tracking-wide text-white leading-none group-hover:text-[#e61924] transition-colors">
             {project.title}
           </h3>
 
@@ -125,6 +136,12 @@ export default function ProjectRow({
 
         {/* Action Buttons */}
         <div className="mt-8 pt-6 border-t border-red-950/60 flex flex-wrap items-center gap-3">
+          <Link
+            href={`/projects/${project.id}`}
+            className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-red-900/40 bg-black/40 px-5 py-2.5 text-xs font-space font-medium uppercase tracking-wider text-white/80 transition-all duration-200 hover:border-[#e61924] hover:bg-red-950/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e61924]"
+          >
+            Project details
+          </Link>
           <a
             href={project.liveUrl}
             target="_blank"
@@ -189,8 +206,9 @@ export default function ProjectRow({
                   isPhoneMockup ? "aspect-[528/907]" : "aspect-[21/10]"
                 }`}
                 onClick={canPreview ? startPreview : undefined}
+                onKeyDown={canPreview ? handlePreviewKeyDown : undefined}
                 role={canPreview ? "button" : undefined}
-                tabIndex={canPreview ? 0 : -1}
+                tabIndex={canPreview ? 0 : undefined}
                 aria-label={canPreview ? `Click to launch interactive preview of ${project.title}` : undefined}
               >
                 {project.videoUrl ? (
@@ -214,13 +232,14 @@ export default function ProjectRow({
                 ) : isPhoneMockup ? (
                   <>
                     <div className="absolute inset-x-0 top-0 z-20 mx-auto mt-2 h-1.5 w-28 rounded-full bg-white/25" />
-                    <img
+                    <Image
                       src={project.screenshotUrl}
                       alt={`${project.title} screenshot`}
                       loading="lazy"
                       decoding="async"
                       width={project.width}
                       height={project.height}
+                      sizes="(max-width: 1024px) 100vw, 60vw"
                       className={`absolute inset-0 h-full w-full object-cover object-top transition-all duration-300 ${
                         previewEnabled && previewReady && !previewFailed
                           ? "opacity-0"
@@ -256,13 +275,14 @@ export default function ProjectRow({
                   </>
                 ) : (
                   <>
-                    <img
+                    <Image
                       src={project.screenshotUrl}
                       alt={`${project.title} screenshot`}
                       loading="lazy"
                       decoding="async"
                       width={project.width}
                       height={project.height}
+                      sizes="(max-width: 1024px) 100vw, 60vw"
                       className={`absolute inset-0 h-full w-full object-cover object-left-top scale-[1.03] transition-all duration-300 ${
                         previewEnabled && previewReady && !previewFailed ? "opacity-0" : "opacity-100"
                       }`}
@@ -303,4 +323,3 @@ export default function ProjectRow({
     </article>
   );
 }
-

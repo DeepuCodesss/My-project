@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface FocusItem {
   number: string;
@@ -47,13 +48,15 @@ const focusItems: FocusItem[] = [
 
 export default function CurrentFocusSection() {
   return (
-    <section className="relative overflow-hidden border-t border-red-950/40 bg-[#040203] px-6 py-28 sm:px-10 md:px-14 lg:px-20">
+    <section id="focus" className="relative overflow-hidden border-t border-red-950/40 bg-[#040203] px-6 py-28 sm:px-10 md:px-14 lg:px-20" aria-labelledby="focus-title">
       {/* ── Reusable Atmosphere Texture & Glow Overlays ───── */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-12">
-        <img
-          src="/assets/atmosphere/section-texture.png"
+        <Image
+          src="/assets/atmosphere/section-texture.webp"
           alt=""
           role="presentation"
+          fill
+          sizes="100vw"
           decoding="async"
           className="h-full w-full object-cover object-center filter contrast-125 brightness-75"
         />
@@ -73,7 +76,7 @@ export default function CurrentFocusSection() {
                 ACTIVE PURSUITS
               </span>
             </div>
-            <h2 className="font-bebas text-6xl sm:text-7xl md:text-8xl font-normal uppercase tracking-wide text-white leading-none">
+            <h2 id="focus-title" className="font-bebas text-6xl sm:text-7xl md:text-8xl font-normal uppercase tracking-wide text-white leading-none">
               CURRENT <span className="text-[#e61924]">FOCUS</span>
             </h2>
             <div className="mt-4 h-1 w-24 bg-[#e61924]" />
@@ -105,10 +108,13 @@ export default function CurrentFocusSection() {
                 {/* Header row with custom PNG icon well & number */}
                 <div className="flex items-center justify-between mb-8">
                   <div className="grid h-14 w-14 place-items-center rounded-xl border border-red-900/40 bg-black/60 p-2.5 group-hover:border-[#e61924] transition-colors shadow-inner">
-                    <img
+                    <Image
                       src={item.iconSrc}
                       alt=""
                       aria-hidden="true"
+                      width={96}
+                      height={96}
+                      sizes="56px"
                       className="h-full w-full object-contain filter drop-shadow-[0_0_8px_rgba(230,25,36,0.5)]"
                     />
                   </div>
@@ -140,5 +146,3 @@ export default function CurrentFocusSection() {
     </section>
   );
 }
-
-
