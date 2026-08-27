@@ -19,17 +19,20 @@ export type Project = {
 export const SITE_PROFILE = {
   name: "Deepak Kumar",
   brandName: "Deepu Codes",
-  alternateName: "Deepu",
-  role: "Product Engineer",
-  subtitles: ["Full-Stack Developer", "AI Systems Builder", "Systems Thinker"],
-  headline: "Deepak Kumar, also known as Deepu, builds full-stack products, AI systems, and thoughtful digital experiences under the name Deepu Codes.",
+  alternateName: ["Deepu", "Deepu Codes"],
+  role: "Full-Stack Product Engineer",
+  subtitles: ["Full-Stack Engineer", "Product Engineer", "AI Systems Builder"],
+  headline:
+    "Deepak Kumar (Deepu) is a full-stack product engineer and founder of a web development agency serving international clients. He builds web applications, AI systems, and digital products under Deepu Codes.",
   email: "deepakmangal94164@gmail.com",
   whatsappUrl: "https://wa.me/919350432714?text=Hi%20Deepak%2C%0A%0AI%20found%20your%20portfolio%20and%20I%27m%20interested%20in%20discussing%20a%20project%20with%20you.",
-  githubUrl: "https://github.com/DeepuCodesss/",
+  githubUrl: "https://github.com/DeepuCodesss",
   linkedinUrl: "https://www.linkedin.com/in/deeepucodes/",
+  xUrl: "https://x.com/Deepucodess",
+  instagramUrl: "https://www.instagram.com/whoisdeepuuu/",
   resumeUrl: "/resume.pdf",
   resumeDownloadName: "Deepak-Kumar-Resume.pdf",
-  canonicalUrl: "https://deepucodes.me/",
+  canonicalUrl: "https://deepucodes.me",
 };
 
 export const projects: Project[] = [
@@ -38,7 +41,7 @@ export const projects: Project[] = [
     title: "Nexorithm",
     eyebrowLabel: "Featured",
     description:
-      "Nexorithm is India's first skill-reward coding platform, designed to make practice feel motivating. The platform rewards users for solving even very easy questions, helping them build consistency, climb rankings, and keep coming back to solve more.",
+      "Nexorithm is a skill-reward coding platform designed to make practice more motivating by rewarding users for solving coding questions.",
     tags: ["React", "Next.js", "Tailwind"],
     screenshotUrl: "/projects/nexorithm.webp",
     videoUrl: "/video/nexorithm.mp4",

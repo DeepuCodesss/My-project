@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Waves } from "@/components/ui/wave-background";
-import { SITE_PROFILE } from "@/lib/projects.config";
+import { projects as projectCatalog, SITE_PROFILE } from "@/lib/projects.config";
 
 type AppId = "projects" | "automation" | "os" | "github" | "resume" | "contact" | "experiments" | "trash";
 
@@ -38,12 +38,15 @@ const apps: { id: AppId; label: string; icon: React.ElementType; tone: string }[
   { id: "trash", label: "Recycle Bin", icon: RecycleLogo, tone: "slate" },
 ];
 
-const projects = [
-  { name: "NEXORITHM", type: "AI / Web Platform", description: "An intelligent workspace for turning noisy ideas into sharp, useful systems.", stack: ["Next.js", "AI", "Prisma"], color: "#ef4444" },
-  { name: "AURIX", type: "Music Platform", description: "A focused listening experience built around discovery, mood, and movement.", stack: ["React", "Node", "Postgres"], color: "#a78bfa" },
-  { name: "LEGITCLUB", type: "Community Platform", description: "A warm, social product that makes finding your people feel effortless.", stack: ["TypeScript", "UX", "Motion"], color: "#f59e0b" },
-  { name: "Portfolio Website", type: "Personal System", description: "This living interface — a small window into how I think and build.", stack: ["Next.js", "Framer", "CSS"], color: "#22c55e" },
-];
+const workspaceProjects = projectCatalog.map((project, index) => ({
+  name: project.title,
+  type: project.eyebrowLabel,
+  description: project.description,
+  stack: project.tags,
+  color: ["#ef4444", "#a78bfa", "#f59e0b"][index] ?? "#ef4444",
+  source: project.repoUrl,
+  live: project.liveUrl,
+}));
 
 function Window({ id, title, onClose, onFocus, children, focused }: { id: AppId; title: string; onClose: () => void; onFocus: () => void; children: React.ReactNode; focused: boolean }) {
   return (
@@ -79,11 +82,6 @@ function Window({ id, title, onClose, onFocus, children, focused }: { id: AppId;
 }
 
 function Projects() {
-  const links: Record<string, { source?: string; live?: string }> = {
-    NEXORITHM: { source: "https://github.com/DeepuCodesss/NEXORITHM", live: "https://nexorithm.dev" },
-    AURIX: { source: "https://github.com/DeepuCodesss/AURIX", live: "https://aurix-sepia.vercel.app/" },
-    LEGITCLUB: { live: "https://legitclub.xyz" },
-  };
   return (
     <div className="projects-view">
       <div className="view-heading">
@@ -91,11 +89,10 @@ function Projects() {
           <span className="eyebrow">/workspace/projects</span>
           <h2>Things I&apos;ve shipped.</h2>
         </div>
-        <span className="count-label">04 objects</span>
+        <span className="count-label">{workspaceProjects.length} projects</span>
       </div>
       <div className="project-grid">
-        {projects.map((project, index) => {
-          const link = links[project.name];
+        {workspaceProjects.map((project, index) => {
           return (
             <motion.article key={project.name} className="project-card" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.07 }}>
               <div className="project-card-top">
@@ -107,8 +104,8 @@ function Projects() {
               <p>{project.description}</p>
               <div className="stack-row">{project.stack.map(item => <span key={item}>{item}</span>)}</div>
               <div className="card-links">
-                {link?.source && <a href={link.source} target="_blank" rel="noreferrer"><Code2 size={13} /> Source</a>}
-                {link?.live && <a href={link.live} target="_blank" rel="noreferrer">Live demo <ChevronRight size={13} /></a>}
+                {project.source && <a href={project.source} target="_blank" rel="noreferrer"><Code2 size={13} /> Source</a>}
+                {project.live && <a href={project.live} target="_blank" rel="noreferrer">Live demo <ChevronRight size={13} /></a>}
               </div>
             </motion.article>
           );
@@ -120,10 +117,10 @@ function Projects() {
 
 function Automation() {
   const nodes = [
-    { name: "Content discovery", icon: Search, state: "Scanning 12 sources" },
+    { name: "Content discovery", icon: Search, state: "Reviewing input" },
     { name: "AI clip detection", icon: Sparkles, state: "Processing media" },
     { name: "Auto editing", icon: Zap, state: "Ready for review" },
-    { name: "Publishing pipeline", icon: Globe2, state: "2 scheduled" },
+    { name: "Publishing pipeline", icon: Globe2, state: "Concept flow" },
   ];
   return (
     <div className="automation-view">
@@ -132,7 +129,7 @@ function Automation() {
           <span className="eyebrow">/systems/automation</span>
           <h2>Workflows, in motion.</h2>
         </div>
-        <span className="live-pill"><span /> Live system</span>
+        <span className="live-pill"><span /> Workflow concept</span>
       </div>
       <div className="automation-stage">
         <div className="flow-lines"><i /><i /><i /></div>
@@ -146,7 +143,7 @@ function Automation() {
       </div>
       <div className="activity-line">
         <span>WORKFLOW STATUS</span>
-        <span>98.4% uptime</span>
+        <span>Prototype workflow</span>
         <span className="activity-bars"><i /><i /><i /><i /><i /></span>
       </div>
     </div>
@@ -161,7 +158,7 @@ function OperatingSystem() {
           <span className="eyebrow">/deepos/architecture</span>
           <h2>Built from first principles.</h2>
         </div>
-        <span className="count-label">v0.8.4 / alpha</span>
+        <span className="count-label">EXPERIMENTAL SYSTEM</span>
       </div>
       <div className="architecture">
         <div className="arch-main">
@@ -182,8 +179,7 @@ function OperatingSystem() {
           </div>
         </div>
         <div className="progress-card">
-          <div><span>Current progress</span><strong>72%</strong></div>
-          <div className="progress-track"><i /></div>
+          <div><span>Current progress</span><strong>IN PROGRESS</strong></div>
           <p>Shipping the parts that make the system feel alive.</p>
           <div className="roadmap">
             <span><b className="done" />Interface layer</span>
@@ -217,7 +213,7 @@ function Terminal() {
           <span>Portfolio</span>
           <span>Operating-System</span>
           <span>Automation</span>
-          <span>MusicPlatform</span>
+          <span>AURIX</span>
           <span>NEXORITHM</span>
         </div>
       </div>
@@ -230,7 +226,7 @@ function Resume() {
     <div className="resume-view">
       <div className="resume-paper">
         <div className="resume-name">DEEPAK<br /><span>KUMAR</span></div>
-        <div className="resume-role">Product engineer &amp; systems thinker</div>
+        <div className="resume-role">{SITE_PROFILE.role}</div>
         <div className="resume-rule" />
         <div className="resume-cols">
           <div><small>PROFILE</small><p>I build full-stack products, AI systems, and expressive digital experiences.</p></div>

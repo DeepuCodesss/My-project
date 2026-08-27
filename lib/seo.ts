@@ -8,7 +8,12 @@ export function absoluteUrl(path: string) {
   return new URL(path, SITE_URL).toString();
 }
 
-const socialProfiles = [SITE_PROFILE.githubUrl, SITE_PROFILE.linkedinUrl];
+const socialProfiles = [
+  SITE_PROFILE.githubUrl,
+  SITE_PROFILE.linkedinUrl,
+  SITE_PROFILE.xUrl,
+  SITE_PROFILE.instagramUrl,
+];
 
 export const personJsonLd = {
   "@type": "Person",
@@ -16,14 +21,19 @@ export const personJsonLd = {
   name: SITE_PROFILE.name,
   alternateName: SITE_PROFILE.alternateName,
   jobTitle: SITE_PROFILE.role,
-  description: SITE_PROFILE.headline,
+  description:
+    "Deepak Kumar (Deepu) is a full-stack product engineer and founder of a web development agency serving international clients. He builds web applications, AI systems, and digital products under Deepu Codes. He also plays chess seriously.",
   url: SITE_URL,
   image: absoluteUrl("/assets/hero/character.webp"),
+  email: SITE_PROFILE.email,
   sameAs: socialProfiles,
   knowsAbout: [
     "Full-stack web development",
-    "Artificial intelligence automation",
+    "Product engineering",
+    "Web applications",
+    "AI systems and automation",
     "Systems architecture",
+    "Chess",
   ],
 };
 
@@ -32,9 +42,9 @@ export const websiteJsonLd = {
   "@id": WEBSITE_ID,
   url: SITE_URL,
   name: SITE_PROFILE.brandName,
-  alternateName: "Deepucodes",
   description: SITE_PROFILE.headline,
   publisher: { "@id": PERSON_ID },
+  about: { "@id": PERSON_ID },
   inLanguage: "en",
 };
 
@@ -84,6 +94,7 @@ export function projectJsonLd(project: Project) {
         description: project.description,
         isPartOf: { "@id": WEBSITE_ID },
         about: { "@id": `${pageUrl}#project` },
+        breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
         primaryImageOfPage: {
           "@type": "ImageObject",
           url: absoluteUrl(project.screenshotUrl),
@@ -101,6 +112,24 @@ export function projectJsonLd(project: Project) {
         image: absoluteUrl(project.screenshotUrl),
         author: { "@id": PERSON_ID },
         keywords: project.tags,
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Projects",
+            item: absoluteUrl("/projects"),
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: project.title,
+            item: pageUrl,
+          },
+        ],
       },
     ],
   };

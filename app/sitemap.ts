@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
-import { projects, SITE_PROFILE } from "@/lib/projects.config";
+import { projects } from "@/lib/projects.config";
 import { absoluteUrl } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: SITE_PROFILE.canonicalUrl,
+      url: absoluteUrl("/"),
       changeFrequency: "monthly",
       priority: 1.0,
     },

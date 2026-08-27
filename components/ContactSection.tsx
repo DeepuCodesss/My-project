@@ -1,13 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Download, Heart, Music } from "lucide-react";
+import { ArrowUpRight, AtSign, Download, Heart, Music } from "lucide-react";
 import Image from "next/image";
+import type { ElementType } from "react";
 import { useState } from "react";
 import { SITE_PROFILE } from "@/lib/projects.config";
 import BrandLogo from "@/components/BrandLogo";
 
-const contacts = [
+type ContactItem = {
+  label: string;
+  value: string;
+  href: string;
+  iconSrc?: string;
+  icon?: ElementType;
+  external?: boolean;
+  download?: string;
+  isDownload?: boolean;
+};
+
+const contacts: ContactItem[] = [
   {
     label: "Email",
     value: SITE_PROFILE.email,
@@ -27,6 +39,20 @@ const contacts = [
     value: "github.com/DeepuCodesss",
     href: SITE_PROFILE.githubUrl,
     iconSrc: "/assets/icons/social/github.svg",
+    external: true,
+  },
+  {
+    label: "X",
+    value: "x.com/Deepucodess",
+    href: SITE_PROFILE.xUrl,
+    icon: AtSign,
+    external: true,
+  },
+  {
+    label: "Instagram",
+    value: "instagram.com/whoisdeepuuu",
+    href: SITE_PROFILE.instagramUrl,
+    icon: AtSign,
     external: true,
   },
   {
@@ -94,7 +120,7 @@ export default function ContactSection() {
 
         {/* Contact Action Cards with Custom SVG Icons */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-24">
-          {contacts.map(({ label, value, href, iconSrc, external, download, isDownload }, index) => (
+          {contacts.map(({ label, value, href, iconSrc, icon: Icon, external, download, isDownload }, index) => (
             <motion.a
               key={label}
               href={href}
@@ -111,6 +137,8 @@ export default function ContactSection() {
                 <div className="grid h-10 w-10 place-items-center rounded-lg border border-red-900/40 bg-red-950/20 group-hover:border-[#e61924] transition-colors p-2">
                   {isDownload ? (
                     <Download size={18} className="text-[#e61924]" />
+                  ) : Icon ? (
+                    <Icon size={18} className="text-[#e61924]" />
                   ) : (
                     iconSrc ? (
                       <Image
@@ -149,7 +177,7 @@ export default function ContactSection() {
               </strong>
             </div>
             <span className="text-white/50 text-[11px]">
-              Full Stack Developer • AI Systems • Portfolio
+              Full-Stack Product Engineer • AI Systems • Deepu Codes
             </span>
           </div>
 

@@ -111,13 +111,13 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(230,25,36,0.30),transparent_65%)]" />
       </div>
 
-      {/* ── Background Giant Display Typography: DEEPUCODES ── */}
+      {/* ── Background Giant Display Typography: DEEPU CODES ── */}
       <div
         aria-hidden="true"
         className="absolute top-[16%] sm:top-[18%] left-1/2 -translate-x-1/2 z-[1] pointer-events-none select-none w-full text-center overflow-hidden"
       >
         <span className="font-bebas text-[clamp(4rem,18vw,22rem)] leading-none text-[#e61924]/[0.16] tracking-wider uppercase block drop-shadow-[0_0_60px_rgba(230,25,36,0.2)]">
-          DEEPUCODES
+          DEEPU CODES
         </span>
       </div>
 
@@ -147,7 +147,7 @@ export default function HeroSection() {
 
       {/* ── Vertical Micro Details (Desktop Sidebar Accent) ─ */}
       <div className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-20 pointer-events-none flex-col items-center gap-6 text-[10px] font-space tracking-[0.35em] text-white/40 uppercase rotate-180 [writing-mode:vertical-lr]">
-        <span>FULL STACK DEVELOPER</span>
+        <span>FULL-STACK PRODUCT ENGINEER</span>
         <span className="h-12 w-px bg-[#e61924]/40" />
         <span>BASED IN INDIA</span>
       </div>
@@ -228,7 +228,7 @@ export default function HeroSection() {
 
           {/* One-Line Intro */}
           <p className="mt-3 sm:mt-5 text-sm sm:text-base md:text-lg text-white/80 font-space font-normal max-w-md leading-relaxed hero-intro">
-            I&apos;m Deepak Kumar, also known as Deepu. I build full-stack products, AI systems, and thoughtful digital experiences.
+            I&apos;m Deepak Kumar (Deepu), a full-stack product engineer behind {SITE_PROFILE.brandName}. I am the founder and owner of a web development agency serving international clients, where I build web applications, AI systems, and digital products. Outside engineering, I play chess seriously.
           </p>
 
           {/* CTA Action Buttons & Mobile Social Icons Row */}
@@ -292,7 +292,7 @@ export default function HeroSection() {
             </span>
             <span className="text-white/30">•</span>
             <span className="text-[#e61924] font-mono text-[10px] font-semibold">
-              JUN 2025
+              CURRENTLY AVAILABLE
             </span>
           </div>
 
@@ -312,7 +312,4 @@ export default function HeroSection() {
     </section>
   );
 }
-
-
-
 

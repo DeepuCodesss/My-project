@@ -70,7 +70,7 @@ export default async function Image() {
               color: "#ffffff",
             }}
           >
-            Product Engineer &amp; Systems Builder
+            {SITE_PROFILE.role}
           </h1>
           <p
             style={{
@@ -81,7 +81,7 @@ export default async function Image() {
               lineHeight: 1.4,
             }}
           >
-            Full-Stack Products • AI Automation • DeepOS Systems
+            Web Applications - AI Systems - Digital Products
           </p>
         </div>
 

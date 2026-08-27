@@ -4,10 +4,12 @@ import Navbar from "@/components/Navbar";
 import { projects, SITE_PROFILE } from "@/lib/projects.config";
 import { absoluteUrl, profilePageJsonLd, WEBSITE_ID } from "@/lib/seo";
 
+const aboutDescription =
+  "About Deepak Kumar (Deepu), the full-stack product engineer behind Deepu Codes and founder of a web development agency serving international clients.";
+
 export const metadata: Metadata = {
   title: `About ${SITE_PROFILE.name}`,
-  description:
-    "Learn about Deepak Kumar, also known as Deepu, the developer and programmer behind Deepu Codes.",
+  description: aboutDescription,
   alternates: {
     canonical: absoluteUrl("/about"),
   },
@@ -15,8 +17,7 @@ export const metadata: Metadata = {
     type: "profile",
     url: absoluteUrl("/about"),
     title: `About ${SITE_PROFILE.name} - ${SITE_PROFILE.brandName}`,
-    description:
-      "Learn about Deepak Kumar, also known as Deepu, the developer and programmer behind Deepu Codes.",
+    description: aboutDescription,
   },
 };
 
@@ -31,13 +32,14 @@ export default function AboutPage() {
               01 / PROFILE
             </span>
             <h1 className="mt-5 font-bebas text-7xl uppercase leading-[0.9] tracking-wide text-white sm:text-8xl md:text-9xl">
-              About <span className="text-[#e61924]">Deepak Kumar.</span>
+              About <span className="text-[#e61924]">Deepak Kumar (Deepu).</span>
             </h1>
             <p className="mt-8 max-w-3xl text-base leading-relaxed text-white/70 sm:text-lg">
-              Deepak Kumar, also known online as Deepu, is the developer behind {" "}
+              Deepak Kumar (Deepu) is the full-stack product engineer behind{" "}
               <strong className="font-medium text-white">{SITE_PROFILE.brandName}</strong>.
-              He builds full-stack web products, AI systems, and expressive digital
-              experiences from India.
+              He is the founder and owner of a web development agency serving
+              international clients, where he builds web applications, AI systems,
+              and digital products. Outside engineering, he plays chess seriously.
             </p>
           </header>
 
@@ -47,33 +49,82 @@ export default function AboutPage() {
               className="rounded-2xl border border-red-900/30 bg-[#0c0507]/90 p-7 shadow-[0_20px_50px_rgba(0,0,0,0.55)] sm:p-9"
             >
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#e61924]">
-                The identity
+                Primary role
               </span>
               <h2 id="deepu-codes-title" className="mt-3 font-bebas text-5xl uppercase tracking-wide text-white">
-                Deepu Codes
+                Full-Stack Product Engineer
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-                Deepu Codes is Deepak&apos;s personal brand and home for the things
-                he is building, learning, and sharing. The name Deepu is the
-                shorter identity used alongside his real name.
+                Deepak builds full-stack products, web applications, AI systems, and
+                digital products. Deepu Codes is his public-facing identity and home
+                for the work he is building, learning, and sharing.
               </p>
             </section>
 
             <section
-              aria-labelledby="interests-title"
+              aria-labelledby="agency-title"
               className="rounded-2xl border border-red-900/30 bg-[#0c0507]/90 p-7 shadow-[0_20px_50px_rgba(0,0,0,0.55)] sm:p-9"
             >
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#e61924]">
-                Areas of interest
+                Business involvement
               </span>
-              <h2 id="interests-title" className="mt-3 font-bebas text-5xl uppercase tracking-wide text-white">
-                Build, explore, share
+              <h2 id="agency-title" className="mt-3 font-bebas text-5xl uppercase tracking-wide text-white">
+                Founder of a Web Development Agency
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+                Deepak is the founder and owner of a web development agency. The
+                agency serves international clients through practical, thoughtful
+                software work.
+              </p>
+            </section>
+
+            <section
+              aria-labelledby="international-title"
+              className="rounded-2xl border border-red-900/30 bg-[#0c0507]/90 p-7 shadow-[0_20px_50px_rgba(0,0,0,0.55)] sm:p-9"
+            >
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#e61924]">
+                Client work
+              </span>
+              <h2 id="international-title" className="mt-3 font-bebas text-5xl uppercase tracking-wide text-white">
+                Working With International Clients
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+                He works with international clients to turn ideas into reliable web
+                applications, AI systems, and digital products.
+              </p>
+            </section>
+
+            <section
+              aria-labelledby="build-title"
+              className="rounded-2xl border border-red-900/30 bg-[#0c0507]/90 p-7 shadow-[0_20px_50px_rgba(0,0,0,0.55)] sm:p-9"
+            >
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#e61924]">
+                What I build
+              </span>
+              <h2 id="build-title" className="mt-3 font-bebas text-5xl uppercase tracking-wide text-white">
+                What I Build
               </h2>
               <ul className="mt-5 space-y-3 text-sm leading-relaxed text-white/65 sm:text-base">
-                <li>Full-stack web development and product engineering.</li>
-                <li>AI integrations, automation, and backend systems.</li>
-                <li>Operating-system experiments and open-source ideas.</li>
+                <li>Full-stack web applications and digital products.</li>
+                <li>AI systems, integrations, and workflow automation.</li>
+                <li>Backend systems, APIs, and open-source experiments.</li>
               </ul>
+            </section>
+
+            <section
+              aria-labelledby="chess-title"
+              className="rounded-2xl border border-red-900/30 bg-[#0c0507]/90 p-7 shadow-[0_20px_50px_rgba(0,0,0,0.55)] sm:p-9 md:col-span-2"
+            >
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#e61924]">
+                Beyond software
+              </span>
+              <h2 id="chess-title" className="mt-3 font-bebas text-5xl uppercase tracking-wide text-white">
+                Chess &amp; Other Interests
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+                Outside engineering, Deepak plays chess seriously. It is a personal
+                interest alongside his focus on systems, products, and technology.
+              </p>
             </section>
           </div>
 
@@ -127,6 +178,12 @@ export default function AboutPage() {
             </a>
             <a href={SITE_PROFILE.linkedinUrl} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-red-900/40 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-white/75 transition-colors hover:border-[#e61924] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e61924]">
               LinkedIn profile
+            </a>
+            <a href={SITE_PROFILE.xUrl} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-red-900/40 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-white/75 transition-colors hover:border-[#e61924] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e61924]">
+              X profile
+            </a>
+            <a href={SITE_PROFILE.instagramUrl} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-red-900/40 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-white/75 transition-colors hover:border-[#e61924] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e61924]">
+              Instagram profile
             </a>
           </nav>
         </article>

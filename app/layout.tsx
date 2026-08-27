@@ -27,7 +27,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_PROFILE.canonicalUrl),
   title: {
-    default: `${SITE_PROFILE.brandName} - ${SITE_PROFILE.name} | Product Engineer`,
+    default: `${SITE_PROFILE.name} (${SITE_PROFILE.alternateName[0]}) | ${SITE_PROFILE.role} | ${SITE_PROFILE.brandName}`,
     template: `%s | ${SITE_PROFILE.brandName}`,
   },
   description: SITE_PROFILE.headline,
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: SITE_PROFILE.canonicalUrl,
-    title: `${SITE_PROFILE.brandName} - ${SITE_PROFILE.name}`,
+    title: `${SITE_PROFILE.name} (${SITE_PROFILE.alternateName[0]}) | ${SITE_PROFILE.role} | ${SITE_PROFILE.brandName}`,
     description: SITE_PROFILE.headline,
     siteName: SITE_PROFILE.brandName,
     images: [
@@ -56,9 +56,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_PROFILE.brandName} - ${SITE_PROFILE.name}`,
+    title: `${SITE_PROFILE.name} (${SITE_PROFILE.alternateName[0]}) | ${SITE_PROFILE.role} | ${SITE_PROFILE.brandName}`,
     description: SITE_PROFILE.headline,
     images: ["/opengraph-image"],
+    creator: "@Deepucodess",
   },
   robots: {
     index: true,

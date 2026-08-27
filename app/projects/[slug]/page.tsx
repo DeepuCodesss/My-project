@@ -80,6 +80,9 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             <p className="mt-8 max-w-3xl text-base leading-relaxed text-white/70 sm:text-lg">
               {project.description}
             </p>
+            <p className="mt-4 text-sm text-white/50">
+              Built by {SITE_PROFILE.name} ({SITE_PROFILE.alternateName[0]}) under {SITE_PROFILE.brandName}.
+            </p>
           </header>
 
           <div className={`relative mt-14 overflow-hidden rounded-2xl border border-red-900/40 bg-[#0a0406] p-3 shadow-[0_34px_120px_rgba(0,0,0,0.8)] sm:p-4 ${project.mockupVariant === "phone" ? "mx-auto max-w-[440px]" : "w-full"}`}>
